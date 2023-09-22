@@ -9,8 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'principal': '#8A22F0',
+        'primary': '#8A22F0',
       },
+      backgroundImage:{
+        'login-bg': "url('/login-bg.jpg')"
+      }
     },
   },
   plugins: [],

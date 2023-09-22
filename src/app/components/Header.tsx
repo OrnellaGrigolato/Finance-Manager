@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Header = () => {
   return (
     <main className=" mt-24">
@@ -15,7 +17,7 @@ const Header = () => {
             odio
           </p>
           <button className="px-7 py-3 text-lg mt-14 bg-black text-white rounded-[40px]">
-            Start Now
+            <Link href="/sing-up">Start Now</Link>
           </button>
         </div>
         <div className="w-[50rem] mx-auto">
