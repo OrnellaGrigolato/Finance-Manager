@@ -1,3 +1,4 @@
+import Link from "next/link";
 const Navbar = () => {
   return (
     <nav className=" h-50 mt-8">
@@ -7,12 +8,21 @@ const Navbar = () => {
         </div>
 
         <ul className="flex  gap-14 items-center ">
-          <li>Home</li>
-          <li>App</li>
-          <li>About</li>
-          <li>Contact</li>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/app">App</Link>
+          </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+          <li>
+            <Link href="/contact">Contact</Link>
+          </li>
           <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
-            Sing In
+            {" "}
+            <Link href="/login">Sing In</Link>
           </li>
         </ul>
       </div>
