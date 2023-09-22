@@ -11,7 +11,7 @@ const Navbar = () => {
           <li>App</li>
           <li>About</li>
           <li>Contact</li>
-          <li className="px-5 py-2 border rounded-md w-26 border-black">
+          <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
             Sing In
           </li>
         </ul>

@@ -14,7 +14,7 @@ const Header = () => {
             exercitationem possimus illo incidunt nemo dolores? Commodi quasi
             odio
           </p>
-          <button className="px-7 py-3 text-lg mt-14 bg-black text-white rounded-[13%]">
+          <button className="px-7 py-3 text-lg mt-14 bg-black text-white rounded-[40px]">
             Start Now
           </button>
         </div>
