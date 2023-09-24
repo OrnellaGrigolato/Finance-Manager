@@ -30,6 +30,7 @@ const Login = () => {
               id="password"
               type="password"
               required
+              placeholder="Password"
             />
             <p className="text-primary -mt-3">Forgot Password?</p>
             <button className="px-7 py-3 text-base mt-8 bg-black text-white rounded-[40px] block">
