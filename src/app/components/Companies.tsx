@@ -1,6 +1,6 @@
 const Companies = () => {
   return (
-    <section className="my-24 w-9/12 mx-auto">
+    <section className="my-28 w-9/12 mx-auto">
       <div className="flex justify-between items-center">
         <img src="./Companies Logos/airbnb.png" alt="" />
         <img src="./Companies Logos/spotify.png" alt="" />
