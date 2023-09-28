@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Narrow";
+  src: url("https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@700&display=swap");
+}
+@font-face {
+  font-family: "Overpass";
+  src: url("https://fonts.googleapis.com/css2?family=Overpass:wght@500;600;800&family=PT+Sans+Narrow:wght@700&display=swap");
+}
+
+* {
+  font-size: 16px;
+}
