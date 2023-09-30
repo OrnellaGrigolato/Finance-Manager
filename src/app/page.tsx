@@ -6,6 +6,7 @@ import Stadisctics from "./components/Stadisctics";
 import Testiomonial from "./components/Testiomonial";
 import CallToAction from "./components/CallToAction";
 import Footer from "./components/Footer";
+
 export default function Home() {
   return (
     <>
