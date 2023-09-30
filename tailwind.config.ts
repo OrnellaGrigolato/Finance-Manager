@@ -10,6 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         'primary': '#8A22F0',
+        'bg': '#E8E8E8',
+        'card-bg': '#d1d5db'
       },
       backgroundImage:{
         'login-bg': "url('/login-bg.jpg')"

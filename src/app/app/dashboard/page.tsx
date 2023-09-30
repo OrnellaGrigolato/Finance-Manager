@@ -8,7 +8,7 @@ import MovementCard from "./MovementCard";
 const Dashboard = () => {
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   return (
-    <div className="bg-[#E8E8E8] ">
+    <div className="bg-bg">
       <Navbar />
 
       <div className="bg-gradient-to-b from-primary to-[#391EDC] h-[38vh] w-full rounded-[25px] text-white flex justify-center items-center flex-col">
@@ -25,7 +25,7 @@ const Dashboard = () => {
           >
             <img
               className="w-6 inline"
-              src={isBalanceShowed ? "./eye.png" : "./closed-eye.png"}
+              src={isBalanceShowed ? "../eye.png" : "../closed-eye.png"}
               alt=""
             />
           </button>
@@ -33,10 +33,10 @@ const Dashboard = () => {
       </div>
       <div className="flex gap-6 -mt-6 mx-auto w-10/12">
         <Link href="/movement">
-          <Button text="Deposit" img="./deposit.svg" style="" />
+          <Button text="Deposit" img="../deposit.svg" style="" />
         </Link>
         <Link href="/movement">
-          <Button text="Withdraw" img="./whitdraw.svg" style="" />
+          <Button text="Withdraw" img="../whitdraw.svg" style="" />
         </Link>
       </div>
       <div className="w-10/12 mx-auto mt-10">
