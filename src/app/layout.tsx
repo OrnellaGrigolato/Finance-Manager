@@ -1,8 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, PT_Sans_Narrow, Overpass } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const overpass = Overpass({
+  subsets: ["latin"],
+  weight: ["500", "600", "800"],
+});
+
+const pt_Sans_Narrow = PT_Sans_Narrow({ subsets: ["latin"], weight: ["700"] });
 
 export const metadata: Metadata = {
   title: "Finance-Manager",
@@ -17,7 +24,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={
+          inter.className + overpass.className + pt_Sans_Narrow.className
+        }
+      >
+        {children}
+      </body>
     </html>
   );
 }
