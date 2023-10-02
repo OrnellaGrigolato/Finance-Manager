@@ -29,7 +29,7 @@ export async function POST (request:any){
         //* Generamos el token y luego lo enviamos como respuesta
      
         /* console.log(token); */
-        return NextResponse.json(token);
+        return NextResponse.json({result,token});
 
         /* return NextResponse.json({
             result,
