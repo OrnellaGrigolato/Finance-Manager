@@ -1,11 +1,11 @@
 "use client";
 
-import { signIn,useSession } from "next-auth/react";
+import { signIn,signOut,useSession } from "next-auth/react";
 import Link from "next/link";
 const Navbar = () => {
 
   const {data: session} = useSession()
-  console.log(session);
+  /* console.log(session); */
   
   return (
     <nav className=" h-50 mt-8">
@@ -37,7 +37,12 @@ const Navbar = () => {
             height={30}
             className="rounded"
             />
-          
+          <button
+            className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4"
+            onClick={()=> signOut()}
+          >
+            LogOut
+          </button>
         </ul>
           ) : (
             <ul className="flex  gap-10 items-center ">
