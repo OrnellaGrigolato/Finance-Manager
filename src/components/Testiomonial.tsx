@@ -3,7 +3,7 @@ const Testiomonial = () => {
     <section className="bg-[#F9FAFB] py-20">
       <div className="w-10/12 mx-auto  flex items-center flex-col">
         <img src="./quotes.png" alt="" className="w-12" />
-        <p className="w-6/12 font-semibold text-lg text-center mt-6">
+        <p className="w-6/12 font-semibold text-lg text-center mt-6 max-sm:w-full">
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
           eligendi cupiditate quibusdam. Perferendis, expedita quo. Sapiente,
           quos dolore? Culpa nobis in error sed itaque ullam quisquam!
