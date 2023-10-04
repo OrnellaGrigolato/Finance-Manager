@@ -2,9 +2,9 @@ import Link from "next/link";
 const CallToAction = () => {
   return (
     <section className="py-20">
-      <img src="./wave.svg" alt="" className="-mt-24" />
+      <img src="./wave.svg" alt="" className="-mt-24 max-sm:-mt-20" />
       <div className="w-10/12 mx-auto text-center">
-        <h2 className="font-extrabold text-4xl leading-[3rem] ">
+        <h2 className="font-extrabold text-4xl leading-[3rem] max-sm:mt-10">
           Start From Today
         </h2>
         <p className="my-5 text-lg">

@@ -1,8 +1,9 @@
+import Link from "next/link";
 import Stadistic from "./Stadistic";
 const Stadisctics = () => {
   return (
-    <section className="flex gap-36 w-10/12 mx-auto my-32">
-      <div className="w-1/2">
+    <section className="flex gap-36 w-10/12 mx-auto my-32 max-sm:flex-col max-sm:my-28 max-sm:gap-12">
+      <div className="w-1/2 max-sm:w-full">
         <h6 className="text-primary">Trusted Worldwide</h6>
         <h2 className="font-extrabold text-4xl leading-[3rem] ">
           Trusted by over 2 thousand users and 20 teams
@@ -14,11 +15,11 @@ const Stadisctics = () => {
           perferendis mollitia eum! Quasi, assumenda quas.
         </p>
         <hr className="my-6"></hr>
-        <a href="./" className="text-primary">
+        <Link href="./" className="text-primary">
           Read more ➜
-        </a>
+        </Link>
       </div>
-      <div className="grid grid-rows-2 grid-cols-2 gap-8">
+      <div className="grid grid-rows-2 grid-cols-2 gap-8 max-sm:grid-cols-1 max-sm:grid-rows-4 max-sm:justify-items-center">
         <Stadistic
           img="security-icon.png"
           title="Security as a priority"

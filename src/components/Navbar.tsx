@@ -8,7 +8,7 @@ const Navbar = () => {
   /* console.log(session); */
   
   return (
-    <nav className=" h-50 mt-8">
+    <nav className=" h-50 mt-8 max-sm:hidden">
       <div className="w-10/12 flex mx-auto justify-between items-center">
         <div className="flex font-[Narrow] font-bold cursor-pointer">
           <Link href="/">

@@ -6,7 +6,7 @@ const ErrorPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex w-10/12 mx-auto h-[90vh] items-center justify-center gap-32">
+      <div className="flex w-10/12 mx-auto h-[90vh] items-center justify-center gap-32 max-sm:flex-col">
         <div>
           <h1 className="font-bold text-5xl leading-tight mb-4">
             We are Sorry, this page was not found
