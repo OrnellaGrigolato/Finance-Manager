@@ -19,7 +19,8 @@ export async function GET (){
         });
 
         return NextResponse.json({result})
-    } catch (error:any) {
+    } catch (err) {
+        const error = err as {message: string}
         return NextResponse.json({ error: error.message},{status:500})
     }
 }

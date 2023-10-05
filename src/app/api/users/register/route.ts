@@ -3,7 +3,7 @@ import {  NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
-export async function POST (request:any){
+export async function POST (request:Request){
     try {
         const {username,email,password} = await request.json();
 
@@ -34,9 +34,10 @@ export async function POST (request:any){
             result,
             status:201
         }) */
-    } catch (error) {
+    } catch (err) {
+        const error = err as {message: string}
         return NextResponse.json({ 
-            error: error,
+            error: error.message,
             status:500
         })
     }

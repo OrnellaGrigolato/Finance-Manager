@@ -22,7 +22,7 @@ export async function POST(request: Request, response: Response){
 
         //* confirmamos si el usuario que estamos buscando, en su propiedad password.decoficada coincide con la enviada
              
-          const token = sign({user_dni: userFind.dni}, "SECRETO", { expiresIn: "1h"});
+          const token = sign({user_id: userFind.id}, "SECRETO", { expiresIn: "1h"});
         //* lo retornamos
           return NextResponse.json(
             {token},
@@ -31,9 +31,10 @@ export async function POST(request: Request, response: Response){
             }
 
           )
-    } catch (error) {
+    } catch (err) {
+      const error = err as {message: string}
         return NextResponse.json({ 
-            error: error,
+            error: error.message,
             status:500
         })
     }

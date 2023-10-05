@@ -4,7 +4,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(request: any) {
+export async function POST(request: Request) {
   try {
     const { name,email } = await request.json();
     console.log(name,email);
@@ -15,7 +15,8 @@ export async function POST(request: any) {
       react: EmailTemplate({ firstName: name}) as React.ReactElement,
     });
     return NextResponse.json({data});
-  } catch (error:any) {
+  } catch (err) {
+    const error = err as {message: string}
     return NextResponse.json({ error: error.message});
   }
 }

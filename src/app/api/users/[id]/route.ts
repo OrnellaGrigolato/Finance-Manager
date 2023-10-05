@@ -1,8 +1,9 @@
 import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { Params } from "@/app/types/type";
 
-export async function GET(request: any, { params }: any) {
+export async function GET(request: Request, { params }: Params) {
   //console.log(params.dni);
   const parameter = Number(params.id);
   try {
@@ -16,12 +17,13 @@ export async function GET(request: any, { params }: any) {
     } else {
       return Response.json({ message: "no user found" }, { status: 404 });
     }
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as {message:string}
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
 
-export async function DELETE(request: any, { params }: any) {
+export async function DELETE(request: Request, { params }: Params) {
   const parameter = Number(params.id);
   try {
     const finder = await prisma.users.delete({
@@ -37,12 +39,13 @@ export async function DELETE(request: any, { params }: any) {
     } else {
       return Response.json({ message: "no user found" }, { status: 404 });
     }
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as {message:string}
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
 
-export async function PUT(request: any, { params }: any) {
+export async function PUT(request: Request, { params }: Params) {
   const parameter = Number(params.id);
   try {
     const { username, password, email } = await request.json();
@@ -70,7 +73,8 @@ export async function PUT(request: any, { params }: any) {
         );
       }
     }
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as {message:string}
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
