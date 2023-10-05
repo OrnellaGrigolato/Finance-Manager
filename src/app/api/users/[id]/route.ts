@@ -4,11 +4,11 @@ import bcrypt from "bcrypt";
 
 export async function GET(request: any, { params }: any) {
   //console.log(params.dni);
-  const parameter = Number(params.dni);
+  const parameter = Number(params.id);
   try {
     const finder = await prisma.users.findUnique({
       where: {
-        dni: parameter,
+        id: parameter,
       },
     });
     if (finder) {
@@ -22,11 +22,11 @@ export async function GET(request: any, { params }: any) {
 }
 
 export async function DELETE(request: any, { params }: any) {
-  const parameter = Number(params.dni);
+  const parameter = Number(params.id);
   try {
     const finder = await prisma.users.delete({
       where: {
-        dni: parameter,
+        id: parameter,
       },
     });
     if (finder) {
@@ -43,7 +43,7 @@ export async function DELETE(request: any, { params }: any) {
 }
 
 export async function PUT(request: any, { params }: any) {
-  const parameter = Number(params.dni);
+  const parameter = Number(params.id);
   try {
     const { username, password, email } = await request.json();
     if (!username && !password && !email) {
@@ -53,7 +53,7 @@ export async function PUT(request: any, { params }: any) {
 
       const updated = await prisma.users.update({
         where: {
-          dni: parameter,
+          id: parameter,
         },
         data: {
           username: username,

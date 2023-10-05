@@ -9,7 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^5.3.1",
+    "@auth/prisma-adapter": "^1.0.3",
+    "@prisma/client": "^5.4.1",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.16",
@@ -29,7 +30,8 @@
     "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^20.7.0",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.3.1",
+    "nodemailer": "^6.9.5",
+    "prisma": "^5.4.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
