@@ -5,7 +5,7 @@ const WalletCard = (props: {
   balance: string;
 }) => {
   return (
-    <div className="p-5 rounded-[15px] bg-card-bg shadow-blackShadow w-1/2">
+    <div className="p-5 rounded-[15px] bg-[#ececec] shadow-blackShadow w-1/2">
       <img src="" alt="" />
       <div>
         <b>{props.currencySymbol}</b>

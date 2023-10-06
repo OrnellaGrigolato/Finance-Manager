@@ -2,7 +2,7 @@ const Footer = () => {
   const date = new Date();
   return (
     <footer className="w-10/12 mx-auto mt-20">
-      <div className="flex justify-between">
+      <div className="flex justify-between max-sm:flex-col max-sm:gap-12 max-sm:items-center max-sm:text-center">
         <div>
           <h4 className="font-bold mb-3">COMPANY</h4>
           <ul className="flex flex-col gap-3">

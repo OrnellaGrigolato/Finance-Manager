@@ -1,4 +1,8 @@
+"use client";
+
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { Menu_landing } from "./Menu_landing";
 const Navbar = () => {
   return (
     <nav className=" h-50 mt-8">
@@ -9,7 +13,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <ul className="flex  gap-10 items-center ">
+        <ul className="flex  gap-10 items-center  max-sm:hidden">
           <li>
             <Link href="/">Home</Link>
           </li>
@@ -23,14 +27,17 @@ const Navbar = () => {
             <Link href="/contact">Contact</Link>
           </li>
           <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
-            {" "}
-            <Link href="/login">Sing In</Link>
+            <button onClick={() => signIn()}>Sign In</button>
           </li>
           <li className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4">
             {" "}
             <Link href="/sing-up">Get Started</Link>
           </li>
         </ul>
+        <div className="hidden max-sm:block">
+          {" "}
+          <Menu_landing />
+        </div>
       </div>
     </nav>
   );
