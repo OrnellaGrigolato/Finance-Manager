@@ -8,7 +8,7 @@ import MovementCard from "./MovementCard";
 const Dashboard = () => {
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   return (
-    <div className="bg-[#fcfcfc] lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
+    <div className="bg-bg lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
       <Navbar />
       <p className="mb-5 text-xl font-bold hidden w-11/12 mx-auto lg:block ">
         Welcome Back, userName!
@@ -17,6 +17,7 @@ const Dashboard = () => {
         <div className="lg:flex lg:justify-between lg:items-center lg:w-4/5">
           <div className="text-center">
             <p className="mb-12 text-xl font-bold lg:hidden">
+              {" "}
               Welcome Back, userName!
             </p>
             <p>Current Wallet Balance</p>
