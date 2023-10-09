@@ -17,6 +17,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Account {
+  id                 String  @id @default(cuid())
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  users Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             Int
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  expires      DateTime
+  users         Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+}
 
 model Users {
   id Int @id @default(autoincrement())
@@ -27,7 +53,11 @@ model Users {
   available_money Decimal @db.Decimal(10,2) @default(0)
   lastmove_amount Decimal? @db.Decimal(10,2) @default(0)
   lastmove_date DateTime? @db.Timestamp() 
+  emailVerified DateTime?
+  image         String?
   moves Moves []
+  accounts Account[]
+  sessions Session[]
 }
 
 model Moves {
@@ -50,4 +80,12 @@ model Currency {
   id_currency Int @id @unique @default(autoincrement())
   name String @db.VarChar(35) @default("ARG")
   moves Moves[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
