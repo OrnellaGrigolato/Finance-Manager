@@ -1,0 +1,24 @@
+.tooltip {
+  @apply inline-block relative text-center;
+}
+
+.tooltip .top {
+  @apply min-w-[200px] w-80 translate-x-[-49%] -translate-y-full font-sans text-xs text-white bg-primary  absolute z-[99999999] box-border shadow-blackShadow leading-snug hidden px-5 py-2.5 rounded-lg left-2/4 -top-5;
+}
+.tooltip:hover .top {
+  @apply block;
+}
+.tooltip .top i {
+  @apply absolute ml-[-15px] w-[30px] h-[15px] overflow-hidden left-[49%] top-full after:content-[''] after:absolute after:w-[15px] after:h-[15px] after:-translate-x-2/4 after:-translate-y-2/4 after:rotate-45 after:bg-primary after:shadow-[0_1px_8px_rgba(0,0,0,0.5)] after:left-2/4;
+}
+
+.tooltip .bottom {
+  @apply -translate-x-2/4 translate-y-0  text-white bg-primary font-sans text-xs absolute z-[99999999] box-border shadow-blackShadow hidden p-2 rounded-lg left-2/4 top-10;
+}
+
+.tooltip:hover .bottom {
+  @apply block;
+}
+.tooltip .bottom i {
+  @apply absolute w-6 h-3 overflow-hidden -ml-3 left-2/4 bottom-full after:content-[''] after:absolute after:w-3 after:h-3 after:-translate-x-2/4 after:translate-y-2/4 after:rotate-45 after:bg-primary after:shadow-[0_1px_8px_rgba(0,0,0,0.5)] after:left-2/4;
+}
