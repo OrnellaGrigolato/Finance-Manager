@@ -7,7 +7,7 @@ export async function GET (){
     try {
         const result = await prisma.users.findMany({
             select:{
-                dni:true,
+                id:true,
                 username:true,
                 password:false,
                 lastmove_amount:true,
@@ -19,7 +19,8 @@ export async function GET (){
         });
 
         return NextResponse.json({result})
-    } catch (error:any) {
+    } catch (err) {
+        const error = err as {message: string}
         return NextResponse.json({ error: error.message},{status:500})
     }
 }
