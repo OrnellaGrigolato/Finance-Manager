@@ -28,7 +28,7 @@ export async function POST (request:Request){
         //* Generamos el token y luego lo enviamos como respuesta
      
         /* console.log(token); */
-        return NextResponse.json({result,token});
+        return NextResponse.json({result,token},{status:201});
 
         /* return NextResponse.json({
             result,
