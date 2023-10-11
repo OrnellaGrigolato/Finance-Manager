@@ -1,7 +1,8 @@
+import { Params } from "@/app/types/type";
 import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET (request:any ,{params}:any) {
+export async function GET (request:Request ,{params}:Params) {
     try {
         const id = Number(params.id);
 
@@ -15,7 +16,7 @@ export async function GET (request:any ,{params}:any) {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
 }
-export async function DELETE(request:any ,{params}:any) {
+export async function DELETE(request:Request ,{params}:Params) {
     try {
         const id = Number(params.id);
 
@@ -26,14 +27,15 @@ export async function DELETE(request:any ,{params}:any) {
         }else{
             return NextResponse.json({message:"no currency found"},{status:404})
         }
-    } catch (error:any) {
+    } catch (err) {
+        const error = err as {message:string}
         return NextResponse.json({ message: error.message }, { status: 500 });
     }
 }
-export async function PUT(request:any ,{params}:any) {
+export async function PUT(request:Request ,{params}:Params) {
     try {
         const id = Number(params.id);
-        const {name} = request.json();
+        const {name} = await request.json();
         const updated = await prisma.currency.update({
             where:{id_currency:id},
             data:{
@@ -44,7 +46,8 @@ export async function PUT(request:any ,{params}:any) {
         } else {
             return NextResponse.json({message:"no currency found"},{status:404})
         }
-    } catch (error:any) {
+    } catch (err) {
+        const error = err as {message:string}
         return NextResponse.json({ message: error.message }, { status: 500 }); 
     }
 }

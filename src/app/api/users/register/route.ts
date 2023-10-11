@@ -3,15 +3,15 @@ import {  NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
-export async function POST (request:any){
+export async function POST (request:Request){
     try {
-        const {dni,username,email,password} = await request.json();
+        const {username,email,password} = await request.json();
 
         const hash = await bcrypt.hash(password, 10);
          //* codificamos la contraseña antes de cargarla en la db y luego al momento de crear el usuario le asignamos dicha contraseña ya hasheada
         
 
-        if(!username || !dni || !email || !password){
+        if(!username  || !email || !password){
             return NextResponse.json({
                 message:"missing fields"
             })
@@ -19,7 +19,6 @@ export async function POST (request:any){
 
         const result = await prisma.users.create({
             data:{
-                dni:dni,
                 username:username,
                 password:hash,
                 email:email
@@ -35,9 +34,10 @@ export async function POST (request:any){
             result,
             status:201
         }) */
-    } catch (error) {
+    } catch (err) {
+        const error = err as {message: string}
         return NextResponse.json({ 
-            error: error,
+            error: error.message,
             status:500
         })
     }

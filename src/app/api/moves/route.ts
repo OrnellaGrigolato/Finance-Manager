@@ -13,12 +13,13 @@ export async function GET() {
     } else {
       return NextResponse.json({ result, message: "moves found" });
     }
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as {message: string}
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-export async function POST(request: any) {
+export async function POST(request: Request) {
   try {
     const {
       id_moves,
@@ -26,13 +27,13 @@ export async function POST(request: any) {
       discount_amount,
       income_amount,
       movement_date,
-      user_dni,
+      user_id,
       title,
       currency_id,
     } = await request.json();
 
     if (
-      (!title || !description || !user_dni || !currency_id) &&
+      (!title || !description || !user_id || !currency_id) &&
       (!discount_amount || !income_amount)
     ) {
       return NextResponse.json({ message: "Mising Fields" }, { status: 400 });
@@ -48,14 +49,14 @@ export async function POST(request: any) {
           discount_amount,
           income_amount,
           movement_date,
-          user_dni,
+          user_id,
         },
       });
 
       //* Obtenemos el usuario existente
       const existingUser = await prisma.users.findUnique({
         where: {
-          dni: user_dni,
+          id: user_id,
         },
       });
 
@@ -68,7 +69,7 @@ export async function POST(request: any) {
         //* Actualizamos los valores en la base de datos
         await prisma.users.update({
           where: {
-            dni: user_dni,
+            id: user_id,
           },
           data: {
             available_money: updatedAvailableMoney,
@@ -79,7 +80,8 @@ export async function POST(request: any) {
       }
       return NextResponse.json({result, message: "Moves succesfully created" }, { status: 201 });
     }
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as {message: string}
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
