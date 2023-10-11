@@ -8,50 +8,18 @@ import { Menu_landing } from "./Menu_landing";
 import { useRouter } from "next/router"
 const Navbar = () => {
 
-  const handleClick = () => {
+  /* const handleClick = () => {
     const router = useRouter();
     router.push("/login")
-  }
+  } */
+
   const { data: session,status } = useSession()
   const userToken = Cookies.get("token");
-  /* async function sendEmail (){
-    if(!session){
-      console.log("user not logged")
-    }else{
-      console.log(session)
-    const name = session?.user?.name
-    const email = session?.user?.email
-    console.log(name, email)
-    try {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email })
-      };
-      const response = await fetch('http://localhost:3000/api/send', requestOptions);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-    }
-    
-  }
-
-  useEffect(()=>{
-    if(session){
-      sendEmail();
-    }
-    
-  })
-
-  const handleRegister = async () => {
-    await signIn()
-  } */
-  function handleLogOut(){
+  
+  /* function handleLogOut(){
     Cookies.remove("token");
     console.log(Cookies.get("token"));
-  }
+  } */
 
   return (
     
@@ -90,12 +58,16 @@ const Navbar = () => {
               height={30}
               className="rounded"
             />
-            <button
+            {/* <button
               className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4"
               onClick={() => handleLogOut()}
             >
               Log Out
-            </button>
+            </button> */}
+            <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
+            {" "}
+            <Link href="/logOut">LogOut</Link>
+          </li>
           </ul>
         ) : (
           <ul className="flex  gap-10 items-center  max-sm:hidden">

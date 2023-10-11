@@ -1,9 +1,9 @@
 "use client"
 
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router';
-import { cookies } from 'next/headers'
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+/* import { cookies } from 'next/headers' */
+import { use, useState } from 'react';
 import Link from 'next/link';
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
     password: '',
   });
 
-  /* const router = useRouter(); */
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const Login = () => {
         
         /* console.log(Cookies.get('token')); */
         // Redireccionar al usuario a la página deseada después del inicio de sesión.
-         //*router.push("/dashboard")
+         router.push("/dashboard")
       } else {
         const errorData = await response.json();
         alert(errorData.message);
