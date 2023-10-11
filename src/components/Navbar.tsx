@@ -3,47 +3,23 @@
 import next from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import Cookies from "js-cookie"
 import { Menu_landing } from "./Menu_landing";
+import { useRouter } from "next/router"
 const Navbar = () => {
 
-  const { data: session,status } = useSession()
-
-  /* async function sendEmail (){
-    if(!session){
-      console.log("user not logged")
-    }else{
-      console.log(session)
-    const name = session?.user?.name
-    const email = session?.user?.email
-    console.log(name, email)
-    try {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email })
-      };
-      const response = await fetch('http://localhost:3000/api/send', requestOptions);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-    }
-    
-  }
-
-  useEffect(()=>{
-    if(session){
-      sendEmail();
-    }
-    
-  })
-
-  const handleRegister = async () => {
-    await signIn()
+  /* const handleClick = () => {
+    const router = useRouter();
+    router.push("/login")
   } */
 
+  const { data: session,status } = useSession()
+  const userToken = Cookies.get("token");
+  
+  /* function handleLogOut(){
+    Cookies.remove("token");
+    console.log(Cookies.get("token"));
+  } */
 
   return (
     
@@ -54,7 +30,9 @@ const Navbar = () => {
             <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
           </Link>
         </div>
-        {session?.user ? (
+        {userToken && userToken !== undefined ?
+
+        (
           <ul className="flex  gap-10 items-center ">
             <li>
               <Link href="/">Home</Link>
@@ -71,21 +49,25 @@ const Navbar = () => {
 
             <img
               src={
-                session.user.image
+                /* session?.user?.image
                   ? session.user.image
-                  : "https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=740&t=st=1696339921~exp=1696340521~hmac=fe51c494eaae6033f6b83f689a78e03af140c873e6b1b914c6575bf7094f1e8f"
+                  : */ "https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=740&t=st=1696339921~exp=1696340521~hmac=fe51c494eaae6033f6b83f689a78e03af140c873e6b1b914c6575bf7094f1e8f"
               }
               alt="user icon"
               width={30}
               height={30}
               className="rounded"
             />
-            <button
+            {/* <button
               className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4"
-              onClick={() => signOut()}
+              onClick={() => handleLogOut()}
             >
               Log Out
-            </button>
+            </button> */}
+            <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
+            {" "}
+            <Link href="/logOut">LogOut</Link>
+          </li>
           </ul>
         ) : (
           <ul className="flex  gap-10 items-center  max-sm:hidden">
@@ -101,8 +83,12 @@ const Navbar = () => {
           <li>
             <Link href="/contact">Contact</Link>
           </li>
-          <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
+          {/* <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
             <button onClick={() => signIn()}>Sign In</button>
+          </li> */}
+          <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
+            {" "}
+            <Link href="/login">Login</Link>
           </li>
           <li className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4">
             {" "}
