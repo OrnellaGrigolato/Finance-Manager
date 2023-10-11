@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation';
 /* import { cookies } from 'next/headers' */
 import { use, useState } from 'react';
+import Link from 'next/link';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,9 +28,17 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("entro");
+        // Guardar el token en el estado de la aplicación o en una cookie según tu preferencia.
+        /* console.log(data.token); */
+        /* cookies().set({
+          name:"token",
+          value:data.token
+        }) */
+        Cookies.set('token', `${data.token}`); 
         
-        router.push("/dashboard");
+        /* console.log(Cookies.get('token')); */
+        // Redireccionar al usuario a la página deseada después del inicio de sesión.
+         router.push("/dashboard")
       } else {
         const errorData = await response.json();
         alert(errorData.message);
@@ -94,12 +103,12 @@ const Login = () => {
               Log In
             </button>
           </form>
-         {/*  <p>
+          <p>
             Don't have an account?{' '}
             <Link href="/sign-up" className="text-primary">
               Sign up
             </Link>
-          </p> */}
+          </p>
         </div>
       </div>
     </main>

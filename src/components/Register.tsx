@@ -1,7 +1,7 @@
 // components/RegisterForm.js
 "use client"
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
@@ -13,7 +13,6 @@ const RegisterForm: React.FC = () => {
   });
 
   const[error,setError] = useState("")
-  const router = useRouter(); 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -31,11 +30,17 @@ const RegisterForm: React.FC = () => {
         const data = await response.json();
         console.log(data);
         //console.log(data.token)
-        /* Cookies.set('token', `${data.token}`);  */
-        router.push('/dashboard') 
+         const router = useRouter(); 
+         Cookies.set('token', `${data.token}`); 
+         router.push('/dashboard') 
         } else {
             const errorData = await response.json();
             setError(errorData.error)
+            console.error(errorData.message);
+            if(error.length > 0) {
+                console.log(error)
+            }
+            
     }} catch (error) {
       console.error('Error al enviar la solicitud de registro', error);
     }
