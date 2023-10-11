@@ -4,21 +4,25 @@ import Button from "./Button";
 import Link from "next/link";
 import { useState } from "react";
 import WalletCard from "./WalletCard";
+import { useSession } from "next-auth/react";
 import MovementCard from "./MovementCard";
 const Dashboard = () => {
+  const { data: session, status } = useSession();
+
+  console.log(session);
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   return (
     <div className="bg-bg lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
       <Navbar />
       <p className="mb-5 text-xl font-bold hidden w-11/12 mx-auto lg:block ">
-        Welcome Back, userName!
+        Welcome Back, {session?.user?.name?.split(" ")[0]}!
       </p>
       <div className="bg-gradient-to-b from-primary to-[#391EDC] h-[38vh] w-full rounded-[25px] text-white flex justify-center shadow-blackShadow items-center flex-col lg:w-11/12 lg:mx-auto lg:h-[25vh]">
         <div className="lg:flex lg:justify-between lg:items-center lg:w-4/5">
           <div className="text-center">
             <p className="mb-12 text-xl font-bold lg:hidden">
               {" "}
-              Welcome Back, userName!
+              Welcome Back, {session?.user?.name?.split(" ")[0]}!
             </p>
             <p>Current Wallet Balance</p>
             <div className="flex items-center gap-5 mt-3 lg:mb-5">
