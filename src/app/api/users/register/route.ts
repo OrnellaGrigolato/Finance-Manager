@@ -2,7 +2,8 @@ import { prisma } from "@/libs/prisma";
 import {  NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-
+import { cookies} from "next/headers"
+ 
 export async function POST (request:Request){
     try {
         const {username,email,password} = await request.json();
@@ -14,7 +15,7 @@ export async function POST (request:Request){
         if(!username  || !email || !password){
             return NextResponse.json({
                 message:"missing fields"
-            })
+            },{status: 400})
         }
 
         const result = await prisma.users.create({
@@ -24,8 +25,9 @@ export async function POST (request:Request){
                 email:email
             }
         })
-        const token = sign(result, 'SECRETO', { expiresIn: '1h' }); 
+        const token = sign(result,`${process.env.AUTH_SECRE}`, { expiresIn: '1h' }); 
         //* Generamos el token y luego lo enviamos como respuesta
+        cookies().set("token", token);
      
         /* console.log(token); */
         return NextResponse.json({result,token},{status:201});
@@ -38,7 +40,7 @@ export async function POST (request:Request){
         const error = err as {message: string}
         return NextResponse.json({ 
             error: error.message,
-            status:500
+            status:400
         })
     }
 }
