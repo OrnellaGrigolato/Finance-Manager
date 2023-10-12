@@ -1,7 +1,7 @@
 // components/RegisterForm.js
 "use client"
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
