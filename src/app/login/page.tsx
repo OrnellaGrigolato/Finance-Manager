@@ -2,7 +2,6 @@
 
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation';
-/* import { cookies } from 'next/headers' */
 import { use, useState } from 'react';
 import Link from 'next/link';
 
@@ -28,15 +27,8 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // Guardar el token en el estado de la aplicación o en una cookie según tu preferencia.
-        /* console.log(data.token); */
-        /* cookies().set({
-          name:"token",
-          value:data.token
-        }) */
-        Cookies.set('token', `${data.token}`); 
+        console.log(Cookies.get("token"));
         
-        /* console.log(Cookies.get('token')); */
         // Redireccionar al usuario a la página deseada después del inicio de sesión.
          router.push("/dashboard")
       } else {

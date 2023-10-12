@@ -1,6 +1,5 @@
 // components/RegisterForm.js
 "use client"
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation';
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
@@ -12,7 +11,9 @@ const RegisterForm: React.FC = () => {
     password: '',
   });
 
-  const[error,setError] = useState("")
+  const[error,setError] = useState("");
+  const[succes,setSucces] = useState("");
+  const router = useRouter(); 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -30,15 +31,22 @@ const RegisterForm: React.FC = () => {
         const data = await response.json();
         console.log(data);
         //console.log(data.token)
-         const router = useRouter(); 
-         Cookies.set('token', `${data.token}`); 
+        setSucces("done");
+        setError("");
+         
          router.push('/dashboard') 
         } else {
             const errorData = await response.json();
-            setError(errorData.error)
-            console.error(errorData.message);
-            if(error.length > 0) {
-                console.log(error)
+            console.log(errorData.message, typeof errorData.message);
+            if (errorData.message === 'Invalid username, this username already has been used') {
+              setSucces("");
+              setError("Username already in use");
+            } else if (errorData.message === 'Invalid email, this email already has been used') {
+              setSucces("");
+              setError("Email already in use");
+            } else {
+              setSucces("");
+              setError('Registration failed for other reasons, please try again or try later');
             }
             
     }} catch (error) {
@@ -55,7 +63,7 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+     <div className="flex justify-center items-center h-screen">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-2xl mb-6">Registro</h2>
         <div className="mb-4">
@@ -102,8 +110,17 @@ const RegisterForm: React.FC = () => {
             Register
           </button>
         </div>
+        {error.length > 3 
+        ? <p className="text-red-600 text-sm mt-2 text-center">{error}</p> 
+        : ( succes === "done" ? <p className="text-green-600 text-sm mt-3 text-center">"please wait your are being redirecting"</p>
+        : <p className="text-dark-600 text-sm mt-3 text-center">please complete de form</p>
+        )
+
+        }
       </form>
-    </div>
+    </div> 
+    
+    
   );
 };
 
