@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 
 export async function POST (request:Request){
     try {
-        const resend = new Resend(process.env.RESEND_API_KEY);
+        /* const resend = new Resend(process.env.RESEND_API_KEY); */
         
         const {username,email,password} = await request.json();
         
@@ -42,8 +42,9 @@ export async function POST (request:Request){
         const token = sign(result, `${process.env.AUTH_SECRET}`, { expiresIn: '1h' }); 
         //* Generamos el token y luego lo enviamos como respuesta
         cookies().set("token", token);
+        return NextResponse.json({result,token},{status:201});
         /* console.log(token); */
-        try {
+        /* try {
             const data = await resend.emails.send({
               from: 'Acme <onboarding@resend.dev>',
               to: [`${email}`],
@@ -54,7 +55,7 @@ export async function POST (request:Request){
             return NextResponse.json({data,result,token},{status:201});
           } catch (error) {
             return NextResponse.json({ error },{status:400});
-          }
+          } */
 
     } catch (err) {
         const error = err as {message: string}
