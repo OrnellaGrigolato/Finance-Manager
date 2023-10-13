@@ -4,9 +4,9 @@ import Button from "./Button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import WalletCard from "./WalletCard";
-import { useSession } from "next-auth/react";
 import MovementCard from "./MovementCard";
 import getUserDataFromToken from "@/utils/authUtils";
+import "./loaderStyles.css";
 interface ApiResponse {
   finder: {
     id: number;
@@ -34,21 +34,19 @@ const Dashboard = () => {
   const userData = token ? getUserDataFromToken(token) : null;
 
   useEffect(() => {
-    userData
-      ? fetch(`/api/users/${userData?.user_id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setUserInfo(data);
-            setIsFetch(true);
-            console.log(data);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-      : null;
+    fetch(`/api/users/${userData?.user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserInfo(data);
+        setIsFetch(true);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
-  return isFetch ? (
+  return (
     <div className="bg-bg lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
       <Navbar />
       <p className="mb-5 text-xl font-bold hidden w-11/12 mx-auto lg:block ">
@@ -63,15 +61,19 @@ const Dashboard = () => {
             </p>
             <p>Current Wallet Balance</p>
             <div className="flex items-center gap-5 mt-3 lg:mb-5">
-              <b className="text-5xl">
-                {isBalanceShowed
-                  ? `$ ${userInfo?.finder?.available_money}`
-                  : `$ ${"*".repeat(
-                      userInfo?.finder?.available_money
-                        ? userInfo?.finder?.available_money.length
-                        : 0
-                    )}`}
-              </b>
+              {isFetch ? (
+                <b className="text-5xl">
+                  {isBalanceShowed
+                    ? `$ ${userInfo?.finder?.available_money}`
+                    : `$ ${"*".repeat(
+                        userInfo?.finder?.available_money
+                          ? userInfo?.finder?.available_money.length
+                          : 0
+                      )}`}
+                </b>
+              ) : (
+                <div className="loader"></div>
+              )}
               <button
                 onClick={() => {
                   setIsBalanceShowed(!isBalanceShowed);
@@ -139,7 +141,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Dashboard;
