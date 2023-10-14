@@ -5,9 +5,11 @@ import Navbar from "../dashboard/Navbar";
 import Image from "next/image";
 import { useState } from "react";
 import "./style.css";
-
+import { ApiResponse } from "../types/type";
+import { useApiData } from "@/app/providers/Providers";
 const Profile = () => {
   const [isPasswordShowed, setIsPasswordShowed] = useState(true);
+  const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
 
   return (
     <div className=" bg-bg">
@@ -37,8 +39,10 @@ const Profile = () => {
                 className="rounded-full"
               />
               <div className="text-center">
-                <h3 className="text-primary font-bold">FirstName LastName</h3>
-                <p className="mt-2">emailemailemail@email.com</p>
+                <h3 className="text-primary font-bold">
+                  {userInfo?.finder?.username}
+                </h3>
+                <p className="mt-2"> {userInfo?.finder?.email}</p>
               </div>
             </div>
             <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl">
@@ -54,7 +58,7 @@ const Profile = () => {
                   </label>
                   <input
                     type="text"
-                    value={"Mateo"}
+                    value={userInfo?.finder?.username?.split(" ")[0]}
                     className="focus:outline-none focus:border-b-2  text-lg"
                   />
                 </div>
@@ -64,7 +68,7 @@ const Profile = () => {
                   </label>
                   <input
                     type="text"
-                    value={"Lopez"}
+                    value={userInfo?.finder?.username?.split(" ")[1]}
                     className="focus:outline-none focus:border-b-2 text-lg"
                   />
                 </div>
@@ -74,34 +78,20 @@ const Profile = () => {
                   </label>
                   <input
                     type="text"
-                    value={"emailemailemail@email.com"}
+                    value={userInfo?.finder?.email}
                     className="focus:outline-none focus:border-b-2 text-lg w-full"
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg ">
                   <label htmlFor="" className="block text-xs">
-                    Password
+                    Is your account verified?
                   </label>
                   <div className="flex gap-2 items-center">
-                    <input
-                      type="text"
-                      value={isPasswordShowed ? "123456789" : "********"}
-                      className="focus:outline-none focus:border-b-2 text-lg w-28"
-                    />
-                    <Image
-                      className="inline cursor-pointer"
-                      src={
-                        isPasswordShowed
-                          ? "/black-eye.png"
-                          : "/black-closed-eye.png"
-                      }
-                      alt=""
-                      onClick={() => {
-                        setIsPasswordShowed(!isPasswordShowed);
-                      }}
-                      width={20}
-                      height={8}
-                    />
+                    {userInfo?.finder?.emailVerified ? (
+                      <p>Yes ✔️</p>
+                    ) : (
+                      <p>No ❌</p>
+                    )}
                   </div>
                 </div>
                 <button
@@ -185,7 +175,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="text"
-                  value={"$100000"}
+                  value={`$${userInfo?.finder?.maxExpenditure}`}
                   className="focus:outline-none focus:border-b-2 text-lg"
                 />
               </div>

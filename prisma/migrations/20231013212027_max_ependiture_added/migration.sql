@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Users" ADD COLUMN     "maxExpenditure" INTEGER NOT NULL DEFAULT 100000;

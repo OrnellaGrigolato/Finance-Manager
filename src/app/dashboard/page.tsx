@@ -5,48 +5,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import WalletCard from "./WalletCard";
 import MovementCard from "./MovementCard";
-import getUserDataFromToken from "@/utils/authUtils";
+import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
-interface ApiResponse {
-  finder: {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    login_date: string;
-    available_money: string;
-    lastmove_amount: string | null;
-    lastmove_date: string | null;
-  };
-  message: string;
-}
+import { ApiResponse } from "../types/type";
+
 const Dashboard = () => {
+  const apiData = useApiData();
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
-  const [userInfo, setUserInfo] = useState<ApiResponse>();
-  const [isFetch, setIsFetch] = useState(false);
-  //Getting token value from cookies
-  const token = document?.cookie
-    ?.split("; ")
-    .find((row) => row.startsWith("token"))
-    ?.split("=")[1];
-  //
-
-  const userData = token ? getUserDataFromToken(token) : null;
-
+  const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   useEffect(() => {
-    fetch(`/api/users/${userData?.user_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUserInfo(data);
-        setIsFetch(true);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  return (
+    setUserInfo(apiData);
+  }, [apiData]);
+  return userInfo.finder ? (
     <div className="bg-bg lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
       <Navbar />
       <p className="mb-5 text-xl font-bold hidden w-11/12 mx-auto lg:block ">
@@ -61,7 +31,7 @@ const Dashboard = () => {
             </p>
             <p>Current Wallet Balance</p>
             <div className="flex items-center gap-5 mt-3 lg:mb-5">
-              {isFetch ? (
+              {userInfo ? (
                 <b className="text-5xl">
                   {isBalanceShowed
                     ? `$ ${userInfo?.finder?.available_money}`
@@ -141,6 +111,8 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <div className="loader"></div>
   );
 };
 
