@@ -26,16 +26,25 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const userData = token ? getUserDataFromToken(token.token) : null;
+  
+   //console.log("userData providers: ", userData);
+  
+    if (userData && userData.id) {
+      fetch(`/api/users/${userData.id}`)
+        .then((response) => response.json())
+        .then((data) => {
 
-    fetch(`/api/users/${userData?.user_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          //console.log(data)
+
+          setData(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [token]);
+
+//console.log("la data de providers que genera dashboard es: ", data)
 
   return data ? (
     <SessionProvider>

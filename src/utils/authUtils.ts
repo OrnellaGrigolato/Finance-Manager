@@ -1,7 +1,7 @@
 
 import { decode } from 'jsonwebtoken';
 interface DecodedToken {
-  user_id: number;
+  id: number;
   iat: number;
   exp: number;
 }

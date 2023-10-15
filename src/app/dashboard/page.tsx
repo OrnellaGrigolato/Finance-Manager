@@ -11,6 +11,9 @@ import { ApiResponse } from "../types/type";
 
 const Dashboard = () => {
   const apiData = useApiData();
+
+console.log(apiData)
+
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   useEffect(() => {
