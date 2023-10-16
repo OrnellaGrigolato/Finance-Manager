@@ -12,12 +12,12 @@ const MovementCard = (props: { props: Movement }) => {
         <div className="text-right">
           <p
             className={
-              moveInfo.discount_amount
+              moveInfo.discount_amount != "0"
                 ? "text-red-500 font-bold"
                 : "text-green-600 font-bold"
             }
           >
-            {moveInfo.discount_amount
+            {moveInfo.discount_amount != "0"
               ? "- " + moveInfo.discount_amount
               : "+ " + moveInfo.income_amount}
           </p>
