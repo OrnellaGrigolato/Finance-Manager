@@ -1,15 +1,36 @@
 "use client";
-
-import Link from "next/link";
 import Navbar from "../dashboard/Navbar";
 import Image from "next/image";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
 const Profile = () => {
-  const [isPasswordShowed, setIsPasswordShowed] = useState(true);
   const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
+  const [values, setValues] = useState({});
+  const [isEditing, setisEditing] = useState<boolean>(false);
+  const [maxExpsEditing, setMaxExpsEditing] = useState<boolean>(false);
+
+  const handleChangeInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
+
+  const handleEdit = useCallback(
+    async (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      setisEditing(true);
+    },
+    [values]
+  );
+
+  const handleSave = useCallback(
+    async (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      setisEditing(false);
+      console.log(values);
+    },
+    [values]
+  );
 
   return (
     <div className=" bg-bg">
@@ -57,9 +78,23 @@ const Profile = () => {
                     First Name
                   </label>
                   <input
+                    readOnly={!isEditing}
                     type="text"
-                    value={userInfo?.finder?.username?.split(" ")[0]}
-                    className="focus:outline-none focus:border-b-2  text-lg"
+                    onChange={handleChangeInput}
+                    name="firstName"
+                    defaultValue={
+                      isEditing ? userInfo?.finder?.username?.split(" ")[0] : ""
+                    }
+                    value={
+                      isEditing
+                        ? undefined
+                        : userInfo?.finder?.username?.split(" ")[0]
+                    }
+                    className={
+                      isEditing
+                        ? "focus:outline-none focus:border-b-2  text-lg"
+                        : "text-lg focus:outline-none cursor-default"
+                    }
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg">
@@ -67,9 +102,23 @@ const Profile = () => {
                     Last Name
                   </label>
                   <input
+                    readOnly={!isEditing}
                     type="text"
-                    value={userInfo?.finder?.username?.split(" ")[1]}
-                    className="focus:outline-none focus:border-b-2 text-lg"
+                    onChange={handleChangeInput}
+                    name="lastName"
+                    defaultValue={
+                      isEditing ? userInfo?.finder?.username?.split(" ")[1] : ""
+                    }
+                    value={
+                      isEditing
+                        ? undefined
+                        : userInfo?.finder?.username?.split(" ")[1]
+                    }
+                    className={
+                      isEditing
+                        ? "focus:outline-none focus:border-b-2  text-lg"
+                        : "text-lg focus:outline-none cursor-default"
+                    }
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg w-[25vw]">
@@ -78,8 +127,16 @@ const Profile = () => {
                   </label>
                   <input
                     type="text"
-                    value={userInfo?.finder?.email}
-                    className="focus:outline-none focus:border-b-2 text-lg w-full"
+                    readOnly={!isEditing}
+                    onChange={handleChangeInput}
+                    name="email"
+                    defaultValue={isEditing ? userInfo?.finder?.email : ""}
+                    value={isEditing ? undefined : userInfo?.finder?.email}
+                    className={
+                      isEditing
+                        ? "focus:outline-none focus:border-b-2  text-lg"
+                        : "text-lg focus:outline-none cursor-default"
+                    }
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg ">
@@ -94,12 +151,21 @@ const Profile = () => {
                     )}
                   </div>
                 </div>
-                <button
-                  onClick={(e) => e.preventDefault()}
-                  className="bg-gradient-to-b from-primary to-[#391EDC] text-sm w-40  rounded-[20px] text-white  p-3 font-bold  shadow-blackShadow max-sm:m0b-6"
-                >
-                  Edit Information
-                </button>
+                {isEditing ? (
+                  <button
+                    onClick={(e) => handleSave(e)}
+                    className="bg-gradient-to-b from-primary to-[#391EDC] text-sm w-40  rounded-[20px] text-white  p-3 font-bold  shadow-blackShadow max-sm:m0b-6"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    onClick={(e) => handleEdit(e)}
+                    className="bg-gradient-to-b from-primary to-[#391EDC] text-sm w-40  rounded-[20px] text-white  p-3 font-bold  shadow-blackShadow max-sm:m0b-6"
+                  >
+                    Edit Information
+                  </button>
+                )}
               </form>
             </div>
           </div>
@@ -173,11 +239,44 @@ const Profile = () => {
                     </div>
                   </div>
                 </label>
-                <input
-                  type="text"
-                  value={`$${userInfo?.finder?.maxExpenditure}`}
-                  className="focus:outline-none focus:border-b-2 text-lg"
-                />
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    readOnly={!maxExpsEditing}
+                    defaultValue={
+                      maxExpsEditing ? userInfo?.finder?.maxExpenditure : ""
+                    }
+                    value={
+                      maxExpsEditing
+                        ? undefined
+                        : `$${userInfo?.finder?.maxExpenditure}`
+                    }
+                    className={
+                      maxExpsEditing
+                        ? "focus:outline-none focus:border-b-2  text-lg w-24"
+                        : "text-lg focus:outline-none cursor-default w-24"
+                    }
+                  />
+                  {maxExpsEditing ? (
+                    <Image
+                      src={"/tick-icon.png"}
+                      width={18}
+                      height={18}
+                      alt=""
+                      className="cursor-pointer"
+                      onClick={() => setMaxExpsEditing(false)}
+                    />
+                  ) : (
+                    <Image
+                      src={"/edit-icon.png"}
+                      width={18}
+                      height={18}
+                      alt=""
+                      className="cursor-pointer"
+                      onClick={() => setMaxExpsEditing(true)}
+                    />
+                  )}
+                </div>
               </div>
             </form>
           </div>
