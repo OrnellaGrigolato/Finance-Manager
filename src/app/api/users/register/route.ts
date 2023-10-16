@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 export async function POST (request:Request){
     try {
         /* const resend = new Resend(process.env.RESEND_API_KEY); */
-        
+       
         const {username,email,password} = await request.json();
         
         const hash = await bcrypt.hash(password, 10);
@@ -26,10 +26,10 @@ export async function POST (request:Request){
         const sameEmail = await prisma.users.findUnique({where: {email:email}});
 
         if(sameUserName){
-            return NextResponse.json({message:"Inavalid username, this username already has been used"},{status:400})
+            return NextResponse.json({message:"Inavalid username, this username has already been used"},{status:400})
         }
         if(sameEmail){
-            return NextResponse.json({message:"Inavalid email, this email already has been used"},{status:400})
+            return NextResponse.json({message:"Inavalid email, this email has already been used"},{status:400})
         }
 
         const result = await prisma.users.create({

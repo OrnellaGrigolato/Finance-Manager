@@ -9,13 +9,22 @@ import { useRouter } from 'next/navigation';
 const schema = yup.object({
   username: yup.string().required('Username is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
+  password: yup.string()
+      .required("Password is required")
+      .min(4, "Password length should be at least 4 characters")
+      .max(12, "Password cannot exceed more than 12 characters"),
+    cpassword: yup.string()
+      .required("Confirm Password is required")
+      .min(4, "Password length should be at least 4 characters")
+      .max(12, "Password cannot exceed more than 12 characters")
+      .oneOf([yup.ref("password")], "Passwords do not match")
 });
 
 type FormData = {
   username: string;
   email: string;
   password: string;
+  cpassword:string;
 };
 
 const RegisterForm: React.FC = () => {
@@ -25,6 +34,11 @@ const RegisterForm: React.FC = () => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      cpassword: ''}
   });
 
   const [error, setError] = React.useState('');
@@ -59,9 +73,9 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-2xl mb-6">Sign up!</h2>
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-sky-50 to-gray-200">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-50 shadow-xl rounded-xl px-8 pt-6 pb-8 mb-4">
+        <h2 className="text-2xl mb-6 text-cyan-900 font-bold text-center">Sign up!</h2>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Username:
@@ -72,7 +86,7 @@ const RegisterForm: React.FC = () => {
                 <input
                   type="text"
                   {...field}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border border-neutral-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               )}
             />
@@ -89,14 +103,14 @@ const RegisterForm: React.FC = () => {
                 <input
                   type="email"
                   {...field}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border border-neutral-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               )}
             />
             <p className="text-red-600 text-sm mt-2">{errors.email?.message}</p>
           </label>
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Password:
             <Controller
@@ -106,11 +120,28 @@ const RegisterForm: React.FC = () => {
                 <input
                   type="password"
                   {...field}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border border-neutral-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               )}
             />
             <p className="text-red-600 text-sm mt-2">{errors.password?.message}</p>
+          </label>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Confirm password:
+            <Controller
+              name="cpassword"
+              control={control}
+              render={({ field }) => (
+                <input
+                  type="password"
+                  {...field}
+                  className="shadow appearance-none border border-neutral-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              )}
+            />
+            <p className="text-red-600 text-sm mt-2">{errors.cpassword?.message}</p>
           </label>
         </div>
         <div className="flex items-center justify-center">

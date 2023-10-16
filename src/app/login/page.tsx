@@ -23,14 +23,14 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        
       });
-
+      console.log(response)
       if (response.ok) {
         const data = await response.json();
         console.log(Cookies.get("token"));
-        
-        // Redireccionar al usuario a la página deseada después del inicio de sesión.
-         router.push("/dashboard")
+        router.push("/dashboard")
+
       } else {
         const errorData = await response.json();
         alert(errorData.message);
