@@ -8,7 +8,7 @@ export const Movements = async (props: { user_id: number }) => {
     fetch(`/api/moves/user/${props.user_id.toString()}`)
       .then((response) => response.json())
       .then((data) => {
-        setMoves(data.finder);
+        setMoves(data.finder.reverse());
       })
       .catch((error) => {
         console.log(error);
