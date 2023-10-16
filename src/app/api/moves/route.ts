@@ -1,9 +1,47 @@
 import { prisma } from "@/libs/prisma";
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+/* export async function GET(req:Request,{queryParams}:queryParams) {
   try {
-    const result = await prisma.moves.findMany();
+    // Parámetros de paginación
+    const { page = 1, perPage = 10 } = queryParams.page; 
+    const offset = (page - 1) * perPage;
+
+    const result = await prisma.moves.findMany({
+      orderBy: {
+        movement_date: 'desc'
+      },
+      skip: offset,
+      take: perPage,
+    });
+
+    if (!result) {
+      return NextResponse.json(
+        { message: "not moves founds" },
+        { status: 404 }
+      );
+    } else {
+      return NextResponse.json({ result, message: "moves found" });
+    }
+  } catch (err) {
+    const error = err as {message: string}
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+} */
+export async function GET(req:NextApiRequest) {
+  try {
+    console.log(req.query); // Agregar esta línea para depurar 
+    const { page ,perPage } = req.query;
+    const offset = (Number(page) - 1) * Number(perPage);
+
+    const result = await prisma.moves.findMany({
+      orderBy: {
+        movement_date: 'desc'
+      },
+      skip: offset,
+      take: perPage,
+    });
 
     if (!result) {
       return NextResponse.json(
