@@ -1,7 +1,5 @@
 import { prisma } from "@/libs/prisma";
 import {  NextResponse } from "next/server";
-import bcrypt from 'bcrypt';
-import { sign } from 'jsonwebtoken';
 
 export async function GET (){
     try {
@@ -13,6 +11,8 @@ export async function GET (){
                 lastmove_amount:true,
                 lastmove_date:true,
                 login_date:true,
+                emailVerified: true,
+                maxExpenditure: true,
                 email:true,
                 available_money:true
             }
