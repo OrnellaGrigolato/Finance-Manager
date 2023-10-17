@@ -1,25 +1,33 @@
 "use client";
 
+import { useApiData } from "@/app/providers/Providers";
+import { ApiResponse } from "@/app/types/type";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 
 const MovesForm = () => {
   const router = useRouter();
   const [curr, setCurr] = useState();
+  const apiData = useApiData();
+  const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     income_amount: 0,
     discount_amount: 0 /* 
     movement_date: '', */,
-    user_id: 4, // Aca va el id del usuario logeado
+    user_id: userInfo.finder.id, // Aca va el id del usuario logeado
     currency_id: 1, // Aca va el id del currency seleccionado
   });
 
   useEffect(() => {
+    setUserInfo(apiData);
+  }, [apiData]);
+
+  useEffect(() => {
     try {
       const fetchData = async () => {
-       await fetch("http://localhost:3000/api/currency")
+        await fetch("http://localhost:3000/api/currency")
           .then((response) => response.json())
           .then((data) => {
             console.log(data.result);
@@ -32,7 +40,7 @@ const MovesForm = () => {
       const error = err as Error;
       console.log(error.message);
     }
-  },[]);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -147,7 +155,9 @@ const MovesForm = () => {
         </select>
       </div>
       <div className="mb-4">
-        <label htmlFor="currency_id" className="block font-bold">Currency</label>
+        <label htmlFor="currency_id" className="block font-bold">
+          Currency
+        </label>
         <select
           id="currency_id"
           name="currency_id"
@@ -155,9 +165,9 @@ const MovesForm = () => {
           onChange={handleChange}
           className="w-full p-2 border rounded"
         >
-          {
-            curr?.map((e) => <option value={e.id}>{e.name}</option>)
-          }
+          {curr?.map((e) => (
+            <option value={e.id}>{e.name}</option>
+          ))}
         </select>
       </div>
       <button
