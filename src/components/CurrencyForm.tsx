@@ -1,12 +1,14 @@
+"use client"
+
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-
-const router = useRouter()
 
 const CurrencyForm = () => {
   const [formData, setFormData] = useState({
     name: '',
   });
+
+  const router = useRouter()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
