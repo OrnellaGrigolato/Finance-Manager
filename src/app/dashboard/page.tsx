@@ -2,12 +2,14 @@
 import Navbar from "./Navbar";
 import Button from "./Button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import WalletCard from "./WalletCard";
 import MovementCard from "./MovementCard";
 import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
+import { Movements } from "./Movements";
+import Loading from "./loading";
 
 const Dashboard = () => {
   const apiData = useApiData();
@@ -66,10 +68,10 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="flex gap-6 -mt-6 mx-auto w-10/12 lg:w-[76.2%] lg:mx-auto">
-        <Link href="/movement">
+        <Link href="/moves-form">
           <Button text="Deposit" img="../deposit.svg" style="" />
         </Link>
-        <Link href="/movement">
+        <Link href="/moves-form">
           <Button text="Withdraw" img="../whitdraw.svg" style="" />
         </Link>
       </div>
@@ -102,14 +104,13 @@ const Dashboard = () => {
             See all
           </Link>
         </div>
-        <div className="flex flex-col gap-4 mt-5 pb-28">
-          <MovementCard />
-          <MovementCard />
-          <MovementCard />
-          <MovementCard />
-          <MovementCard />
-          <MovementCard />
-        </div>
+        <Suspense fallback={<Loading isDashboard={false} />}>
+          {
+            <div className="flex flex-col gap-4 mt-5 pb-28">
+              <Movements user_id={userInfo.finder.id} />
+            </div>
+          }
+        </Suspense>
       </div>
     </div>
   ) : (

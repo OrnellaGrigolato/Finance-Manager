@@ -17,3 +17,16 @@ export interface ApiResponse {
     };
     message: string;
   }
+
+
+
+  export interface Movement {
+    id_moves: number;
+    description: string;
+    income_amount: string;
+    discount_amount: string;
+    movement_date: string;
+    user_id: number;
+    title: string;
+    currency_id: number;
+}
