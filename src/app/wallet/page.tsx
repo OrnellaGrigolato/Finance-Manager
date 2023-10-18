@@ -1,33 +1,31 @@
 "use client";
 
 import Navbar from "../dashboard/Navbar";
-import dynamic from "next/dynamic";
-const Line = dynamic(
-  () => import("@ant-design/charts").then(({ Line }) => Line),
-  { ssr: false }
-);
-const Wallet = () => {
-  const data = [
-    { year: "1991", value: 3 },
-    { year: "1992", value: 4 },
-    { year: "1993", value: 3.5 },
-    { year: "1994", value: 5 },
-    { year: "1995", value: 4.9 },
-    { year: "1996", value: 6 },
-    { year: "1997", value: 7 },
-    { year: "1998", value: 9 },
-    { year: "1999", value: 13 },
-  ];
+import type { ChartData, ChartOptions } from "chart.js";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+} from "chart.js";
+import PieChart from "./pieChart";
 
-  const config = {
-    data,
-    height: 400,
-    xField: "year",
-    yField: "value",
-    point: {
-      size: 2,
-      shape: "diamond",
-    },
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+const Wallet = () => {
+  const data = {
+    labels: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O"],
+    datasets: [
+      {
+        data: [100, 360, 278, 600, 760, 800, 548, 887, 790, 1000],
+        backgroundColor: "transparent",
+        borderColor: "#8A22F0",
+        pointBorderColor: "transparent",
+        pointBorderWidth: 4,
+        tension: 0.5,
+      },
+    ],
   };
 
   return (
@@ -46,7 +44,15 @@ const Wallet = () => {
               </p>
             </div>
           </div>
-          <Line {...config} />
+          <div className="grid gap-5 grid-cols-3">
+            <div className="border-card-bg border-2 p-6 flex flex-col items-center gap-5 shadow-blackShadow rounded-2xl  justify-center">
+              You have made <b>200</b> moves
+            </div>
+            <div className="border-card-bg border-2 p-6 shadow-blackShadow rounded-2xl col-span-2 flex justify-center">
+              <Line data={data} />
+            </div>
+            {/* <PieChart></PieChart> */}
+          </div>
         </div>
       </div>
     </div>
