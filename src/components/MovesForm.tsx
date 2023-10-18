@@ -138,22 +138,7 @@ const MovesForm = () => {
           className="w-full p-2 border rounded"
         />
       </div> */}
-      <div className="mb-4">
-        <label htmlFor="currency_id" className="block font-bold">
-          Currency
-        </label>
-        <select
-          id="currency_id"
-          name="currency_id"
-          value={formData.currency_id}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        >
-          <option value="1">ARG</option>
-          <option value="2">USD</option>
-          {/* AGREGAMOS LAS OPCIONES SEGUN LAS CREEMOS */}
-        </select>
-      </div>
+      
       <div className="mb-4">
         <label htmlFor="currency_id" className="block font-bold">
           Currency
@@ -181,3 +166,21 @@ const MovesForm = () => {
 };
 
 export default MovesForm;
+/* 
+<div className="mb-4">
+        <label htmlFor="currency_id" className="block font-bold">
+          Currency
+        </label>
+        <select
+          id="currency_id"
+          name="currency_id"
+          value={formData.currency_id}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        >
+          <option value="1">ARG</option>
+          <option value="2">USD</option>
+          
+          </select>
+          </div>
+*/

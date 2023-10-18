@@ -8,6 +8,7 @@ interface DecodedToken {
 const getUserDataFromToken = (token:string):DecodedToken |void  => {
    
   try {
+    
     return decode(token) as DecodedToken;   } catch (error) {
     console.error('Error al decodificar el token:', error);
 
