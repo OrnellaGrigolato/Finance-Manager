@@ -11,14 +11,13 @@ const schema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string()
       .required("Password is required")
-      .min(4, "Password length should be at least 4 characters")
-      .max(12, "Password cannot exceed more than 12 characters"),
-    cpassword: yup.string()
+      .min(8, "Password length should be at least 8 characters")
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "Password must contain at least one letter, one number, and one special character"),
+  cpassword: yup.string()
       .required("Confirm Password is required")
-      .min(4, "Password length should be at least 4 characters")
-      .max(12, "Password cannot exceed more than 12 characters")
       .oneOf([yup.ref("password")], "Passwords do not match")
 });
+
 
 type FormData = {
   username: string;
