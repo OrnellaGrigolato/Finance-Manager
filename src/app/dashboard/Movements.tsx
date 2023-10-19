@@ -20,7 +20,10 @@ export const Movements = (props: { user_id: number }) => {
         console.log(error);
       });
     console.log(moves); */
-    const response = await axios.get()
+    const response = await axios.get(`http://localhost:3000/api/moves/?page=${page}&user_id=${id}`)
+    console.log(response.data);
+    const data = response.data.result;
+    setMoves(data);
   }
 
   useEffect(() => {
