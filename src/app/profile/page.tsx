@@ -1,36 +1,42 @@
 "use client";
 import Navbar from "../dashboard/Navbar";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
-  const [values, setValues] = useState({});
-  const [isEditing, setisEditing] = useState<boolean>(false);
   const [maxExpsEditing, setMaxExpsEditing] = useState<boolean>(false);
+  const [maxExpsValue, setMaxExpsValue] = useState<string>("");
+  const [updating, setUpdating] = useState<boolean>(false);
 
-  const handleChangeInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }, []);
-
-  const handleEdit = useCallback(
-    async (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      setisEditing(true);
-    },
-    [values]
-  );
-
-  const handleSave = useCallback(
-    async (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      setisEditing(false);
-      console.log(values);
-    },
-    [values]
-  );
+  const handleMaxExpChange = () => {
+    setUpdating(true);
+    setMaxExpsEditing(false);
+    console.log(maxExpsValue);
+    fetch(`api/users/${userInfo.finder.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...userInfo,
+        maxExpenditure: parseInt(maxExpsValue.slice(1, maxExpsValue.length)),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setUpdating(false);
+        setUserInfo((prevState) => ({
+          ...prevState,
+          finder: {
+            ...prevState.finder,
+            maxExpenditure: data.updated.maxExpenditure,
+          },
+        }));
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <div className=" bg-bg">
@@ -78,23 +84,11 @@ const Profile = () => {
                     First Name
                   </label>
                   <input
-                    readOnly={!isEditing}
+                    readOnly={true}
                     type="text"
-                    onChange={handleChangeInput}
                     name="firstName"
-                    defaultValue={
-                      isEditing ? userInfo?.finder?.username?.split(" ")[0] : ""
-                    }
-                    value={
-                      isEditing
-                        ? undefined
-                        : userInfo?.finder?.username?.split(" ")[0]
-                    }
-                    className={
-                      isEditing
-                        ? "focus:outline-none focus:border-b-2  text-lg"
-                        : "text-lg focus:outline-none cursor-default"
-                    }
+                    value={userInfo?.finder?.username?.split(" ")[0]}
+                    className={"text-lg focus:outline-none cursor-default"}
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg">
@@ -102,23 +96,11 @@ const Profile = () => {
                     Last Name
                   </label>
                   <input
-                    readOnly={!isEditing}
+                    readOnly={true}
                     type="text"
-                    onChange={handleChangeInput}
                     name="lastName"
-                    defaultValue={
-                      isEditing ? userInfo?.finder?.username?.split(" ")[1] : ""
-                    }
-                    value={
-                      isEditing
-                        ? undefined
-                        : userInfo?.finder?.username?.split(" ")[1]
-                    }
-                    className={
-                      isEditing
-                        ? "focus:outline-none focus:border-b-2  text-lg"
-                        : "text-lg focus:outline-none cursor-default"
-                    }
+                    value={userInfo?.finder?.username?.split(" ")[1]}
+                    className={"text-lg focus:outline-none cursor-default"}
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg w-[25vw]">
@@ -127,16 +109,10 @@ const Profile = () => {
                   </label>
                   <input
                     type="text"
-                    readOnly={!isEditing}
-                    onChange={handleChangeInput}
+                    readOnly={true}
                     name="email"
-                    defaultValue={isEditing ? userInfo?.finder?.email : ""}
-                    value={isEditing ? undefined : userInfo?.finder?.email}
-                    className={
-                      isEditing
-                        ? "focus:outline-none focus:border-b-2  text-lg"
-                        : "text-lg focus:outline-none cursor-default"
-                    }
+                    value={userInfo?.finder?.email}
+                    className="text-lg focus:outline-none cursor-default"
                   />
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg ">
@@ -151,21 +127,6 @@ const Profile = () => {
                     )}
                   </div>
                 </div>
-                {isEditing ? (
-                  <button
-                    onClick={(e) => handleSave(e)}
-                    className="bg-gradient-to-b from-primary to-[#391EDC] text-sm w-40  rounded-[20px] text-white  p-3 font-bold  shadow-blackShadow max-sm:m0b-6"
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={(e) => handleEdit(e)}
-                    className="bg-gradient-to-b from-primary to-[#391EDC] text-sm w-40  rounded-[20px] text-white  p-3 font-bold  shadow-blackShadow max-sm:m0b-6"
-                  >
-                    Edit Information
-                  </button>
-                )}
               </form>
             </div>
           </div>
@@ -243,6 +204,7 @@ const Profile = () => {
                   <input
                     type="text"
                     readOnly={!maxExpsEditing}
+                    onChange={(e) => setMaxExpsValue(e.target.value)}
                     defaultValue={
                       maxExpsEditing ? userInfo?.finder?.maxExpenditure : ""
                     }
@@ -264,9 +226,12 @@ const Profile = () => {
                       height={18}
                       alt=""
                       className="cursor-pointer"
-                      onClick={() => setMaxExpsEditing(false)}
+                      onClick={() => handleMaxExpChange()}
                     />
-                  ) : (
+                  ) : null}
+                  {updating ? <div className="loader"></div> : null}
+
+                  {!maxExpsEditing && !updating ? (
                     <Image
                       src={"/edit-icon.png"}
                       width={18}
@@ -275,7 +240,7 @@ const Profile = () => {
                       className="cursor-pointer"
                       onClick={() => setMaxExpsEditing(true)}
                     />
-                  )}
+                  ) : null}
                 </div>
               </div>
             </form>
