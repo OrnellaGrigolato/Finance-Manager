@@ -2,39 +2,8 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { Resend } from 'resend';
 import { cookies } from "next/headers";
-
-import nodemailer from "nodemailer";
-
-const email_finance = process.env.EMAIL;
-const pass = process.env.EMAIL_PASS;
-
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: email_finance,
-        pass,
-    },
-});
-
-const generateEmailContent = (username: string, password: string) => {
-    const message = `
-        Hi ${username},
-        You just signed up to Finance Manager:
-        Your user name is: ${username},
-        Your password is: ${password} in case you forget!
-
-        We’re excited to have you on board and we’d love to say thank you on behalf of our team for choosing us to help you register your finances.
-    `;
-
-    return {
-        from: email_finance,
-        to: email_finance,
-        subject: `Welcome to Finance Manager, ${username}`,
-        text: message,
-    };
-};
+import { sendEmail } from "@/components/emailSender";
 
 
 export async function POST(request: Request) {
@@ -77,13 +46,12 @@ export async function POST(request: Request) {
 
 
         try {
-            console.log(email_finance, pass)
-            await transporter.sendMail(generateEmailContent(username, password));
 
-        return NextResponse.json({ result, token }, { status: 201 });
-         } catch (error) {
-            console.error(error);
-            return NextResponse.json({ message:"Error envio correo", error }, { status: 400 });
+            await sendEmail(username, email);
+
+            return NextResponse.json({ result, token }, { status: 201 });
+        } catch (error) {
+            return NextResponse.json({ error }, { status: 400 });
         }
 
 } catch (err) {
