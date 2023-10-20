@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
         try {
 
-            await sendEmail(username, email);
+            await sendEmail(username, email, token);
 
             return NextResponse.json({ result, token }, { status: 201 });
         } catch (error) {
