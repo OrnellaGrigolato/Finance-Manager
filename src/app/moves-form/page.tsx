@@ -11,6 +11,7 @@ const MovesForm = () => {
   const [curr, setCurr] = useState<{ id_currency: number; name: string }[]>();
   const [allCurrencies, setAllCurrencies] = useState<string[]>();
   const apiData = useApiData();
+  const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   const [formData, setFormData] = useState<{
     title: string;
@@ -105,6 +106,28 @@ const MovesForm = () => {
         router.push("/dashboard");
       } catch (error) {
         console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch("/api/moves", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            currency_id: Number(formData.currency_id),
+          }),
+        });
+
+        if (response.ok) {
+          router.push("/dashboard");
+        } else {
+          const errorData = await response.json();
+          setError(errorData.message);
+        }
+      } catch (error) {
+        console.error("Error al crear el movimiento:", error);
       }
     }
   };
@@ -203,6 +226,7 @@ const MovesForm = () => {
                 ))}
           </select>
         </div>
+        <p className="text-red-500 text-center">{error}</p>
         <button
           type="submit"
           className="bg-gradient-to-b from-primary to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"

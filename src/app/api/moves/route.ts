@@ -1,5 +1,5 @@
 import { prisma } from "@/libs/prisma";
-import { NextApiRequest } from "next";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
     if (page && user_id) {
       const perPage = 5;
       const offset = (Number(page) - 1) * Number(perPage);
-      console.log(page, user_id);
 
       const result = await prisma.moves.findMany({
         where: {
@@ -32,12 +31,16 @@ export async function GET(request: NextRequest) {
           { status: 404 }
         );
       } else {
-        const totalMovesByUser = await prisma.moves.count({where:{user_id: user_id}})
-        console.log(totalMovesByUser)
-        return NextResponse.json({ result, total: totalMovesByUser, message: "moves found"});
+        const totalMovesByUser = await prisma.moves.count({
+          where: { user_id: user_id },
+        });
+        return NextResponse.json({
+          result,
+          total: totalMovesByUser,
+          message: "moves found",
+        });
       }
     } else {
-      console.log("ENTRO ACA");
       const result = await prisma.moves.findMany({
         orderBy: {
           movement_date: "desc",
@@ -79,7 +82,6 @@ export async function POST(request: Request) {
     });
 
     if (existingUser) {
-      console.log(existingUser)
       if (
         (!title || !description || !user_id || !currency_id) &&
         (!discount_amount || !income_amount)
@@ -87,43 +89,53 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: "Mising Fields" }, { status: 400 });
       } else {
         //* Validamos que el dinero que va a descontar no sea mayor al que poseemos
-        if (discount_amount && (discount_amount!= 0 || discount_amount != undefined) && (Number(existingUser.available_money) < Number(discount_amount))) {
+        if (
+          discount_amount &&
+          (discount_amount != 0 || discount_amount != undefined) &&
+          Number(existingUser.available_money) < Number(discount_amount)
+        ) {
           return NextResponse.json(
             {
               message:
-                "You are trying to commit an invalid opartion: your available money is minor than your discount",
+                "You are trying to perform an invalid operation: your available money is less than what you are trying to withdraw.",
             },
             { status: 400 }
           );
         }
         //* Validamos que el dinero que va a descontar no sea mayor al valor maximo expecificado
-        if (discount_amount && (discount_amount!= 0 || discount_amount != undefined) && (Number(existingUser.maxExpenditure) < Number(discount_amount))) {
+        if (
+          discount_amount &&
+          (discount_amount != 0 || discount_amount != undefined) &&
+          Number(existingUser.maxExpenditure) < Number(discount_amount)
+        ) {
           return NextResponse.json(
             {
               message:
-                "You are trying to commit an invalid opartion: you cannot superpass your maximun Expendideture",
+                "You are trying to perform an invalid operation: you cannot exceed your defined maximum spend. If you wish, you can change it in the configuration section.",
             },
             { status: 400 }
           );
         }
 
         //* Actualizamos los valores del usuario que realizo el movimiento
-        console.log(`income_amount: ${income_amount}, available_money: ${existingUser.available_money}, discount: ${discount_amount}`)
+
         const updatedAvailableMoney =
           Number(income_amount) !== 0 && income_amount !== undefined
             ? Number(existingUser.available_money) + Number(income_amount)
             : Number(existingUser.available_money) - Number(discount_amount);
 
         const updatedLastMoveAmount =
-        Number(income_amount) !== 0 && income_amount !== undefined
+          Number(income_amount) !== 0 && income_amount !== undefined
             ? Number(income_amount)
             : Number(discount_amount);
-            
-        const updatedLastMoveDate = movement_date
 
+        const updatedLastMoveDate = movement_date;
 
-        if(Number.isNaN(updatedAvailableMoney)){
-          return NextResponse.json({ message: "available Money is Nan or Undefined" }, { status: 400 });
+        if (Number.isNaN(updatedAvailableMoney)) {
+          return NextResponse.json(
+            { message: "available Money is Nan or Undefined" },
+            { status: 400 }
+          );
         }
 
         //* Actualizamos los valores en la base de datos
@@ -134,60 +146,34 @@ export async function POST(request: Request) {
           data: {
             available_money: updatedAvailableMoney,
             lastmove_amount: updatedLastMoveAmount,
-            lastmove_date: updatedLastMoveDate /* !== undefined ? updatedLastMoveDate: Date.now() */,
+            lastmove_date:
+              updatedLastMoveDate /* !== undefined ? updatedLastMoveDate: Date.now() */,
           },
         });
         //* Creamos el movimiento
-      const result = await prisma.moves.create({
-        data: {
-          id_moves,
-          title,
-          description,
-          currency_id,
-          discount_amount,
-          income_amount,
-          movement_date,
-          user_id,
-        },
-      });
+        const result = await prisma.moves.create({
+          data: {
+            id_moves,
+            title,
+            description,
+            currency_id,
+            discount_amount,
+            income_amount,
+            movement_date,
+            user_id,
+          },
+        });
 
-      return NextResponse.json(
-        { result, message: "Moves succesfully created" },
-        { status: 201 }
-      );
+        return NextResponse.json(
+          { result, message: "Moves succesfully created" },
+          { status: 201 }
+        );
       }
     } else {
       return NextResponse.json({ message: "User Not Found" }, { status: 400 });
     }
-
   } catch (err) {
     const error = err as { message: string };
     return NextResponse.json({ error: `${error.message}` }, { status: 500 });
   }
 }
-
-    /* if (
-      (!title || !description || !user_id || !currency_id) &&
-      (!discount_amount || !income_amount)
-    ) {
-      return NextResponse.json({ message: "Mising Fields" }, { status: 400 });
-    } else {
-      //* Creamos el movimiento
-      const result = await prisma.moves.create({
-        data: {
-          id_moves,
-          title,
-          description,
-          currency_id,
-          discount_amount,
-          income_amount,
-          movement_date,
-          user_id,
-        },
-      });
-
-      return NextResponse.json(
-        { result, message: "Moves succesfully created" },
-        { status: 201 }
-      );
-    } */
