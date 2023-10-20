@@ -12,42 +12,43 @@ generator client {
 //}
 
 datasource db {
-  provider = "postgresql"
-  url   = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-
 model Users {
-  id Int @id @default(autoincrement())
-  username String @db.VarChar(55) @unique
-  email String @db.VarChar(100) @unique
-  password String @db.VarChar(255)
-  login_date DateTime? @db.Timestamp() @default(now())
-  available_money Decimal @db.Decimal(10,2) @default(0)
-  lastmove_amount Decimal? @db.Decimal(10,2) @default(0)
-  lastmove_date DateTime? @db.Timestamp() 
-  moves Moves []
+  id              Int       @id @default(autoincrement())
+  username        String    @unique @db.VarChar(55)
+  email           String    @unique @db.VarChar(100)
+  emailVerified   Boolean   @default(false)
+  maxExpenditure  Int       @default(100000)
+  password        String    @db.VarChar(255)
+  login_date      DateTime? @default(now()) @db.Timestamp()
+  available_money Decimal   @default(0) @db.Decimal(10, 2)
+  lastmove_amount Decimal?  @default(0) @db.Decimal(10, 2)
+  lastmove_date   DateTime? @db.Timestamp()
+  moves           Moves[]
 }
 
 model Moves {
-  id_moves Int @id @unique @default(autoincrement())
-  description String @db.Text() 
-  income_amount Decimal @db.Decimal(10,2) @default(0)
-  discount_amount Decimal @db.Decimal(10,2) @default(0)
-  movement_date DateTime @db.Timestamp() @default(now())
-  user Users @relation(fields: [user_id],references: [id])
-  user_id Int 
-  title String @db.VarChar(35)
-  currency Currency @relation(fields: [currency_id],references: [id_currency])
-  currency_id Int 
+  id_moves        Int      @id @unique @default(autoincrement())
+  description     String   @db.Text()
+  income_amount   Decimal  @default(0) @db.Decimal(10, 2)
+  discount_amount Decimal  @default(0) @db.Decimal(10, 2)
+  movement_date   DateTime @default(now()) @db.Timestamp()
+  user            Users    @relation(fields: [user_id], references: [id])
+  user_id         Int
+  title           String   @db.VarChar(35)
+  currency        Currency @relation(fields: [currency_id], references: [id_currency])
+  currency_id     Int
 
   @@index([user_id])
   @@index([currency_id])
 }
 
 model Currency {
-  id_currency Int @id @unique @default(autoincrement())
-  name String @db.VarChar(35) @default("ARG")
-  moves Moves[]
+  id_currency Int     @id @unique @default(autoincrement())
+  name        String  @unique @default("ARG") @db.VarChar(35)
+  moves       Moves[]
 }

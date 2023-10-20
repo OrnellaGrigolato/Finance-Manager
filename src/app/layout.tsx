@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, PT_Sans_Narrow, Overpass } from "next/font/google";
-import { Providers } from "./Providers";
+import { Providers } from "./providers/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,9 +30,7 @@ export default function RootLayout({
           inter.className + overpass.className + pt_Sans_Narrow.className
         }
       >
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

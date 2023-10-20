@@ -2,6 +2,7 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request, response: Response){
     try {
@@ -22,7 +23,8 @@ export async function POST(request: Request, response: Response){
 
         //* confirmamos si el usuario que estamos buscando, en su propiedad password.decoficada coincide con la enviada
              
-          const token = sign({user_id: userFind.id}, "SECRETO", { expiresIn: "1h"});
+          const token = sign({user_id: userFind.id},`${process.env.AUTH_SECRET}`, { expiresIn: "1h"});
+          cookies().set("token", token);
         //* lo retornamos
           return NextResponse.json(
             {token},
