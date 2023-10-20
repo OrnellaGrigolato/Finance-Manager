@@ -27,7 +27,7 @@ export const Movements = (props: { user_id: number }) => {
       const res = totalMovesByUser.length / 5
       setMaxPage(res);
     }else if((totalMovesByUser.length / 5) % 1 !== 0){
-      const res = Math.floor(totalMovesByUser.length / 5)
+      const res = Math.floor(totalMovesByUser.length / 5)+1
       setMaxPage(res);
     }
     
