@@ -37,7 +37,7 @@ const RegisterForm: React.FC = () => {
          router.push('/dashboard') 
         } else {
             const errorData = await response.json();
-            console.log(errorData.message, typeof errorData.message);
+            console.log(errorData.message, typeof errorData.message );
             if (errorData.message === 'Invalid username, this username already has been used') {
               setSucces("");
               setError("Username already in use");
