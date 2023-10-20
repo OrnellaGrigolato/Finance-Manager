@@ -54,7 +54,7 @@ const Profile = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-8 max-sm:flex-col">
+          <div className="flex justify-between w-11/12 max-sm:flex-col max-sm:w-full">
             <div className="border-card-bg border-2 p-6 flex flex-col items-center gap-5 w-fit shadow-blackShadow rounded-2xl max-sm:w-full">
               <Image
                 src={
@@ -72,7 +72,7 @@ const Profile = () => {
                 <p className="mt-2"> {userInfo?.finder?.email}</p>
               </div>
             </div>
-            <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl">
+            <div className="border-card-bg border-2 p-6 mt-8 shadow-blackShadow rounded-2xl">
               <h2 className="font-bold text-lg">General Information</h2>
 
               <form
