@@ -32,7 +32,9 @@ export async function GET(request: NextRequest) {
           { status: 404 }
         );
       } else {
-        return NextResponse.json({ result, message: "moves found" });
+        const totalMovesByUser = await prisma.moves.count({where:{user_id: user_id}})
+        console.log(totalMovesByUser)
+        return NextResponse.json({ result, total: totalMovesByUser, message: "moves found"});
       }
     } else {
       console.log("ENTRO ACA");
