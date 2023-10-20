@@ -9,6 +9,7 @@ export const Movements = (props: { user_id: number }) => {
   const [totalMovesByUser, setTotalMovesByUser] = useState<Movement[]>([]);
   const [page, setPage] = useState(1);
   const [canContinue, setCanContinue] = useState(true); 
+  const [maxPage, setMaxPage] = useState(1);
 
   async function apiFecth() {
     const id = props.user_id.toString();
@@ -17,11 +18,18 @@ export const Movements = (props: { user_id: number }) => {
 
     console.log(response.data.result);
     setMoves(response.data.result)
-    console.log(moves);
 
     const secondFetch = await axios.get(`http://localhost:3000/api/moves/user/${id}`);
 
     setTotalMovesByUser(secondFetch.data.finder);
+
+    if((totalMovesByUser.length / 5) % 1 === 0){
+      const res = totalMovesByUser.length / 5
+      setMaxPage(res);
+    }else if((totalMovesByUser.length / 5) % 1 !== 0){
+      const res = Math.floor(totalMovesByUser.length / 5)
+      setMaxPage(res);
+    }
     
     if (totalMovesByUser.length <= page * 5) {
       setCanContinue(false); // Si no hay más movimientos, ocultamos el botón "Next"
@@ -32,11 +40,11 @@ export const Movements = (props: { user_id: number }) => {
 
   useEffect(() => {
     apiFecth();
-    console.log(canContinue)
   }, [page]);
 
   return moves?.length > 0 ? (
     <div>
+      {canContinue}
       {moves?.map((e, k) => {
         return <MovementCard props={e} key={k} />;
       })}
@@ -47,7 +55,7 @@ export const Movements = (props: { user_id: number }) => {
           )}
         </li>
         <li>
-          {/* canContinue && */ (totalMovesByUser.length <= page * 5) ? (
+          { page !== maxPage ? (
             <button onClick={() => setPage(page + 1)}>Next</button>
           ):<></>}
         </li>
