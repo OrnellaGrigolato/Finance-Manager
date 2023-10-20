@@ -31,16 +31,10 @@ import { NextResponse } from "next/server";
 } */
 export async function GET(req:NextApiRequest) {
   try {
-    console.log(req.query); // Agregar esta línea para depurar 
-    const { page ,perPage } = req.query;
-    const offset = (Number(page) - 1) * Number(perPage);
-
     const result = await prisma.moves.findMany({
       orderBy: {
         movement_date: 'desc'
       },
-      skip: offset,
-      take: perPage,
     });
 
     if (!result) {
