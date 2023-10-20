@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: Params) {
       return Response.json({ message: "no user found" }, { status: 404 });
     }
   } catch (err) {
-    const error = err as {message:string}
+    const error = err as { message: string };
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
@@ -40,16 +40,38 @@ export async function DELETE(request: Request, { params }: Params) {
       return Response.json({ message: "no user found" }, { status: 404 });
     }
   } catch (err) {
-    const error = err as {message:string}
+    const error = err as { message: string };
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request, { params }: Params) {
-  const parameter = Number(params.id);  try {
+  const parameter = Number(params.id);
+  try {
     const { username, password, email, maxExpenditure } = await request.json();
-    console.log(maxExpenditure)
-    if(maxExpenditure && maxExpenditure !== undefined) {
+
+    if (maxExpenditure && maxExpenditure !== undefined) {
+      const updated = await prisma.users.update({
+        where: {
+          id: parameter,
+        },
+        data: {
+          maxExpenditure: maxExpenditure,
+        },
+      });
+      if (updated) {
+        return NextResponse.json({ updated, message: "updating" });
+      } else {
+        return Response.json(
+          { message: "failed attempting to update" },
+          { status: 400 }
+        );
+      }
+    }
+    /* if (!username && !password && !email) {
+      return Response.json({ message: "missing fields" }, { status: 400 });
+    } else {
+      const hash = await bcrypt.hash(password, 10);
       const updated = await prisma.users.update({
         where: {
           id: parameter,
@@ -66,11 +88,13 @@ export async function PUT(request: Request, { params }: Params) {
           { status: 400 }
         );
       }
-    }    if (!username && !password && !email) {
+    }   */  
+    if (!username && !password && !email) {
       return Response.json({ message: "missing fields" }, { status: 400 });
     }
     else {
-      const hash = await bcrypt.hash(password, 10);      const updated = await prisma.users.update({
+      const hash = await bcrypt.hash(password, 10);      
+      const updated = await prisma.users.update({
         where: {
           id: parameter,
         },
@@ -90,7 +114,7 @@ export async function PUT(request: Request, { params }: Params) {
       }
     }
   } catch (err) {
-    const error = err as {message:string}
+    const error = err as { message: string };
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
