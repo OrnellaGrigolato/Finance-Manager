@@ -67,10 +67,10 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="flex gap-6 -mt-6 mx-auto w-10/12 lg:w-[76.2%] lg:mx-auto">
-        <Link href="/moves-form">
+        <Link href="/moves-form?action=deposit">
           <Button text="Deposit" img="../deposit.svg" style="" />
         </Link>
-        <Link href="/moves-form">
+        <Link href="/moves-form?action=whitdraw">
           <Button text="Withdraw" img="../whitdraw.svg" style="" />
         </Link>
       </div>
