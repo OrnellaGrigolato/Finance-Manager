@@ -11,6 +11,27 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+const EmailContent_profile = (username: string, email:string, token: string) => {
+    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
+    const verificationUrl = `${baseUrl}/api/users/verify?token=${token}`;
+
+    const message = `
+        Hello ${username}, we see you are trying to verify your account!
+
+        Please click on the link below to verify your email (it will expire in 1hs):
+        ${verificationUrl}
+
+        We send our regards, Finance Manager.
+        `;
+
+    return {
+        from: email_finance,
+        to: email,
+        subject: `Account verification, Finance Manager`,
+        text: message,
+    };
+};
+
 const EmailContent = (username: string, email:string, token: string) => {
     const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
     const verificationUrl = `${baseUrl}/api/users/verify?token=${token}`;
@@ -38,6 +59,15 @@ const EmailContent = (username: string, email:string, token: string) => {
 export const sendEmail = async (username: string, email:string, token:string) => {
     try {
         await transporter.sendMail(EmailContent(username, email, token));
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const sendEmail_profile = async (username: string, email:string, token:string) => {
+    try {
+        await transporter.sendMail(EmailContent_profile(username, email, token));
         return true;
     } catch (error) {
         throw error;

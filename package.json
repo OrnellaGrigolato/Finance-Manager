@@ -25,6 +25,7 @@
     "jwt-decode": "^3.1.2",
     "next": "13.5.2",
     "next-auth": "^4.23.2",
+    "next-client-cookies": "^1.0.5",
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-cookie": "^6.1.1",

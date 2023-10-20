@@ -5,11 +5,23 @@ import { useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
+import { useCookies } from 'next-client-cookies';
+import { sendEmail_profile } from "@/components/emailSender";
+
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
   const [maxExpsEditing, setMaxExpsEditing] = useState<boolean>(false);
   const [maxExpsValue, setMaxExpsValue] = useState<string>("");
   const [updating, setUpdating] = useState<boolean>(false);
+
+  const cookies = useCookies();
+  const token = cookies.get('token') || ''
+  const data = {
+    "username": userInfo?.finder?.username,
+    "email": userInfo?.finder?.email,
+    "token": token
+  };
+  console.log("la data es: ", data)
 
   const handleMaxExpChange = () => {
     setUpdating(true);
@@ -77,9 +89,9 @@ const Profile = () => {
 
               <form
                 action="submit"
-                className="grid grid-rows-2 grid-cols-2 gap-x-12 gap-y-10 mt-6"
+                className="grid grid-rows-2 grid-cols-7 gap-x-5 gap-y-10 mt-6"
               >
-                <div className="border-card-bg border-2 p-2 rounded-lg">
+                <div className="border-card-bg border-2 p-2 rounded-lg col-span-4">
                   <label htmlFor="" className="block text-xs">
                     First Name
                   </label>
@@ -88,10 +100,10 @@ const Profile = () => {
                     type="text"
                     name="firstName"
                     value={userInfo?.finder?.username?.split(" ")[0]}
-                    className={"text-lg focus:outline-none cursor-default"}
+                    className={"text-lg focus:outline-none cursor-default w-full"}
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg">
+                <div className="border-card-bg border-2 p-2 rounded-lg col-span-3">
                   <label htmlFor="" className="block text-xs">
                     Last Name
                   </label>
@@ -100,10 +112,10 @@ const Profile = () => {
                     type="text"
                     name="lastName"
                     value={userInfo?.finder?.username?.split(" ")[1]}
-                    className={"text-lg focus:outline-none cursor-default"}
+                    className={"text-lg focus:outline-none cursor-default w-full"}
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg w-[25vw]">
+                <div className="border-card-bg border-2 p-2 rounded-lg col-span-4">
                   <label htmlFor="" className="block text-xs">
                     Email
                   </label>
@@ -112,18 +124,46 @@ const Profile = () => {
                     readOnly={true}
                     name="email"
                     value={userInfo?.finder?.email}
-                    className="text-lg focus:outline-none cursor-default"
+                    className="text-lg focus:outline-none cursor-default w-full"
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg ">
-                  <label htmlFor="" className="block text-xs">
-                    Is your account verified?
-                  </label>
-                  <div className="flex gap-2 items-center">
+                <div className="border-card-bg border-2 p-2 rounded-lg items-center flex-wrap justify-center col-span-3 styletoforcecenter">
+
+                  <div className="flex gap-2 justify-center">
                     {userInfo?.finder?.emailVerified ? (
-                      <p>Yes ✔️</p>
+                      <p>Account verified ✔️</p>
                     ) : (
-                      <p>No ❌</p>
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault(); // Prevent the default form submission
+                          try {
+                            /* console.log('username:', userInfo?.finder?.username);
+                            console.log('email:', userInfo?.finder?.email);
+                            console.log('token:', token);
+ */
+                            const response = await fetch('http://localhost:3000/api/users/verify', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify(data),
+                            });
+
+                            if (response.ok) {
+                              // Handle success
+                              console.log('Email sent successfully');
+                            } else {
+                              // Handle errors
+                              console.error('Email sending failed');
+                            }
+                          } catch (error) {
+                            console.error('An error occurred while sending the email', error);
+                          }
+                        }}
+                      >
+                        Verify Account
+                      </button>
+
                     )}
                   </div>
                 </div>

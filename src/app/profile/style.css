@@ -23,6 +23,12 @@
   @apply absolute w-6 h-3 overflow-hidden -ml-3 left-2/4 bottom-full after:content-[''] after:absolute after:w-3 after:h-3 after:-translate-x-2/4 after:translate-y-2/4 after:rotate-45 after:bg-primary after:shadow-[0_1px_8px_rgba(0,0,0,0.5)] after:left-2/4;
 }
 
+.styletoforcecenter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .loader {
   width: 20px;
   padding: 4px;

@@ -3,6 +3,7 @@ import { verify } from 'jsonwebtoken';
 import { prisma } from "@/libs/prisma";
 
 import { NextResponse } from "next/server";
+import { sendEmail_profile } from '@/components/emailSender';
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const url = req.url || '';
@@ -34,15 +35,32 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                 where: { id: Number(userId) },
                 data: { emailVerified: true },
             });
-            
+
             return NextResponse.redirect(`${baseUrl}/validate`)
 
-           
+
         } catch (error) {
-            console.log("el error fue: ", error)
             return NextResponse.json({ error: 'Error verifying email' }, { status: 500 });
         }
     } else {
         return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 403 });
     }
+}
+
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
+   
+        try {
+
+            const { username, email, token } = req.body;
+          //console.log(req)
+            console.log(req.body)
+            console.log("El reqbody es: ", username, email, token) 
+            await sendEmail_profile(username, email, token);
+
+            return NextResponse.json({ message: "Success" }, { status: 200 })
+        } catch (error) {
+           console.error(error);
+            return NextResponse.json({ error: 'Error sending email' }, { status: 500 });
+        }
+  
 }
