@@ -5,9 +5,7 @@ import { useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
-import { useCookies } from 'next-client-cookies';
-import { sendEmail_profile } from "@/components/emailSender";
-
+import { useCookies } from "next-client-cookies";
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
   const [maxExpsEditing, setMaxExpsEditing] = useState<boolean>(false);
@@ -15,13 +13,12 @@ const Profile = () => {
   const [updating, setUpdating] = useState<boolean>(false);
 
   const cookies = useCookies();
-  const token = cookies.get('token') || ''
+  const token = cookies.get("token") || "";
   const data = {
-    "username": userInfo?.finder?.username,
-    "email": userInfo?.finder?.email,
-    "token": token
+    username: userInfo?.finder?.username,
+    email: userInfo?.finder?.email,
+    token: token,
   };
-  console.log("la data es: ", data)
 
   const handleMaxExpChange = () => {
     setUpdating(true);
@@ -49,6 +46,32 @@ const Profile = () => {
       })
       .catch((error) => console.error(error));
   };
+  const handleVerify = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault(); // Prevent the default form submission
+    try {
+      /* console.log('username:', userInfo?.finder?.username);
+      console.log('email:', userInfo?.finder?.email);
+      console.log('token:', token);
+*/
+      const response = await fetch("http://localhost:3000/api/users/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log("Email sent successfully");
+      } else {
+        // Handle errors
+        console.error("Email sending failed");
+      }
+    } catch (error) {
+      console.error("An error occurred while sending the email", error);
+    }
+  };
 
   return (
     <div className=" bg-bg">
@@ -66,7 +89,7 @@ const Profile = () => {
               </p>
             </div>
           </div>
-          <div className="flex justify-between w-11/12 max-sm:flex-col max-sm:w-full">
+          <div className="flex gap-8 max-sm:flex-col">
             <div className="border-card-bg border-2 p-6 flex flex-col items-center gap-5 w-fit shadow-blackShadow rounded-2xl max-sm:w-full">
               <Image
                 src={
@@ -84,14 +107,14 @@ const Profile = () => {
                 <p className="mt-2"> {userInfo?.finder?.email}</p>
               </div>
             </div>
-            <div className="border-card-bg border-2 p-6 mt-8 shadow-blackShadow rounded-2xl">
+            <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl">
               <h2 className="font-bold text-lg">General Information</h2>
 
               <form
                 action="submit"
-                className="grid grid-rows-2 grid-cols-7 gap-x-5 gap-y-10 mt-6"
+                className="grid grid-rows-2 grid-cols-2 gap-x-12 gap-y-10 mt-6 max-sm:grid-cols-1 max-sm:grid-rows-4"
               >
-                <div className="border-card-bg border-2 p-2 rounded-lg col-span-4">
+                <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="block text-xs">
                     First Name
                   </label>
@@ -100,10 +123,10 @@ const Profile = () => {
                     type="text"
                     name="firstName"
                     value={userInfo?.finder?.username?.split(" ")[0]}
-                    className={"text-lg focus:outline-none cursor-default w-full"}
+                    className={"text-lg focus:outline-none cursor-default"}
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg col-span-3">
+                <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="block text-xs">
                     Last Name
                   </label>
@@ -112,10 +135,10 @@ const Profile = () => {
                     type="text"
                     name="lastName"
                     value={userInfo?.finder?.username?.split(" ")[1]}
-                    className={"text-lg focus:outline-none cursor-default w-full"}
+                    className={"text-lg focus:outline-none cursor-default"}
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg col-span-4">
+                <div className="border-card-bg border-2 p-2 rounded-lg w-[25vw] max-sm:w-full">
                   <label htmlFor="" className="block text-xs">
                     Email
                   </label>
@@ -127,43 +150,24 @@ const Profile = () => {
                     className="text-lg focus:outline-none cursor-default w-full"
                   />
                 </div>
-                <div className="border-card-bg border-2 p-2 rounded-lg items-center flex-wrap justify-center col-span-3 styletoforcecenter">
-
-                  <div className="flex gap-2 justify-center">
+                <div className="border-card-bg border-2 p-2 rounded-lg ">
+                  <label htmlFor="" className="block text-xs">
+                    Is your account verified?{" "}
+                    <b
+                      className="text-primary text-xs cursor-pointer"
+                      onClick={(e) => handleVerify(e)}
+                    >
+                      {" "}
+                      {!userInfo.finder.emailVerified
+                        ? "Click here to verify"
+                        : ""}
+                    </b>
+                  </label>
+                  <div className="flex gap-2 items-center">
                     {userInfo?.finder?.emailVerified ? (
-                      <p>Account verified ✔️</p>
+                      <p>Yes ✔️</p>
                     ) : (
-                      <button
-                        onClick={async (e) => {
-                          e.preventDefault(); // Prevent the default form submission
-                          try {
-                            /* console.log('username:', userInfo?.finder?.username);
-                            console.log('email:', userInfo?.finder?.email);
-                            console.log('token:', token);
- */
-                            const response = await fetch('http://localhost:3000/api/users/verify', {
-                              method: 'POST',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify(data),
-                            });
-
-                            if (response.ok) {
-                              // Handle success
-                              console.log('Email sent successfully');
-                            } else {
-                              // Handle errors
-                              console.error('Email sending failed');
-                            }
-                          } catch (error) {
-                            console.error('An error occurred while sending the email', error);
-                          }
-                        }}
-                      >
-                        Verify Account
-                      </button>
-
+                      <p>No ❌</p>
                     )}
                   </div>
                 </div>
