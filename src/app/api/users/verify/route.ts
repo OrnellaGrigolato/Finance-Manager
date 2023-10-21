@@ -48,19 +48,26 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
-   
+    if (req.method === 'POST') {
+
+        
         try {
 
             const { username, email, token } = req.body;
-          //console.log(req)
+          console.log(req)
             console.log(req.body)
             console.log("El reqbody es: ", username, email, token) 
-            await sendEmail_profile(username, email, token);
+
+           // await sendEmail_profile(username, email, token);
 
             return NextResponse.json({ message: "Success" }, { status: 200 })
         } catch (error) {
            console.error(error);
             return NextResponse.json({ error: 'Error sending email' }, { status: 500 });
         }
-  
+
+
+    } else {
+        return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 403 });
+    }
 }
