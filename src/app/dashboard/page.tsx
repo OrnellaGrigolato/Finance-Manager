@@ -4,7 +4,6 @@ import Button from "./Button";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import WalletCard from "./WalletCard";
-import MovementCard from "./MovementCard";
 import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
@@ -99,17 +98,11 @@ const Dashboard = () => {
       <div className="w-10/12 mx-auto mt-10">
         <div className="flex justify-between items-center">
           <h4 className="font-bold text-xl ">Last Movements</h4>
-          <Link href="/transaction" className="text-primary">
-            See all
-          </Link>
         </div>
-        <Suspense fallback={<Loading isDashboard={false} />}>
-          {
-            <div className="flex flex-col gap-4 mt-5 pb-28">
-              <Movements user_id={userInfo.finder.id} />
-            </div>
-          }
-        </Suspense>
+
+        <div className="flex flex-col gap-4 mt-5 pb-28">
+          <Movements user_id={userInfo.finder.id} />
+        </div>
       </div>
     </div>
   ) : (
