@@ -92,7 +92,7 @@ const Navbar = () => {
           </li>
           <li className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4">
             {" "}
-            <Link href="/sing-up">Get Started</Link>
+            <Link href="/sign-up">Get Started</Link>
           </li>
         </ul>
         )}
