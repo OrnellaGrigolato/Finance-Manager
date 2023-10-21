@@ -11,13 +11,15 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const [loading, setLoading] = useState(false);
+  const [attemps, setAttemps] = useState(0);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await fetch("/api/users/login", {
         method: "POST",
         headers: {
@@ -35,6 +37,8 @@ const Login = () => {
         const errorData = await response.json();
         alert(errorData.message);
         console.error(errorData.message);
+        setLoading(false);
+        setAttemps((prev) => prev + 1);
       }
     } catch (error) {
       console.error("Error al enviar la solicitud de inicio de sesión", error);
@@ -48,6 +52,15 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  if (attemps === 4) {
+    //Logica para mandar email al usuario y desbloquear su cuenta.
+    window.alert(
+      "Your account has been blocked, we will send you an email so you can recover it."
+    );
+    setAttemps(0);
+    router.push("/");
+  }
 
   return (
     <main className="h-[100vh]">
@@ -91,11 +104,19 @@ const Login = () => {
               required
               placeholder="Password"
             />
+            {attemps === 3 ? (
+              <p className="text-red-500 font-bold -mb-5">
+                You have already failed 3 times, for security reasons, if you
+                fail again, we will block the account.
+              </p>
+            ) : (
+              ""
+            )}
             <button
               type="submit"
               className="px-7 py-3 text-base mt-8 bg-black text-white rounded-[40px] block w-full"
             >
-              Log In
+              {loading ? "Cargando..." : "Log In"}
             </button>
           </form>
           <p className="mt-3 text-sm">
