@@ -7,9 +7,9 @@ export async function GET(request: Request, { params }: {
 }) {
   try {
     const  user_id  =  Number(params.user) ;
-    const  perPage = 10;
+    /* const  perPage = 10;
     const { page } = await request.json()
-    console.log(page,perPage);
+    console.log(page,perPage); */
     
     const finder = await prisma.moves.findMany({
         where: { user_id:  user_id},

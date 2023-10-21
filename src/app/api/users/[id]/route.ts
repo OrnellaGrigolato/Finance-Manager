@@ -68,10 +68,32 @@ export async function PUT(request: Request, { params }: Params) {
         );
       }
     }
-    if (!username && !password && !email) {
+    /* if (!username && !password && !email) {
       return Response.json({ message: "missing fields" }, { status: 400 });
     } else {
       const hash = await bcrypt.hash(password, 10);
+      const updated = await prisma.users.update({
+        where: {
+          id: parameter,
+        },
+        data: {
+          maxExpenditure: maxExpenditure
+        },
+      });
+      if (updated) {
+        return NextResponse.json({ updated, message: "updating" });
+      } else {
+        return Response.json(
+          { message: "failed attempting to update" },
+          { status: 400 }
+        );
+      }
+    }   */  
+    if (!username && !password && !email) {
+      return Response.json({ message: "missing fields" }, { status: 400 });
+    }
+    else {
+      const hash = await bcrypt.hash(password, 10);      
       const updated = await prisma.users.update({
         where: {
           id: parameter,

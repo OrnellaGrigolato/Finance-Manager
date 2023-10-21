@@ -56,17 +56,28 @@ const RegisterForm: React.FC = () => {
       });
 
       if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        setSuccess('done');
-        setError('');
-        router.push('/dashboard') 
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Registration failed for other reasons, please try again or try later');
-        setSuccess('');
-      }
-    } catch (error) {
+        const data = await response.json();
+        console.log(data);
+        //console.log(data.token)
+        setSuccess("done");
+        setError("");
+         
+         router.push('/dashboard') 
+        } else {
+            const errorData = await response.json();
+            console.log(errorData.message, typeof errorData.message );
+            if (errorData.message === 'Invalid username, this username already has been used') {
+              setSuccess("");
+              setError("Username already in use");
+            } else if (errorData.message === 'Invalid email, this email already has been used') {
+              setSuccess("");
+              setError("Email already in use");
+            } else {
+              setSuccess("");
+              setError('Registration failed for other reasons, please try again or try later');
+            }
+            
+    }} catch (error) {
       console.error('Error al enviar la solicitud de registro', error);
     }
   };
