@@ -66,7 +66,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <div className="flex gap-6 -mt-6 mx-auto w-10/12 lg:w-[76.2%] lg:mx-auto">
+      <div className="flex gap-6 -mt-6 mx-auto w-fit lg:w-10/12 lg:mx-auto ">
         <Link href="/moves-form?action=deposit">
           <Button text="Deposit" img="../deposit.svg" style="" />
         </Link>
