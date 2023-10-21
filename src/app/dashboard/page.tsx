@@ -12,6 +12,7 @@ import Loading from "./loading";
 
 const Dashboard = () => {
   const apiData = useApiData();
+
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   useEffect(() => {
