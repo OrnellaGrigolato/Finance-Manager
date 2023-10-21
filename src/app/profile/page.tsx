@@ -189,120 +189,119 @@ const Profile = () => {
               </form>
             </div>
           </div>
-          <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl my-8 w-11/12 max-sm:mb-24 max-sm:w-auto">
-            <h2 className="font-bold text-lg">Configuration</h2>
-
-            <form
-              action="submit"
-              className="grid grid-rows-1 grid-cols-2 gap-x-12 gap-y-10 mt-6 max-sm:grid-cols-1 max-sm:grid-rows-2"
-            >
-              <div className="border-card-bg border-2 p-2 rounded-lg">
-                <label htmlFor="" className="block text-xs">
-                  Language
-                </label>
-                <div className="flex items-center mt-2">
-                  <div className="tooltip">
-                    <Image
-                      src={"/usa-flag.png"}
-                      width={20}
-                      height={20}
-                      alt="EEUU Flag"
-                      title="English"
-                    />
-                    <div className="bottom">
-                      <p>English</p>
-                      <i></i>
-                    </div>
-                  </div>
-                  <input
-                    className="mx-2  h-3.5 w-10 appearance-none rounded-[0.4375rem] bg-primary before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:shadow-blackShadow  before:content-[''] after:absolute after:z-[2]  after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-200 after:shadow-blackShadow after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.25rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none   checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-['']  checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100  checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
-                  <div className="flex items-center ">
+          <div className="max-sm:pb-24">
+            <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl my-8 w-11/12  max-sm:w-auto">
+              <h2 className="font-bold text-lg">Configuration</h2>
+              <form
+                action="submit"
+                className="grid grid-rows-1 grid-cols-2 gap-x-12 gap-y-10 mt-6 max-sm:grid-cols-1 max-sm:grid-rows-2"
+              >
+                <div className="border-card-bg border-2 p-2 rounded-lg">
+                  <label htmlFor="" className="block text-xs">
+                    Language
+                  </label>
+                  <div className="flex items-center mt-2">
                     <div className="tooltip">
                       <Image
-                        src={"/arg-flag.png"}
+                        src={"/usa-flag.png"}
                         width={20}
                         height={20}
-                        alt="Argentina Flag"
-                        title="Spanish"
+                        alt="EEUU Flag"
+                        title="English"
                       />
-
                       <div className="bottom">
-                        <p>Spanish</p>
+                        <p>English</p>
                         <i></i>
+                      </div>
+                    </div>
+                    <input
+                      className="mx-2  h-3.5 w-10 appearance-none rounded-[0.4375rem] bg-primary before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:shadow-blackShadow  before:content-[''] after:absolute after:z-[2]  after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-200 after:shadow-blackShadow after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.25rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none   checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-['']  checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100  checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                    <div className="flex items-center ">
+                      <div className="tooltip">
+                        <Image
+                          src={"/arg-flag.png"}
+                          width={20}
+                          height={20}
+                          alt="Argentina Flag"
+                          title="Spanish"
+                        />
+                        <div className="bottom">
+                          <p>Spanish</p>
+                          <i></i>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="border-card-bg border-2 p-2 rounded-lg">
-                <label htmlFor="" className="text-xs flex gap-2">
-                  Maximum expenditure{" "}
-                  <div className="tooltip">
-                    <Image
-                      src={"/info-icon.png"}
-                      width={18}
-                      height={18}
-                      alt="Info Icon"
-                    />
-                    <div className="top">
-                      <p>
-                        Set here a monetary limit. Our finance management
-                        application will notify you when you approach or exceed
-                        this limit, helping you stay on track with your
-                        spending.
-                      </p>
-                      <i></i>
+                <div className="border-card-bg border-2 p-2 rounded-lg">
+                  <label htmlFor="" className="text-xs flex gap-2">
+                    Maximum expenditure{" "}
+                    <div className="tooltip">
+                      <Image
+                        src={"/info-icon.png"}
+                        width={18}
+                        height={18}
+                        alt="Info Icon"
+                      />
+                      <div className="top">
+                        <p>
+                          Set here a monetary limit. Our finance management
+                          application will notify you when you approach or
+                          exceed this limit, helping you stay on track with your
+                          spending.
+                        </p>
+                        <i></i>
+                      </div>
                     </div>
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="text"
+                      readOnly={!maxExpsEditing}
+                      onChange={(e) => setMaxExpsValue(e.target.value)}
+                      defaultValue={
+                        maxExpsEditing ? userInfo?.finder?.maxExpenditure : ""
+                      }
+                      value={
+                        maxExpsEditing
+                          ? undefined
+                          : `$${userInfo?.finder?.maxExpenditure}`
+                      }
+                      className={
+                        maxExpsEditing
+                          ? "focus:outline-none focus:border-b-2  text-lg w-24"
+                          : "text-lg focus:outline-none cursor-default w-24"
+                      }
+                    />
+                    {maxExpsEditing ? (
+                      <Image
+                        src={"/tick-icon.png"}
+                        width={18}
+                        height={18}
+                        alt=""
+                        className="cursor-pointer"
+                        onClick={() => handleMaxExpChange()}
+                      />
+                    ) : null}
+                    {updating ? <div className="loader"></div> : null}
+                    {!maxExpsEditing && !updating ? (
+                      <Image
+                        src={"/edit-icon.png"}
+                        width={18}
+                        height={18}
+                        alt=""
+                        className="cursor-pointer"
+                        onClick={() => setMaxExpsEditing(true)}
+                      />
+                    ) : null}
                   </div>
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="text"
-                    readOnly={!maxExpsEditing}
-                    onChange={(e) => setMaxExpsValue(e.target.value)}
-                    defaultValue={
-                      maxExpsEditing ? userInfo?.finder?.maxExpenditure : ""
-                    }
-                    value={
-                      maxExpsEditing
-                        ? undefined
-                        : `$${userInfo?.finder?.maxExpenditure}`
-                    }
-                    className={
-                      maxExpsEditing
-                        ? "focus:outline-none focus:border-b-2  text-lg w-24"
-                        : "text-lg focus:outline-none cursor-default w-24"
-                    }
-                  />
-                  {maxExpsEditing ? (
-                    <Image
-                      src={"/tick-icon.png"}
-                      width={18}
-                      height={18}
-                      alt=""
-                      className="cursor-pointer"
-                      onClick={() => handleMaxExpChange()}
-                    />
-                  ) : null}
-                  {updating ? <div className="loader"></div> : null}
-
-                  {!maxExpsEditing && !updating ? (
-                    <Image
-                      src={"/edit-icon.png"}
-                      width={18}
-                      height={18}
-                      alt=""
-                      className="cursor-pointer"
-                      onClick={() => setMaxExpsEditing(true)}
-                    />
-                  ) : null}
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
