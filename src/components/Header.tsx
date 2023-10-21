@@ -20,7 +20,7 @@ const Header = () => {
             odio
           </p>
           <button className="px-7 py-3 text-lg mt-14 bg-black shadow-blackShadow text-white rounded-[40px] max-sm:w-full">
-            <Link href="/sing-up">Start Now</Link>
+            <Link href="/sign-up">Start Now</Link>
           </button>
         </div>
         <div className="w-[50rem] mx-auto max-sm:w-full max-sm:hidden">
