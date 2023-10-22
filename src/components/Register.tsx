@@ -1,6 +1,6 @@
 // components/RegisterForm.js
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -42,11 +42,13 @@ const RegisterForm: React.FC = () => {
 
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter(); 
 
 
   const onSubmit = async (data: FormData) => {
     try {
+      setLoading(true);
       const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: {
@@ -64,6 +66,7 @@ const RegisterForm: React.FC = () => {
          
          router.push('/dashboard') 
         } else {
+          setLoading(false);
             const errorData = await response.json();
             console.log(errorData.message, typeof errorData.message );
             if (errorData.message === 'Invalid username, this username has already been used') {
@@ -159,7 +162,7 @@ const RegisterForm: React.FC = () => {
             type="submit"
             className="bg-blue-500 hover-bg-blue-700 text-white font-bold py-2 px-4 rounded focus-outline-none focus-shadow-outline"
           >
-            Register
+            {loading ? "Loading..." : "Register"}
           </button>
         </div>
         {error.length > 0 ? (
