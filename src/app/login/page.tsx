@@ -31,16 +31,17 @@ const Login = () => {
       console.log(response)
       if (response.ok) {
         const data = await response.json();
-
-        // Redireccionar al usuario a la página deseada después del inicio de sesión.
-        router.push("/dashboard");
+        console.log('Response is okay, redirecting to dashboard');
+        router.push('/dashboard');
       } else {
+        console.log('Response is not okay, status code:', response.status);
         const errorData = await response.json();
         alert(errorData.message);
         console.error(errorData.message);
         setLoading(false);
         setAttemps((prev) => prev + 1);
       }
+      
     } catch (error) {
       console.error("Error al enviar la solicitud de inicio de sesión", error);
     }

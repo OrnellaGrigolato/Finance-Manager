@@ -4,8 +4,31 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { ResponsiveMenu } from "./ResponsiveMenu";
 import Image from "next/image";
+import { JwtPayload, decode } from "jsonwebtoken";
+
 const Navbar = () => {
-  const userToken = Cookies.get("token");
+ 
+  const userToken = Cookies.get("token") || '';
+  let decodedToken: JwtPayload | null = null;
+
+  if (userToken) {
+    try {
+      decodedToken = decode(userToken) as JwtPayload;
+    } catch (err) {
+      console.log("Error decoding token: ", err);
+    }
+  }
+
+  const currentTime = Date.now().valueOf() / 1000;
+
+  if (decodedToken && decodedToken.exp < currentTime) {
+    console.log("Token is expired, removing it...");
+    Cookies.set("token", '');
+  } else if (decodedToken) {
+    console.log("Token is valid");
+  } else {
+    console.log("Token is not present, login or register");
+  }
 
   return (
     <nav className=" h-50 mt-8">
