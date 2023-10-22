@@ -24,13 +24,14 @@ export async function POST(request: Request) {
         const sameUserName = await prisma.users.findUnique({ where: { username: username } })
 
         const sameEmail = await prisma.users.findUnique({ where: { email: email } });
-
+        
         if (sameUserName) {
-            return NextResponse.json({ message: "Inavalid username, this username has already been used" }, { status: 400 })
+            return NextResponse.json({ message: "Invalid username, this username has already been used" }, { status: 400 })
         }
         if (sameEmail) {
-            return NextResponse.json({ message: "Inavalid email, this email has already been used" }, { status: 400 })
+            return NextResponse.json({ message: "Invalid email, this email has already been used" }, { status: 400 })
         }
+        
 
         const result = await prisma.users.create({
             data: {

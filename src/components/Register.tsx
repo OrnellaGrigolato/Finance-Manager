@@ -66,10 +66,10 @@ const RegisterForm: React.FC = () => {
         } else {
             const errorData = await response.json();
             console.log(errorData.message, typeof errorData.message );
-            if (errorData.message === 'Invalid username, this username already has been used') {
+            if (errorData.message === 'Invalid username, this username has already been used') {
               setSuccess("");
               setError("Username already in use");
-            } else if (errorData.message === 'Invalid email, this email already has been used') {
+            } else if (errorData.message === 'Invalid email, this email has already been used') {
               setSuccess("");
               setError("Email already in use");
             } else {
