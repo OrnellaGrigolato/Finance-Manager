@@ -91,13 +91,17 @@ const Navbar = () => {
         )}
         <div className="hidden max-sm:flex max-sm:gap-6 items-center ">
           {" "}
-          <Image
-            src={"/user-profile.png"}
-            alt="user icon"
-            width={50}
-            height={50}
-            className="rounded"
-          />
+          {userToken ? (
+            <Image
+              src={"/user-profile.png"}
+              alt="user icon"
+              width={50}
+              height={50}
+              className="rounded"
+            />
+          ) : (
+            ""
+          )}
           <ResponsiveMenu logged={userToken ? true : false} />
         </div>
       </div>
