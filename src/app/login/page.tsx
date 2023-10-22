@@ -118,7 +118,7 @@ const Login = () => {
               type="submit"
               className="px-7 py-3 text-base mt-8 bg-black text-white rounded-[40px] block w-full"
             >
-              {loading ? "Cargando..." : "Log In"}
+              {loading ? "Loading..." : "Log In"}
             </button>
           </form>
           <p className="mt-3 text-sm">

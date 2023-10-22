@@ -58,7 +58,11 @@ const Profile = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          "username": userInfo?.finder?.username,
+          "email": userInfo?.finder?.email,
+          "token": token
+        }),
       });
 
       if (response.ok) {
@@ -182,43 +186,7 @@ const Profile = () => {
                       <p>Yes ✔️</p>
                     ) : (
 
-                      <button
-                        onClick={async (e) => {
-                          e.preventDefault(); // Prevent the default form submission
-                          try {
-                            /* console.log('username:', userInfo?.finder?.username);
-                            console.log('email:', userInfo?.finder?.email);
-                            console.log('token:', token);
- */
-                            const response = await fetch('http://localhost:3000/api/users/verify', {
-                              method: 'POST',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify({
-                                "username": userInfo?.finder?.username,
-                                "email": userInfo?.finder?.email,
-                                "token": token
-                              }),
-                            });
-
-                            if (response.ok) {
-                              // Handle success
-                              console.log('Email sent successfully');
-                            } else {
-                              // Handle errors
-                              console.error('Email sending failed');
-                            }
-                          } catch (error) {
-                            console.error('An error occurred while sending the email', error);
-                          }
-                        }}
-                      >
-                        Verify Account
-                      </button>
-
-
-                     // <p>No ❌</p>
+                     <p>No ❌</p>
 
                     )}
                   </div>
