@@ -50,14 +50,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
    console.log("userData.user_id", userData?.user_id)
    console.log("userData.id", userData?.id) */
    
-   if (userData && userData.user_id) {
+ /*   if (userData && userData.user_id) {
     fetch(`/api/users/${userData.user_id}`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.log(error));
-  } 
+  }  
   
-  else if (userData && userData.id) {
+  else */if (userData && userData.id) {
     fetch(`/api/users/${userData.id}`)
       .then((response) => response.json())
       .then((data) => setData(data))

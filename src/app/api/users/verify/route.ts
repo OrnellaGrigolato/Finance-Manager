@@ -11,14 +11,11 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
 
     if (req.method === 'GET') {
-
-
         if (!token) {
             return NextResponse.json(
                 { message: "missing fields" },
                 { status: 400 })
         }
-
 
         let userId;
 
@@ -30,42 +27,45 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
         }
 
-        try {
-            await prisma.users.update({
-                where: { id: Number(userId) },
-                data: { emailVerified: true },
-            });
+        let retries = 0;
+        const maxRetries = 5;
 
-            return NextResponse.redirect(`${baseUrl}/validate`)
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                await prisma.users.update({
+                    where: { id: Number(userId) },
+                    data: { emailVerified: true },
+                });
 
-
-        } catch (error) {
-            return NextResponse.json({ error: 'Error verifying email' }, { status: 500 });
+                return NextResponse.redirect(`${baseUrl}/validate`)
+            } catch (error) {
+                console.log(error)
+                retries++;
+                if (retries === maxRetries) {
+                    return NextResponse.json({ error: 'Error verifying email' }, { status: 500 });
+                }
+            }
         }
     } else {
         return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 403 });
     }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
     if (req.method === 'POST') {
 
-        
         try {
 
-            const { username, email, token } = req.body;
-          console.log(req)
-            console.log(req.body)
-            console.log("El reqbody es: ", username, email, token) 
-
-           // await sendEmail_profile(username, email, token);
-
+            const { username, email, token } = await req.json();
+            await sendEmail_profile(username, email, token);
             return NextResponse.json({ message: "Success" }, { status: 200 })
-        } catch (error) {
-           console.error(error);
-            return NextResponse.json({ error: 'Error sending email' }, { status: 500 });
-        }
 
+        } catch (error) {
+
+            console.error(error);
+            return NextResponse.json({ error: 'Error sending email' }, { status: 500 });
+
+        }
 
     } else {
         return NextResponse.json({ error: `Method ${req.method} Not Allowed` }, { status: 403 });

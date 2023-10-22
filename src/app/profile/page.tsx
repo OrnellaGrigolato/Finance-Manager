@@ -16,12 +16,8 @@ const Profile = () => {
 
   const cookies = useCookies();
   const token = cookies.get('token') || ''
-  const data = {
-    "username": userInfo?.finder?.username,
-    "email": userInfo?.finder?.email,
-    "token": token
-  };
-  console.log("la data es: ", data)
+ 
+  //console.log("la data es: ", data)
 
   const handleMaxExpChange = () => {
     setUpdating(true);
@@ -146,7 +142,11 @@ const Profile = () => {
                               headers: {
                                 'Content-Type': 'application/json',
                               },
-                              body: JSON.stringify(data),
+                              body: JSON.stringify({
+                                "username": userInfo?.finder?.username,
+                                "email": userInfo?.finder?.email,
+                                "token": token
+                              }),
                             });
 
                             if (response.ok) {

@@ -40,10 +40,9 @@ export async function POST(request: Request) {
             }
         })
         const token = sign(result, `${process.env.AUTH_SECRET}`, { expiresIn: '1h' });
+       
         //* Generamos el token y luego lo enviamos como respuesta
         cookies().set("token", token);
-        /* console.log(token); */
-
 
         try {
 
