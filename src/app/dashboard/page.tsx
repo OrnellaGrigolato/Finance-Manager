@@ -2,13 +2,14 @@
 import Navbar from "./Navbar";
 import Button from "./Button";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
-import WalletCard from "./WalletCard";
+import { useEffect, useState } from "react";
+
 import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
 import { Movements } from "./Movements";
 import Loading from "./loading";
+import Wallet from "./Wallet";
 
 const Dashboard = () => {
   const apiData = useApiData();
@@ -81,20 +82,8 @@ const Dashboard = () => {
             See all
           </Link>
         </div>
-        <div className="flex gap-4 mt-5">
-          <WalletCard
-            balance="33444"
-            currencyName="Pesos Argentinos"
-            currencySymbol="ARS"
-            country="Argentina"
-          />
-          <WalletCard
-            balance="33444"
-            currencyName="Pesos Argentinos"
-            currencySymbol="ARS"
-            country="Argentina"
-          />
-        </div>
+
+        <Wallet userId={userInfo.finder.id} />
       </div>
       <div className="w-10/12 mx-auto mt-10">
         <div className="flex justify-between items-center">

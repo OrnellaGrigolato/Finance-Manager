@@ -6,7 +6,7 @@ export async function GET(
   {
     params,
   }: {
-    params: { user: string; currencyName: string };
+    params: { user: string; currencyid: string };
   }
 ) {
   try {
@@ -14,7 +14,7 @@ export async function GET(
       where: {
         user_id: parseInt(params.user),
         currency: {
-          name: params.currencyName,
+          id_currency: parseInt(params.currencyid),
         },
       },
     });
