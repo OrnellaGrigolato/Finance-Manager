@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import { prisma } from "@/libs/prisma";
 
 import { NextResponse } from "next/server";
-import { sendEmail_profile } from '@/components/emailSender';
+import { sendEmail_profile } from '@/app/api/emailSender';
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const url = req.url || '';
@@ -22,7 +22,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
         try {
             const decoded = verify(token as string, process.env.AUTH_SECRET as string) as { id: string };
             userId = decoded.id;
-            console.log(userId)
+           
         } catch (error) {
             return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
         }

@@ -63,6 +63,27 @@ const EmailContent = (username: string, email: string, token: string) => {
   };
 };
 
+const EmailContent_reset_password = (username: string, email: string, token: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
+  const verificationUrl = `${baseUrl}/reset-password/${token}`;
+
+  const message = `
+        Hello ${username}, Finance Manager speaking!
+
+        Please click on the link below to reset your password and unlock your account (it will expire in 1hs):
+        ${verificationUrl}
+        Remember you can resend this link by going to: Login -> Forgot password
+
+    `;
+
+  return {
+    from: email_finance,
+    to: email,
+    subject: `${username}, reset your password.`,
+    text: message,
+  };
+};
+
 export const sendEmail = async (
   username: string,
   email: string,
@@ -83,6 +104,19 @@ export const sendEmail_profile = async (
 ) => {
   try {
     await transporter.sendMail(EmailContent_profile(username, email, token));
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendEmail_reset_password = async (
+  username: string,
+  email: string,
+  token: string
+) => {
+  try {
+    await transporter.sendMail(EmailContent_reset_password(username, email, token));
     return true;
   } catch (error) {
     throw error;
