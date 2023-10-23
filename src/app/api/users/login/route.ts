@@ -10,6 +10,14 @@ export async function POST(request: Request, response: Response){
 
         const userFind = await prisma.users.findUnique({where: {email: email}})
 
+        if (userFind.isBlocked) {
+          return NextResponse.json({
+              message: 'User is blocked'
+          }, {
+              status: 403, // Forbidden
+          });
+        }
+
         const comparator = await(bcrypt.compare(password, userFind.password))  
  
         if (!userFind || !comparator) {

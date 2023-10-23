@@ -53,7 +53,7 @@ const Profile = () => {
       console.log('email:', userInfo?.finder?.email);
       console.log('token:', token);
 */
-      const response = await fetch("http://localhost:3000/api/users/verify", {
+      const response = await fetch("/api/users/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
