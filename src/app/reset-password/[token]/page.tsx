@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Cookies from "js-cookie";
+
 
 
 const schema = yup.object({
@@ -56,12 +58,10 @@ const ChangePasswordForm: React.FC = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        //console.log(data.token)
+        setLoading(false);
         setSuccess("done");
         setError("");
-
+        Cookies.set("token", String(token.token));
         router.push('/dashboard')
       } else {
         setLoading(false);

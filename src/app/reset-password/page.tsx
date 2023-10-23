@@ -50,7 +50,7 @@ const ChangePasswordPage: React.FC = () => {
             const data = await response.json();
             console.log(data);
 
-            if (data.ok) {
+            if (data.message=== 'Success sending email to change password') {
                 setSuccess("done");
                 setError("");
                 setLoading(false);

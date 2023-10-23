@@ -76,7 +76,7 @@ export async function POST(request: Request, response: Response) {
 
         sendEmail_reset_password(userFind?.username, email, token)
 
-        return NextResponse.json({ message: "success" }, { status: 200 })
+        return NextResponse.json({ message: "Success sending email to change password" }, { status: 200 })
 
     } catch (err) {
         const error = err as { message: string }
