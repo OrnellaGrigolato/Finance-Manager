@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { cookies } from "next/headers";
-import { sendEmail } from "@/components/emailSender";
+import { sendEmail } from "@/app/api/emailSender";
 
 
 export async function POST(request: Request) {

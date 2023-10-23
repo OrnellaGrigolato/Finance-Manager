@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { sendEmail_reset_password } from "@/app/api/emailSender";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,10 +15,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [attemps, setAttemps] = useState(0);
   const router = useRouter();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       const response = await fetch("/api/users/login", {
@@ -39,7 +38,7 @@ const Login = () => {
           alert('The account is blocked, please reset your password');
         } else {
           alert(errorData.message);
-          setAttemps(0);
+          
         }
         console.error(errorData.message);
         setLoading(false);
@@ -51,7 +50,6 @@ const Login = () => {
       console.error("Error al enviar la solicitud de inicio de sesión", error);
     }
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -85,6 +83,31 @@ const Login = () => {
     }
   };
 
+  const handlePasswordReset = async (email: string) => {
+    //e.preventDefault(); // Prevent the default form submission
+    try {
+      const response = await fetch("/api/users/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "email": email
+        }),
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log("Email password reset send successfully");
+      } else {
+        // Handle errors
+        console.error("Email password reset send failed");
+      }
+    } catch (error) {
+      console.error("An error occurred while sending the Email password reset", error);
+    }
+  };
+
   if (attemps === 4) {
     //Logica para mandar email al usuario y desbloquear su cuenta.
     window.alert(
@@ -94,10 +117,12 @@ const Login = () => {
 
     handleBlock(formData.email)
 
-    //email_change_password(formData.email)
+    handlePasswordReset(formData.email)
+
+    //sendEmail_reset_password(formData.email)
+
     router.push("/");
   }
-
   return (
     <main className="h-[100vh]">
       <div className="h-full w-full relative flex justify-center items-center ">
@@ -143,8 +168,8 @@ const Login = () => {
               />
               {attemps === 3 ? (
                 <p className="text-center text-red-500 font-bold -mb-5 w-auto">
-                  You have already failed 3 times, for security reasons, if you
-                  fail again, we will block the account.
+                  You have failed 3 times already, for security reasons if you
+                  fail again, we will block your account.
                 </p>
               ) : (
                 ""
@@ -157,7 +182,7 @@ const Login = () => {
               </button>
             </form>
             <p className="text-center mt-3 text-sm w-auto">
-              <Link href="/password-change" className="text-primary">
+              <Link href="/reset-password" className="text-primary">
                 Forgot your password?
               </Link>
             </p>

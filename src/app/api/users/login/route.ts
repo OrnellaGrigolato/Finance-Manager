@@ -32,15 +32,18 @@ export async function POST(request: Request, response: Response){
         //* confirmamos si el usuario que estamos buscando, en su propiedad password.decoficada coincide con la enviada
              
           const token = sign({id: userFind.id},`${process.env.AUTH_SECRET}`, { expiresIn: "1h"});
+          console.log(token)
           cookies().set("token", token);
         //* lo retornamos
-          return NextResponse.json(
-            {token},
-            {
-                status: 200,
-            }
-
-          )
+        return NextResponse.json(
+          {
+            message: 'Login successful',
+            token: token
+          },
+          {
+            status: 200,
+          }
+        )
     } catch (err) {
       const error = err as {message: string}
         return NextResponse.json({ 
