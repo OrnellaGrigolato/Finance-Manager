@@ -26,22 +26,27 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-        
+
       });
       console.log(response)
       if (response.ok) {
-        const data = await response.json();
         console.log('Response is okay, redirecting to dashboard');
         router.push('/dashboard');
       } else {
         console.log('Response is not okay, status code:', response.status);
         const errorData = await response.json();
-        alert(errorData.message);
+        if (errorData.message === 'User is blocked') {
+          alert('The account is blocked, please reset your password');
+        } else {
+          alert(errorData.message);
+          setAttemps(0);
+        }
         console.error(errorData.message);
         setLoading(false);
         setAttemps((prev) => prev + 1);
+
       }
-      
+
     } catch (error) {
       console.error("Error al enviar la solicitud de inicio de sesión", error);
     }
@@ -55,12 +60,41 @@ const Login = () => {
     }));
   };
 
+  const handleBlock = async (email: string) => {
+    //e.preventDefault(); // Prevent the default form submission
+    try {
+      const response = await fetch("/api/users/block", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "email": email
+        }),
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log("Email blocked successfully");
+      } else {
+        // Handle errors
+        console.error("Email block failed");
+      }
+    } catch (error) {
+      console.error("An error occurred while sending the email block", error);
+    }
+  };
+
   if (attemps === 4) {
     //Logica para mandar email al usuario y desbloquear su cuenta.
     window.alert(
       "Your account has been blocked, we will send you an email so you can recover it."
     );
     setAttemps(0);
+
+    handleBlock(formData.email)
+
+    //email_change_password(formData.email)
     router.push("/");
   }
 
@@ -72,61 +106,68 @@ const Login = () => {
           src="/login-bg.jpg"
           priority={true}
           alt=""
-          className="w-full h-full absolute top-0 left-0 -z-10 max-sm:object-cover max-sm:object-left-top"
+          className="brightness-[0.8] w-full h-full absolute top-0 left-0 -z-10 max-sm:object-cover max-sm:object-left-top"
         />
-        <div className="w-3/12 bg-white px-20 py-14 bg-opacity-70 rounded-[20px] max-sm:w-11/12 max-sm:bg-opacity-80">
-          <h1 className="text-3xl font-bold">Welcome Back!</h1>
-          <p className="mt-2 mb-6 text-sm">
-            Please login to access your account
-          </p>
-          <form onSubmit={handleSubmit}>
-            <label className="block mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="example@gmail.com"
-            />
-            <label className="block mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Password"
-            />
-            {attemps === 3 ? (
-              <p className="text-red-500 font-bold -mb-5">
-                You have already failed 3 times, for security reasons, if you
-                fail again, we will block the account.
-              </p>
-            ) : (
-              ""
-            )}
-            <button
-              type="submit"
-              className="px-7 py-3 text-base mt-8 bg-black text-white rounded-[40px] block w-full"
-            >
-              {loading ? "Loading..." : "Log In"}
-            </button>
-          </form>
-          <p className="mt-3 text-sm">
-            Don't have an account?{" "}
-            <Link href="/sign-up" className="text-primary">
-              Sign up
-            </Link>
-          </p>
+        <div className="bg-white p-[32px] bg-opacity-70 rounded-[20px]">
+          <div className="w-[337px] max-sm:w-auto min-w-[257px] max-xs:min-w-0">
+            <h1 className="text-3xl font-bold text-center w-auto">Welcome Back!</h1>
+            <p className="text-center mt-2 mb-6 text-sm w-auto">
+              Please login to access your account
+            </p>
+            <form className=" mx-auto" onSubmit={handleSubmit}>
+              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="email">
+                Email
+              </label>
+              <input
+                className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="example@gmail.com"
+              />
+              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="password">
+                Password
+              </label>
+              <input
+                className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                id="password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                placeholder="Password"
+              />
+              {attemps === 3 ? (
+                <p className="text-center text-red-500 font-bold -mb-5 w-auto">
+                  You have already failed 3 times, for security reasons, if you
+                  fail again, we will block the account.
+                </p>
+              ) : (
+                ""
+              )}
+              <button
+                type="submit"
+                className="px-7 py-3 text-base mt-[58px] bg-black text-white rounded-[40px] block w-full "
+              >
+                {loading ? "Loading..." : "Log In"}
+              </button>
+            </form>
+            <p className="text-center mt-3 text-sm w-auto">
+              <Link href="/password-change" className="text-primary">
+                Forgot your password?
+              </Link>
+            </p>
+            <p className="text-center mt-3 text-sm w-auto">
+              Don't have an account?{" "}
+              <Link href="/sign-up" className="text-primary">
+                Sign up
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </main>

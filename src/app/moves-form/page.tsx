@@ -44,14 +44,14 @@ const MovesForm = () => {
         .catch((error) => {
           console.log(error);
         });
-      fetch("http://localhost:3000/api/currency")
+      fetch("/api/currency")
         .then((response) => response.json())
         .then((data) => {
           setCurr(data.result);
         })
         .catch((error) => console.error(error));
     } else {
-      fetch("http://localhost:3000/api/currency")
+      fetch("/api/currency")
         .then((response) => response.json())
         .then((data) => {
           setCurr(data.result);
