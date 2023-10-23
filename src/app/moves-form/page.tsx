@@ -1,7 +1,7 @@
 "use client";
 
 import { useApiData } from "@/app/providers/Providers";
-import { ApiResponse } from "@/app/types/type";
+import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState, useEffect } from "react";
 
@@ -28,6 +28,9 @@ const MovesForm = () => {
     user_id: userInfo.finder.id, // Aca va el id del usuario logeado
     currency_id: "", // Aca va el id del currency seleccionado
   });
+  const [userCurrencies, setUserCurrencies] = useState<number[]>([]);
+  const [moves, setMoves] = useState<Movement[]>([]);
+  const [currNames, setCurrNames] = useState<string[]>([]);
 
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
   useEffect(() => {
@@ -57,9 +60,48 @@ const MovesForm = () => {
           setCurr(data.result);
         })
         .catch((error) => console.error(error));
+      getMoves();
     }
   }, []);
 
+  const getMoves = () => {
+    fetch(`/api/moves/user/${userInfo.finder.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMoves(data.finder);
+      })
+
+      .catch((error) => {
+        console.error("Error en la solicitud Fetch:", error);
+      });
+  };
+
+  const getUserCurrencies = () => {
+    let currenciesIds: number[] = [];
+
+    moves.map((e) => {
+      if (!currenciesIds.includes(e.currency_id)) {
+        currenciesIds.push(e.currency_id);
+      }
+    });
+    setUserCurrencies(currenciesIds);
+
+    currenciesIds.map(async (e) => {
+      try {
+        const response = await fetch(`/api/currency/${e}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          setCurrNames((prev) => [...prev, data.result.name]);
+        }
+      } catch (error) {
+        console.error("Error al crear el movimiento:", error);
+      }
+    });
+  };
+  useEffect(() => {
+    getUserCurrencies();
+  }, [moves]);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (action === "deposit" && curr) {
@@ -219,9 +261,9 @@ const MovesForm = () => {
                     {e}
                   </option>
                 ))
-              : curr?.map((e) => (
-                  <option key={e.id_currency} value={e.id_currency}>
-                    {e.name}
+              : currNames?.slice(0, currNames.length / 2).map((e, k) => (
+                  <option key={k} value={e}>
+                    {e}
                   </option>
                 ))}
           </select>
