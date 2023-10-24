@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import MovementCard from "./MovementCard";
 import { Movement } from "../types/type";
@@ -9,9 +9,8 @@ export const Movements = (props: { user_id: number }) => {
   const [totalMovesByUser, setTotalMovesByUser] = useState(0);
   const [page, setPage] = useState(1);
   const [wasApiCalled, setWasApiCalled] = useState(false);
-  const [maxPage, setMaxPage] = useState<Number>();
 
-  async function apiFecth() {
+  const apiFecth = useCallback(async () => {
     const id = props.user_id.toString();
 
     try {
@@ -27,12 +26,12 @@ export const Movements = (props: { user_id: number }) => {
     } catch (error) {
       console.error("Error en la solicitud Fetch:", error);
     }
-  }
+  }, []);
 
   useEffect(() => {
     setMoves([]);
     apiFecth();
-  }, [page]);
+  }, [page, apiFecth]);
 
   return moves?.length > 0 ? (
     <div>
@@ -77,7 +76,7 @@ export const Movements = (props: { user_id: number }) => {
       </ul>
     </div>
   ) : wasApiCalled && moves?.length === 0 ? (
-    <div>You haven't registered any movement yet</div>
+    <div>You haven&apos;t registered any movement yet</div>
   ) : (
     <div className="loading my-10 mx-auto"></div>
   );

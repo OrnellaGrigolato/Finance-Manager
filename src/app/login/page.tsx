@@ -1,11 +1,9 @@
 "use client";
 
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { sendEmail_reset_password } from "@/app/api/emailSender";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -25,27 +23,23 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-
       });
-      console.log(response)
+      console.log(response);
       if (response.ok) {
-        console.log('Response is okay, redirecting to dashboard');
-        router.push('/dashboard');
+        console.log("Response is okay, redirecting to dashboard");
+        router.push("/dashboard");
       } else {
-        console.log('Response is not okay, status code:', response.status);
+        console.log("Response is not okay, status code:", response.status);
         const errorData = await response.json();
-        if (errorData.message === 'User is blocked') {
-          alert('The account is blocked, please reset your password');
+        if (errorData.message === "User is blocked") {
+          alert("The account is blocked, please reset your password");
         } else {
           alert(errorData.message);
-          
         }
         console.error(errorData.message);
         setLoading(false);
         setAttemps((prev) => prev + 1);
-
       }
-
     } catch (error) {
       console.error("Error al enviar la solicitud de inicio de sesión", error);
     }
@@ -67,7 +61,7 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "email": email
+          email: email,
         }),
       });
 
@@ -92,7 +86,7 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "email": email
+          email: email,
         }),
       });
 
@@ -104,7 +98,10 @@ const Login = () => {
         console.error("Email password reset send failed");
       }
     } catch (error) {
-      console.error("An error occurred while sending the Email password reset", error);
+      console.error(
+        "An error occurred while sending the Email password reset",
+        error
+      );
     }
   };
 
@@ -115,9 +112,9 @@ const Login = () => {
     );
     setAttemps(0);
 
-    handleBlock(formData.email)
+    handleBlock(formData.email);
 
-    handlePasswordReset(formData.email)
+    handlePasswordReset(formData.email);
 
     //sendEmail_reset_password(formData.email)
 
@@ -135,12 +132,17 @@ const Login = () => {
         />
         <div className="bg-white p-[32px] bg-opacity-70 rounded-[20px]">
           <div className="w-[337px] max-sm:w-auto min-w-[257px] max-xs:min-w-0">
-            <h1 className="text-3xl font-bold text-center w-auto">Welcome Back!</h1>
+            <h1 className="text-3xl font-bold text-center w-auto">
+              Welcome Back!
+            </h1>
             <p className="text-center mt-2 mb-6 text-sm w-auto">
               Please login to access your account
             </p>
             <form className=" mx-auto" onSubmit={handleSubmit}>
-              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="email">
+              <label
+                className="pb-[8px] text-gray-700 font-bold"
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -153,7 +155,10 @@ const Login = () => {
                 required
                 placeholder="example@gmail.com"
               />
-              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="password">
+              <label
+                className="pb-[8px] text-gray-700 font-bold"
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -187,7 +192,7 @@ const Login = () => {
               </Link>
             </p>
             <p className="text-center mt-3 text-sm w-auto">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/sign-up" className="text-primary">
                 Sign up
               </Link>

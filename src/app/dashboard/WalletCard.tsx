@@ -1,12 +1,10 @@
 const WalletCard = (props: {
   currencyName: string;
   currencySymbol: string;
-  country?: string;
   balance: string;
 }) => {
   return (
     <div className="p-5 rounded-[15px] bg-card-bg shadow-blackShadow w-1/2">
-      <img src="" alt="" />
       <div>
         <b>{props.currencySymbol}</b>
         <p className="text-xs">{props.currencyName}</p>

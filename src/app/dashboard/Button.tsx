@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Button(props: { text: string; img: string; style: string }) {
   return (
     <div
@@ -6,7 +8,7 @@ function Button(props: { text: string; img: string; style: string }) {
         props.style
       }
     >
-      <img src={props.img} alt="" />
+      <Image src={props.img} alt="" width={22} height={22} />
       <p>{props.text}</p>
     </div>
   );

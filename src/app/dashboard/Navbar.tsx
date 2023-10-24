@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 const Navbar = () => {
   return (
     <nav className="fixed bottom-[-4px] h-16 bg-[#ffffff] w-full rounded-[10px] lg:bottom-0 lg:left-0 lg:h-[100vh] lg:w-[10vw] shadow-blackShadow">
@@ -14,22 +14,22 @@ const Navbar = () => {
           className="lg:flex lg:gap-2 lg:justify-center lg:mt-10"
         >
           <p className="hidden font-bold text-[#444444] lg:block">Dashboard</p>
-          <img className="w-[2.2rem]" src="./home-icon.png" alt="" />
+          <Image width={35} height={30} src="/home-icon.png" alt="" />
         </Link>
         <Link href="/wallet" className="lg:flex lg:gap-2 lg:justify-center">
           <p className="hidden font-bold text-[#444444] lg:block">Wallet</p>
-          <img className="w-[2.2rem]" src="./stocks-icon.png" alt="" />
+          <Image width={35} height={30} src="/stocks-icon.png" alt="" />
         </Link>
         <Link
           href="/transaction"
           className="lg:flex lg:gap-2 lg:justify-center"
         >
           <p className="hidden font-bold text-[#444444] lg:block">Exchange</p>
-          <img className="w-[2.2rem]" src="./money-transfer-icon.png" alt="" />
+          <Image width={35} height={30} src="/money-transfer-icon.png" alt="" />
         </Link>
         <Link href="/profile" className="lg:flex lg:gap-2 lg:justify-center">
           <p className="hidden font-bold text-[#444444] lg:block">Profile</p>
-          <img className="w-[2.2rem]" src="./user-icon.png" alt="" />
+          <Image width={35} height={30} src="/user-icon.png" alt="" />
         </Link>
       </div>
     </nav>
