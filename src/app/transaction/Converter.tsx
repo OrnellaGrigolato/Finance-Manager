@@ -21,7 +21,7 @@ function CurrencyConverter() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [apiKey]);
 
   useEffect(() => {
     fetch(
@@ -34,7 +34,7 @@ function CurrencyConverter() {
       .catch((error) => {
         console.log(error);
       });
-  }, [baseCurrency, targetCurrency]);
+  }, [baseCurrency, targetCurrency, apiKey]);
 
   const handleIputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(Number(e.target.value));
@@ -81,11 +81,13 @@ function CurrencyConverter() {
                 </option>
               ))}
             </select>
-            <img
+            <Image
               src={`https://flagsapi.com/${getFlagByKey(
                 baseCurrency
               )}/flat/64.png`}
               alt="countryFlag"
+              width={70}
+              height={50}
             />
           </div>
           <div>
@@ -111,11 +113,13 @@ function CurrencyConverter() {
                 </option>
               ))}
             </select>
-            <img
+            <Image
               src={`https://flagsapi.com/${getFlagByKey(
                 targetCurrency
               )}/flat/64.png`}
               alt="countryFlag"
+              width={70}
+              height={50}
             />
           </div>
         </div>
