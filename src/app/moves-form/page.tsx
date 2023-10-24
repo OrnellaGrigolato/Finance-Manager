@@ -3,7 +3,7 @@
 import { useApiData } from "@/app/providers/Providers";
 import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState, useEffect, useCallback } from "react";
 
 const MovesForm = () => {
   const router = useRouter();
@@ -37,6 +37,18 @@ const MovesForm = () => {
     setUserInfo(apiData);
   }, [apiData]);
 
+  const getMoves = useCallback(() => {
+    fetch(`/api/moves/user/${userInfo.finder.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMoves(data.finder);
+      })
+
+      .catch((error) => {
+        console.error("Error en la solicitud Fetch:", error);
+      });
+  }, [userInfo.finder.id]);
+
   useEffect(() => {
     if (action === "deposit") {
       fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`)
@@ -62,21 +74,9 @@ const MovesForm = () => {
         .catch((error) => console.error(error));
       getMoves();
     }
-  }, []);
+  }, [action, apiKey, getMoves]);
 
-  const getMoves = () => {
-    fetch(`/api/moves/user/${userInfo.finder.id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMoves(data.finder);
-      })
-
-      .catch((error) => {
-        console.error("Error en la solicitud Fetch:", error);
-      });
-  };
-
-  const getUserCurrencies = () => {
+  const getUserCurrencies = useCallback(() => {
     let currenciesIds: number[] = [];
 
     moves.map((e) => {
@@ -98,10 +98,10 @@ const MovesForm = () => {
         console.error("Error al crear el movimiento:", error);
       }
     });
-  };
+  }, []);
   useEffect(() => {
     getUserCurrencies();
-  }, [moves]);
+  }, [moves, getUserCurrencies]);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (action === "deposit" && curr) {

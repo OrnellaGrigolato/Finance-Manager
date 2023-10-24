@@ -22,7 +22,7 @@ const Wallet = (props: { userId: number }) => {
       .catch((error) => {
         console.error("Error en la solicitud Fetch:", error);
       });
-  }, []);
+  }, [props.userId]);
 
   const getUserCurrencies = useCallback(() => {
     let currenciesIds: number[] = [];
@@ -33,7 +33,7 @@ const Wallet = (props: { userId: number }) => {
       }
     });
     setCurr(currenciesIds);
-  }, []);
+  }, [moves]);
 
   const getBalancePerCurrency = useCallback(() => {
     curr.forEach(async (currId: number) => {
@@ -70,7 +70,7 @@ const Wallet = (props: { userId: number }) => {
         }));
       }
     });
-  }, []);
+  }, [curr, moves]);
 
   useEffect(() => {
     getUserCurrencies();

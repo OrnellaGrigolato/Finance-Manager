@@ -26,7 +26,7 @@ export const Movements = (props: { user_id: number }) => {
     } catch (error) {
       console.error("Error en la solicitud Fetch:", error);
     }
-  }, []);
+  }, [page, props.user_id]);
 
   useEffect(() => {
     setMoves([]);

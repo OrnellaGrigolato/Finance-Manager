@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 const CallToAction = () => {
   return (
     <section className="py-20">
