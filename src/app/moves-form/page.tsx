@@ -151,15 +151,22 @@ const MovesForm = () => {
       }
     } else {
       try {
+        const response1 = await fetch(
+          `/api/currency/name/${formData.currency_id}`
+        );
+        const data1 = await response1.json();
+
+        const updatedFormData = {
+          ...formData,
+          currency_id: data1.result.id_currency,
+        };
+
         const response = await fetch("/api/moves", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...formData,
-            currency_id: Number(formData.currency_id),
-          }),
+          body: JSON.stringify(updatedFormData),
         });
 
         if (response.ok) {

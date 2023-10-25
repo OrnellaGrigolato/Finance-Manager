@@ -43,10 +43,11 @@ const Wallet = (props: { userId: number }) => {
       });
       const values: number[] = [];
       OneCurrencyTypeMoves.map((e) => {
-        e.income_amount
+        e.income_amount != "0"
           ? values.push(parseInt(e.income_amount))
-          : values.push(-Math.abs(parseInt(e.discount_amount)));
+          : values.push(-parseInt(e.discount_amount));
       });
+
       let currName: string;
       try {
         const response = await fetch(`/api/currency/${currId}`);
