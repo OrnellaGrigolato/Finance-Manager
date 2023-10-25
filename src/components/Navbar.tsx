@@ -1,35 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Cookies from "js-cookie";
 import { ResponsiveMenu } from "./ResponsiveMenu";
 import Image from "next/image";
-import { JwtPayload, decode } from "jsonwebtoken";
+import { useApiData } from "@/app/providers/Providers";
 
 const Navbar = () => {
- 
-  const userToken = Cookies.get("token") || '';
-  let decodedToken: JwtPayload | null = null;
-
-  if (userToken) {
-    try {
-      decodedToken = decode(userToken) as JwtPayload;
-    } catch (err) {
-      console.log("Error decoding token: ", err);
-    }
-  }
-
-  const currentTime = Date.now().valueOf() / 1000;
-
-  if (decodedToken && decodedToken.exp < currentTime) {
-    console.log("Token is expired, removing it...");
-    Cookies.set("token", '');
-  } else if (decodedToken) {
-    console.log("Token is valid");
-  } else {
-    console.log("Token is not present, login or register");
-  }
-
+  const user = useApiData();
   return (
     <nav className=" h-50 mt-8">
       <div className="w-10/12 flex mx-auto justify-between items-center">
@@ -38,7 +15,7 @@ const Navbar = () => {
             <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
           </Link>
         </div>
-        {userToken && userToken !== undefined ? (
+        {user ? (
           <ul className="flex  gap-10 items-center max-sm:hidden">
             <li>
               <Link href="/">Home</Link>
@@ -91,7 +68,7 @@ const Navbar = () => {
         )}
         <div className="hidden max-sm:flex max-sm:gap-6 items-center ">
           {" "}
-          {userToken ? (
+          {user ? (
             <Image
               src={"/user-profile.png"}
               alt="user icon"
@@ -102,7 +79,7 @@ const Navbar = () => {
           ) : (
             ""
           )}
-          <ResponsiveMenu logged={userToken ? true : false} />
+          <ResponsiveMenu logged={user ? true : false} />
         </div>
       </div>
     </nav>
