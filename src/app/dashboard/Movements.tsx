@@ -37,7 +37,9 @@ export const Movements = (props: { user_id: number }) => {
   return moves?.length > 0 ? (
     <div>
       {moves.map((e, k) => {
-        return <MovementCard props={e} key={k} />;
+        return e.title === "Convert" ? null : (
+          <MovementCard props={e} key={k} />
+        );
       })}
       <ul className="flex justify-end gap-5 mt-8">
         <li>
