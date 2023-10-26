@@ -83,7 +83,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h4 className="font-bold text-xl ">Your Wallet</h4>
           <Link href="/wallet" className="text-primary">
-            See all
+            See Details
           </Link>
         </div>
 
