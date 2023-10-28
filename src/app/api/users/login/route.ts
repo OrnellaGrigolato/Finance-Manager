@@ -10,6 +10,14 @@ export async function POST(request: Request, response: Response){
 
         const userFind = await prisma.users.findUnique({where: {email: email}})
 
+        if (userFind.isBlocked) {
+          return NextResponse.json({
+              message: 'User is blocked'
+          }, {
+              status: 403, // Forbidden
+          });
+        }
+
         const comparator = await(bcrypt.compare(password, userFind.password))  
  
         if (!userFind || !comparator) {
@@ -23,16 +31,19 @@ export async function POST(request: Request, response: Response){
 
         //* confirmamos si el usuario que estamos buscando, en su propiedad password.decoficada coincide con la enviada
              
-          const token = sign({user_id: userFind.id},`${process.env.AUTH_SECRET}`, { expiresIn: "1h"});
+          const token = sign({id: userFind.id},`${process.env.AUTH_SECRET}`, { expiresIn: "1h"});
+          console.log(token)
           cookies().set("token", token);
         //* lo retornamos
-          return NextResponse.json(
-            {token},
-            {
-                status: 200,
-            }
-
-          )
+        return NextResponse.json(
+          {
+            message: 'Login successful',
+            token: token
+          },
+          {
+            status: 200,
+          }
+        )
     } catch (err) {
       const error = err as {message: string}
         return NextResponse.json({ 

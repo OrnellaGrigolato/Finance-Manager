@@ -1,28 +1,36 @@
 "use client";
 
-import next from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import Cookies from "js-cookie"
-import { Menu_landing } from "./Menu_landing";
-import { useRouter } from "next/router"
+import Cookies from "js-cookie";
+import { ResponsiveMenu } from "./ResponsiveMenu";
+import Image from "next/image";
+import { JwtPayload, decode } from "jsonwebtoken";
+
 const Navbar = () => {
+ 
+  const userToken = Cookies.get("token") || '';
+  let decodedToken: JwtPayload | null = null;
 
-  /* const handleClick = () => {
-    const router = useRouter();
-    router.push("/login")
-  } */
+  if (userToken) {
+    try {
+      decodedToken = decode(userToken) as JwtPayload;
+    } catch (err) {
+      console.log("Error decoding token: ", err);
+    }
+  }
 
-  const { data: session,status } = useSession()
-  const userToken = Cookies.get("token");
-  
-  /* function handleLogOut(){
-    Cookies.remove("token");
-    console.log(Cookies.get("token"));
-  } */
+  const currentTime = Date.now().valueOf() / 1000;
+
+  if (decodedToken && decodedToken.exp < currentTime) {
+    console.log("Token is expired, removing it...");
+    Cookies.set("token", '');
+  } else if (decodedToken) {
+    console.log("Token is valid");
+  } else {
+    console.log("Token is not present, login or register");
+  }
 
   return (
-    
     <nav className=" h-50 mt-8">
       <div className="w-10/12 flex mx-auto justify-between items-center">
         <div className="flex font-[Narrow] font-bold cursor-pointer">
@@ -30,15 +38,13 @@ const Navbar = () => {
             <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
           </Link>
         </div>
-        {userToken && userToken !== undefined ?
-
-        (
-          <ul className="flex  gap-10 items-center ">
+        {userToken && userToken !== undefined ? (
+          <ul className="flex  gap-10 items-center max-sm:hidden">
             <li>
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/app">App</Link>
+              <Link href="/dashboard">App</Link>
             </li>
             <li>
               <Link href="/about">About</Link>
@@ -47,63 +53,60 @@ const Navbar = () => {
               <Link href="/contact">Contact</Link>
             </li>
 
-            <img
-              src={
-                /* session?.user?.image
-                  ? session.user.image
-                  : */ "https://img.freepik.com/vector-gratis/ilustracion-icono-avatar-usuario_53876-5907.jpg?w=740&t=st=1696339921~exp=1696340521~hmac=fe51c494eaae6033f6b83f689a78e03af140c873e6b1b914c6575bf7094f1e8f"
-              }
+            <Image
+              src={"/user-profile.png"}
               alt="user icon"
-              width={30}
-              height={30}
+              width={50}
+              height={50}
               className="rounded"
             />
-            {/* <button
-              className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4"
-              onClick={() => handleLogOut()}
-            >
-              Log Out
-            </button> */}
             <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
-            {" "}
-            <Link href="/logOut">LogOut</Link>
-          </li>
+              {" "}
+              <Link href="/logOut">LogOut</Link>
+            </li>
           </ul>
         ) : (
           <ul className="flex  gap-10 items-center  max-sm:hidden">
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/app">App</Link>
-          </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
-          <li>
-            <Link href="/contact">Contact</Link>
-          </li>
-          {/* <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
-            <button onClick={() => signIn()}>Sign In</button>
-          </li> */}
-          <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
-            {" "}
-            <Link href="/login">Login</Link>
-          </li>
-          <li className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4">
-            {" "}
-            <Link href="/sing-up">Get Started</Link>
-          </li>
-        </ul>
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/dashboard">App</Link>
+            </li>
+            <li>
+              <Link href="/about">About</Link>
+            </li>
+            <li>
+              <Link href="/contact">Contact</Link>
+            </li>
+            <li className="px-5 py-2 border rounded-[40px] w-26 border-black">
+              {" "}
+              <Link href="/login">Login</Link>
+            </li>
+            <li className="px-5 py-2 border border-black rounded-[40px] w-26 bg-black text-white -ml-4">
+              {" "}
+              <Link href="/sign-up">Get Started</Link>
+            </li>
+          </ul>
         )}
-        <div className="hidden max-sm:block">
+        <div className="hidden max-sm:flex max-sm:gap-6 items-center ">
           {" "}
-          <Menu_landing />
+          {userToken ? (
+            <Image
+              src={"/user-profile.png"}
+              alt="user icon"
+              width={50}
+              height={50}
+              className="rounded"
+            />
+          ) : (
+            ""
+          )}
+          <ResponsiveMenu logged={userToken ? true : false} />
         </div>
       </div>
     </nav>
   );
-
 };
 
 export default Navbar;

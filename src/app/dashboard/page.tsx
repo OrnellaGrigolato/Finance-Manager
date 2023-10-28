@@ -2,17 +2,18 @@
 import Navbar from "./Navbar";
 import Button from "./Button";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
-import WalletCard from "./WalletCard";
-import MovementCard from "./MovementCard";
+import { useEffect, useState } from "react";
+
 import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
 import { Movements } from "./Movements";
 import Loading from "./loading";
+import Wallet from "./Wallet";
 
 const Dashboard = () => {
   const apiData = useApiData();
+
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
   useEffect(() => {
@@ -36,10 +37,14 @@ const Dashboard = () => {
               {userInfo ? (
                 <b className="text-5xl">
                   {isBalanceShowed
-                    ? `$ ${userInfo?.finder?.available_money}`
+                    ? `$ ${Math.round(
+                        parseInt(userInfo?.finder?.available_money)
+                      )}`
                     : `$ ${"*".repeat(
                         userInfo?.finder?.available_money
-                          ? userInfo?.finder?.available_money.length
+                          ? Math.round(
+                              parseInt(userInfo?.finder?.available_money)
+                            ).toString().length
                           : 0
                       )}`}
                 </b>
@@ -66,7 +71,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <div className="flex gap-6 -mt-6 mx-auto w-10/12 lg:w-[76.2%] lg:mx-auto">
+      <div className="flex gap-6 -mt-6 mx-auto w-fit lg:w-10/12 lg:mx-auto ">
         <Link href="/moves-form?action=deposit">
           <Button text="Deposit" img="../deposit.svg" style="" />
         </Link>
@@ -78,38 +83,20 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h4 className="font-bold text-xl ">Your Wallet</h4>
           <Link href="/wallet" className="text-primary">
-            See all
+            See Details
           </Link>
         </div>
-        <div className="flex gap-4 mt-5">
-          <WalletCard
-            balance="33444"
-            currencyName="Pesos Argentinos"
-            currencySymbol="ARS"
-            country="Argentina"
-          />
-          <WalletCard
-            balance="33444"
-            currencyName="Pesos Argentinos"
-            currencySymbol="ARS"
-            country="Argentina"
-          />
-        </div>
+
+        <Wallet userId={userInfo.finder.id} />
       </div>
       <div className="w-10/12 mx-auto mt-10">
         <div className="flex justify-between items-center">
           <h4 className="font-bold text-xl ">Last Movements</h4>
-          <Link href="/transaction" className="text-primary">
-            See all
-          </Link>
         </div>
-        <Suspense fallback={<Loading isDashboard={false} />}>
-          {
-            <div className="flex flex-col gap-4 mt-5 pb-28">
-              <Movements user_id={userInfo.finder.id} />
-            </div>
-          }
-        </Suspense>
+
+        <div className="flex flex-col gap-4 mt-5 pb-28">
+          <Movements user_id={userInfo.finder.id} />
+        </div>
       </div>
     </div>
   ) : (

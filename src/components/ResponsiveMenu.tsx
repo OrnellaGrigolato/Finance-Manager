@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { signIn } from "next-auth/react";
 
-export const Menu_landing = () => {
+export const ResponsiveMenu = (props: { logged: boolean }) => {
   return (
     <div className=" text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -38,7 +38,7 @@ export const Menu_landing = () => {
             </div>
             <div className="p-3">
               <Menu.Item>
-                <Link href="/app" className="p-2">
+                <Link href="/dashboard" className="p-2">
                   App
                 </Link>
               </Menu.Item>
@@ -57,20 +57,33 @@ export const Menu_landing = () => {
                 </Link>
               </Menu.Item>
             </div>
-            <div className="p-3 ">
-              <Menu.Item>
-                <Link href="" className="p-2 " onClick={() => signIn()}>
-                  Sign In
-                </Link>
-              </Menu.Item>
-            </div>
-            <div className="p-3">
-              <Menu.Item>
-                <Link href="/sing-up" className="p-2 ">
-                  Get Started
-                </Link>
-              </Menu.Item>
-            </div>
+            {props.logged ? (
+              <div className="p-3 ">
+                <Menu.Item>
+                  <Link href="/logOut" className="p-2">
+                    LogOut
+                  </Link>
+                </Menu.Item>
+              </div>
+            ) : (
+              <div>
+                {" "}
+                <div className="p-3 ">
+                  <Menu.Item>
+                    <Link href="/login" className="p-2 ">
+                      Sign In
+                    </Link>
+                  </Menu.Item>
+                </div>
+                <div className="p-3">
+                  <Menu.Item>
+                    <Link href="/sign-up" className="p-2 ">
+                      Get Started
+                    </Link>
+                  </Menu.Item>
+                </div>
+              </div>
+            )}
           </Menu.Items>
         </Transition>
       </Menu>

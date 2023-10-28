@@ -1,8 +1,25 @@
+import { useEffect, useState } from "react";
 import { Movement } from "../types/type";
+import "./loaderStyles.css";
 
 const MovementCard = (props: { props: Movement }) => {
   const moveInfo = props.props;
-  return (
+  const [currency, setCurrency] = useState<{
+    id_curerency: number;
+    name: string;
+  }>();
+  useEffect(() => {
+    fetch(`api/currency/${moveInfo.currency_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrency(data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return currency ? (
     <div className="p-4 border border-black  shadow-blackShadow mb-4">
       <div className="flex justify-between">
         <div>
@@ -20,6 +37,7 @@ const MovementCard = (props: { props: Movement }) => {
             {moveInfo.discount_amount != "0"
               ? "- " + moveInfo.discount_amount
               : "+ " + moveInfo.income_amount}
+            {" " + currency?.name}
           </p>
           <p className="text-xs">
             {moveInfo.movement_date
@@ -31,6 +49,8 @@ const MovementCard = (props: { props: Movement }) => {
         </div>
       </div>
     </div>
+  ) : (
+    <div className="movementsLoader my-5 mx-auto"></div>
   );
 };
 
