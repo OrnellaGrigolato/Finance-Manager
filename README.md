@@ -46,19 +46,14 @@ HU4 - Página Principal (Home): En la página principal, los usuarios pueden ver
 Agregados de Valor Implementados
 
     Se ha agregado un gráfico de torta que muestra el tipo de dinero por ubicación.
-    Los movimientos financieros se pueden conectar con aplicaciones como Mercado Pago, Lemon, Brubank, entre otros.
     Se ha establecido una conexión con una API para mostrar el valor actual del dólar y saber el valor dolarizado.
-    Se ha implementado un notificador de gastos que alerta al usuario cuando supera un cierto monto establecido.
-    Se ha agregado la funcionalidad de internacionalización para que los usuarios puedan elegir entre español e inglés como idioma.
-
+    
 Contribuir al Proyecto
 
-Si deseas contribuir al proyecto, eres bienvenido a hacerlo. Puedes abrir problemas (issues) o enviar solicitudes de extracción (pull requests) en el repositorio.
 Autores
 
-    Nombre del Autor 1
-    Nombre del Autor 2
+    nosotros jeje
 
 Licencia
 
-Este proyecto está licenciado bajo la Licencia MIT - Consulta el archivo LICENSE.md para obtener más detalles.
+MIT License
