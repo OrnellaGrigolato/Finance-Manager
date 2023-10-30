@@ -7,8 +7,7 @@ import Image from "next/image";
 import { JwtPayload, decode } from "jsonwebtoken";
 
 const Navbar = () => {
- 
-  const userToken = Cookies.get("token") || '';
+  const userToken = Cookies.get("token") || "";
   let decodedToken: JwtPayload | null = null;
 
   if (userToken) {
@@ -21,9 +20,11 @@ const Navbar = () => {
 
   const currentTime = Date.now().valueOf() / 1000;
 
-  if (decodedToken && decodedToken.exp < currentTime) {
-    console.log("Token is expired, removing it...");
-    Cookies.set("token", '');
+  if (decodedToken && decodedToken.exp) {
+    if (decodedToken.exp < currentTime) {
+      console.log("Token is expired, removing it...");
+      Cookies.set("token", "");
+    }
   } else if (decodedToken) {
     console.log("Token is valid");
   } else {
