@@ -1,10 +1,11 @@
 import Adventage from "./Adventage";
+import Image from "next/image";
 const ProsToUseSection = () => {
   return (
     <>
       <section className="bg-[#F9FAFB] ">
         <div className="w-10/12 mx-auto flex gap-44 pt-44 max-sm:flex-col max-sm:pt-28 max-sm:gap-5">
-          <div>
+          <div className="w-10/12">
             <h2 className="font-extrabold text-4xl leading-[3rem]">
               Tools to help you measure your growth
             </h2>
@@ -24,40 +25,55 @@ const ProsToUseSection = () => {
               commodi!
             </p>
           </div>
-          <div className="grid grid-rows-2 grid-cols-3 gap-8 max-sm:grid-cols-0 max-sm:grid-rows-0 max-sm:gap-3 ">
-            <img
-              className="bg-[#F3F4F4] h-full shadow-blackShadow"
-              src="./no-image.svg"
+          <div className="grid grid-rows-2 grid-cols-5 items-center gap-8 max-sm:hidden ">
+            <Image
+              className=" shadow-blackShadow row-span-2 col-span-2 "
+              src="/transaction.png"
               alt=""
+              width={600}
+              height={1100}
             />
-            <img
-              className="col-span-2 shadow-blackShadow"
-              src="./no-image-h.png"
+            <Image
+              className="shadow-blackShadow col-span-3 "
+              src="/balance.png"
               alt=""
+              width={400}
+              height={400}
             />
-            <img
-              className="col-span-2 shadow-blackShadow"
-              src="./no-image-h.png"
+            <Image
+              className="shadow-blackShadow col-span-3 "
+              src="/maxExpenditure.png"
               alt=""
-            />
-            <img
-              className="bg-[#F3F4F4] h-full shadow-blackShadow"
-              src="./no-image.svg"
-              alt=""
+              width={400}
+              height={600}
             />
           </div>
         </div>
       </section>
-      <section className="bg-[#F9FAFB] pb-28">
+      <section className="bg-[#F9FAFB] pb-28 max-sm:pt-8">
         <div className="w-10/12 mx-auto flex gap-36 pt-44 max-sm:flex-col max-sm:gap-10 max-sm:pt-6">
-          <div className="grid grid-rows-2 grid-cols-2 gap-8 w-[75%] max-sm:grid-cols-0 max-sm:grid-rows-0 max-sm:gap-3 max-sm:w-full ">
-            <img
+          <div className="grid grid-rows-2 grid-cols-2 gap-x-8 gap-y-6 w-[75%] max-sm:grid-cols-1 max-sm:grid-rows-0 max-sm:gap-6 max-sm:justify-items-center max-sm:w-full ">
+            <Image
               className="bg-[#F3F4F4] h-full shadow-blackShadow row-span-2"
-              src="./no-image.svg"
+              src="/dashboard.png"
               alt=""
+              width={350}
+              height={5}
             />
-            <img className="shadow-blackShadow" src="./no-image.svg" alt="" />
-            <img className="shadow-blackShadow" src="./no-image.svg" alt="" />
+            <Image
+              className="shadow-blackShadow"
+              src="/graphic.jfif"
+              alt=""
+              width={400}
+              height={400}
+            />
+            <Image
+              className="shadow-blackShadow  max-sm:hidden"
+              src="/graphic2.png"
+              alt=""
+              width={400}
+              height={600}
+            />
           </div>
 
           <div>
