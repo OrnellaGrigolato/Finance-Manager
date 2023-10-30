@@ -5,15 +5,13 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import { sendEmail_profile } from "@/app/api/emailSender";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const url = req.url || "";
   const token = url.split("=")[1];
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
 
-  if (req.method === "GET") {
-    if (!token) {
-      return NextResponse.json({ message: "missing fields" }, { status: 400 });
-    }
+  if (!token) {
+    return NextResponse.json({ message: "missing fields" }, { status: 400 });
 
     let userId;
 
