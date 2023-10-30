@@ -7,16 +7,22 @@ import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
 import { useCookies } from "next-client-cookies";
 import Link from "next/link";
+import { Puff } from 'react-loading-icons';
+import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
+
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>(useApiData());
   const [maxExpsEditing, setMaxExpsEditing] = useState<boolean>(false);
   const [maxExpsValue, setMaxExpsValue] = useState<string>("");
   const [updating, setUpdating] = useState<boolean>(false);
+  const [emailsent, setEmailsent] = useState<boolean>(false)
+  const [loadingverify, setLoadingverify] = useState<boolean>(false);
+
 
   const cookies = useCookies();
 
   const token = cookies.get('token') || ''
- 
+
   //console.log("la data es: ", data)
 
 
@@ -47,6 +53,13 @@ const Profile = () => {
       .catch((error) => console.error(error));
   };
   const handleVerify = async (e: React.MouseEvent<HTMLElement>) => {
+
+    if (emailsent) {
+      e.preventDefault();
+      return;
+    }
+
+    setLoadingverify(true)
     e.preventDefault(); // Prevent the default form submission
     try {
       /* console.log('username:', userInfo?.finder?.username);
@@ -66,13 +79,17 @@ const Profile = () => {
       });
 
       if (response.ok) {
-        // Handle success
+
+        setEmailsent(true)
+        setLoadingverify(false)
+
         console.log("Email sent successfully");
       } else {
-        // Handle errors
+        setLoadingverify(false)
         console.error("Email sending failed");
       }
     } catch (error) {
+      setLoadingverify(false)
       console.error("An error occurred while sending the email", error);
     }
   };
@@ -172,21 +189,20 @@ const Profile = () => {
                   <label htmlFor="" className="block text-xs">
                     Is your account verified?{" "}
                     <b
-                      className="text-primary text-xs cursor-pointer"
+                      className={`text-primary text-xs  ${emailsent ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                       onClick={(e) => handleVerify(e)}
                     >
-                      {" "}
-                      {!userInfo.finder.emailVerified
-                        ? "Click here to verify"
-                        : ""}
+                      {loadingverify ? <TailSpin className="inline h-6" stroke="#595555" speed={.63} /> : (emailsent ? "Verification email sent! Check your email." : (userInfo?.finder?.emailVerified ? "" : "Click here to verify"))}
                     </b>
+
                   </label>
+
                   <div className="flex gap-2 items-center">
                     {userInfo?.finder?.emailVerified ? (
                       <p>Yes ✔️</p>
                     ) : (
 
-                     <p>No ❌</p>
+                      <p>No ❌</p>
 
                     )}
                   </div>

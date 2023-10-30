@@ -1,7 +1,8 @@
 import { prisma } from "@/libs/prisma";
+import axios from "axios";
 
 import { NextRequest, NextResponse } from "next/server";
-
+const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
 export async function GET(request: NextRequest) {
   try {
     const page = Number(request.nextUrl.searchParams.get("page"));
@@ -81,6 +82,12 @@ export async function POST(request: Request) {
       },
     });
 
+    const baseCurrency = await prisma.currency.findUnique({
+      where: {
+        id_currency: currency_id,
+      },
+    });
+
     if (existingUser) {
       if (
         (!title || !description || !user_id || !currency_id) &&
@@ -89,6 +96,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: "Mising Fields" }, { status: 400 });
       } else {
         //* Validamos que el dinero que va a descontar no sea mayor al que poseemos
+        const convertion = await axios.get(
+          `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${baseCurrency?.name}/ARS`
+        );
+        console.log(convertion);
+
         if (
           discount_amount &&
           (discount_amount != 0 || discount_amount != undefined) &&
@@ -121,13 +133,15 @@ export async function POST(request: Request) {
 
         const updatedAvailableMoney =
           Number(income_amount) !== 0 && income_amount !== undefined
-            ? Number(existingUser.available_money) + Number(income_amount)
-            : Number(existingUser.available_money) - Number(discount_amount);
+            ? Number(existingUser.available_money) +
+              Number(income_amount) * convertion.data.conversion_rate
+            : Number(existingUser.available_money) -
+              Number(discount_amount) * convertion.data.conversion_rate;
 
         const updatedLastMoveAmount =
           Number(income_amount) !== 0 && income_amount !== undefined
-            ? Number(income_amount)
-            : Number(discount_amount);
+            ? Number(income_amount * convertion.data.conversion_rate)
+            : Number(discount_amount * convertion.data.conversion_ratet);
 
         const updatedLastMoveDate = movement_date;
 
