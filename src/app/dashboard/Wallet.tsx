@@ -42,10 +42,11 @@ const Wallet = (props: { userId: number }) => {
       });
       const values: number[] = [];
       OneCurrencyTypeMoves.map((e) => {
-        e.income_amount
+        e.income_amount != "0"
           ? values.push(parseInt(e.income_amount))
-          : values.push(-Math.abs(parseInt(e.discount_amount)));
+          : values.push(-parseInt(e.discount_amount));
       });
+
       let currName: string;
       try {
         const response = await fetch(`/api/currency/${currId}`);
@@ -85,7 +86,7 @@ const Wallet = (props: { userId: number }) => {
   }, [getMoves]);
 
   return (
-    <div className="flex gap-4 mt-5">
+    <div className="flex gap-4 mt-5 flex-wrap">
       {moves.length != 0 ? (
         loading ? (
           <div className="loading my-5 mx-auto"></div>

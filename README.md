@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gestor de Finanzas Personales
 
-## Getting Started
+## Descripción del Proyecto
 
-First, run the development server:
+El Gestor de Finanzas Personales es una aplicación web que permite a los usuarios llevar un registro de sus ingresos y gastos, así como administrar su dinero de manera efectiva. La aplicación es accesible desde dispositivos móviles, tablets, notebooks y desktops.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Procedimiento de Inicialización del Proyecto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Clonar el Repositorio**: Clone el repositorio del proyecto desde [URL del Repositorio](https://github.com/OrnellaGrigolato/Finance-Manager) en su máquina local.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Instalar Dependencias**: Asegúrese de tener Node.js y npm instalados en su sistema. En el directorio raíz del proyecto, ejecute el siguiente comando para instalar las dependencias:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   npm install
 
-## Learn More
+**Configuración de Variables de Entorno:**
+Cree un archivo .env en la raíz del proyecto y configure las siguientes variables de entorno:
+bash
+    .env
+    ACA IRIAN LAS KEYS
 
-To learn more about Next.js, take a look at the following resources:
+**Base de Datos:** 
+Configure y migre la base de datos utilizando Prisma:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+bash
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+npx prisma migrate dev
 
-## Deploy on Vercel
+**Ejecución del Proyecto:** Inicie la aplicación con el siguiente comando:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+bash
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    npm run dev
+
+**Acceso a la Aplicación:** La aplicación estará disponible en http://localhost:3000. Abra su navegador y acceda a esta URL para utilizar el Gestor de Finanzas Personales.    
+
+### Historias de Usuario y Agregados de Valor Implementados
+#### Historias de Usuario
+
+**HU1 - Registro de Usuario:** Los usuarios pueden registrarse en la aplicación proporcionando un nombre de usuario, correo electrónico, contraseña y repetición de contraseña. Se valida que el correo electrónico sea válido y que la contraseña tenga al menos 8 caracteres, letras, números y un carácter especial. Se envía un correo de confirmación para activar la cuenta.
+
+**HU2 - Inicio de Sesión:** Los usuarios registrados pueden iniciar sesión ingresando su correo electrónico y contraseña. Después de 4 intentos fallidos, se muestra un mensaje de bloqueo y se envía un correo al usuario para recuperar la contraseña.
+
+**HU3 - Registrar Movimiento de Dinero:** Los usuarios pueden registrar movimientos financieros, ya sea ingresos o gastos. El formulario de registro incluye un monto con hasta dos decimales, título, descripción, moneda, ubicación y posibilidad de realizar un cambio de moneda.
+
+**HU4 - Página Principal (Home):** En la página principal, los usuarios pueden ver su balance total, nombre de usuario, botón para registrar un movimiento, botón para ocultar el balance y un listado paginado de los últimos movimientos ordenados por fecha.
+##### Agregados de Valor Implementados
+
+    Se ha agregado un gráfico de torta que muestra el tipo de dinero por ubicación.
+    Se ha establecido una conexión con una API para mostrar el valor actual del dólar y saber el valor dolarizado.
+
+Autores
+
+    Orne
+    Lea
+    Agus
+
+**Licencia**
+
+MIT License

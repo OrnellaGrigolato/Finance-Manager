@@ -37,10 +37,14 @@ const Dashboard = () => {
               {userInfo ? (
                 <b className="text-5xl">
                   {isBalanceShowed
-                    ? `$ ${userInfo?.finder?.available_money}`
+                    ? `$ ${Math.round(
+                        parseInt(userInfo?.finder?.available_money)
+                      )}`
                     : `$ ${"*".repeat(
                         userInfo?.finder?.available_money
-                          ? userInfo?.finder?.available_money.length
+                          ? Math.round(
+                              parseInt(userInfo?.finder?.available_money)
+                            ).toString().length
                           : 0
                       )}`}
                 </b>
@@ -85,7 +89,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h4 className="font-bold text-xl ">Your Wallet</h4>
           <Link href="/wallet" className="text-primary">
-            See all
+            See Details
           </Link>
         </div>
 

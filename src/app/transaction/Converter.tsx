@@ -1,6 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import Country_list from "./data/CountryList";
 import Image from "next/image";
+import { useApiData } from "../providers/Providers";
+import { useRouter } from "next/navigation";
+import { Movement } from "../types/type";
 
 function CurrencyConverter() {
   const [amount, setAmount] = useState<number>(0);
@@ -9,8 +12,14 @@ function CurrencyConverter() {
   const [conversionRate, setConversionRate] = useState(0);
   const [conversionResult, setConversionResult] = useState<number>(0);
   const [currencies, setCurrencies] = useState<string[]>([]);
-
+  const [isConverting, setIsConverting] = useState(false);
+  const [moves, setMoves] = useState<Movement[]>([]);
+  const [userCurrencies, setUserCurrencies] = useState<number[]>();
+  const [currNames, setCurrNames] = useState<string[]>([]);
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
+  const apiData = useApiData();
+
+  const router = useRouter();
 
   useEffect(() => {
     fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`)
@@ -36,18 +45,110 @@ function CurrencyConverter() {
       });
   }, [baseCurrency, targetCurrency, apiKey]);
 
+  const getMoves = () => {
+    fetch(`/api/moves/user/${apiData.finder.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMoves(data.finder);
+      })
+
+      .catch((error) => {
+        console.error("Error en la solicitud Fetch:", error);
+      });
+  };
+
+  const getUserCurrencies = () => {
+    let currenciesIds: number[] = [];
+
+    moves.map((e) => {
+      if (!currenciesIds.includes(e.currency_id)) {
+        currenciesIds.push(e.currency_id);
+      }
+    });
+    setUserCurrencies(currenciesIds);
+
+    currenciesIds.map(async (e) => {
+      try {
+        const response = await fetch(`/api/currency/${e}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          setCurrNames((prev) => [...prev, data.result.name]);
+        }
+      } catch (error) {
+        console.error("Error al crear el movimiento:", error);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getUserCurrencies();
+  }, [moves]);
   const handleIputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(Number(e.target.value));
   };
 
   const handleCurrencySwap = () => {
-    const temp = baseCurrency;
-    setBaseCurrency(targetCurrency);
-    setTargetCurrency(temp);
+    if (currNames.includes(targetCurrency)) {
+      const temp = baseCurrency;
+      setBaseCurrency(targetCurrency);
+      setTargetCurrency(temp);
 
-    // Recalculate the conversion result after swapping currencies
-    setConversionResult(conversionResult / conversionRate);
-    setConversionRate(1 / conversionRate);
+      // Recalculate the conversion result after swapping currencies
+      setConversionResult(conversionResult / conversionRate);
+      setConversionRate(1 / conversionRate);
+    } else {
+      alert(`You don't have ${targetCurrency} to exchange`);
+    }
+  };
+
+  const handleConvert = async () => {
+    try {
+      setIsConverting(true);
+      const response1 = await fetch(`/api/currency/name/${targetCurrency}`);
+      const data1 = await response1.json();
+
+      const response2 = await fetch("/api/moves", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "Convert",
+          isVisible: false,
+          description: "-",
+          income_amount: (amount * conversionRate).toFixed(2),
+          discount_amount: "0",
+          user_id: apiData.finder.id,
+          currency_id: data1.result.id_currency,
+        }),
+      });
+
+      const data2 = await response2.json();
+
+      const response3 = await fetch(`/api/currency/name/${baseCurrency}`);
+      const data3 = await response3.json();
+
+      const response4 = await fetch("/api/moves", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "Convert",
+          isVisible: false,
+          description: "-",
+          income_amount: "0",
+          discount_amount: amount,
+          user_id: apiData.finder.id,
+          currency_id: data3.result.id_currency,
+        }),
+      });
+      setIsConverting(false);
+      router.push("/dashboard");
+    } catch (e) {
+      console.error("Convertion had failed: " + e);
+    }
   };
 
   const getFlagByKey = (key: any) => {
@@ -75,7 +176,7 @@ function CurrencyConverter() {
               onChange={(e) => setBaseCurrency(e.target.value)}
               className="ml-2 bg-bg rounded-md p-1 mb-1"
             >
-              {currencies.map((currency) => (
+              {currNames?.slice(0, currNames.length / 2).map((currency) => (
                 <option key={currency} value={currency}>
                   {currency}
                 </option>
@@ -136,10 +237,10 @@ function CurrencyConverter() {
         </div>
       </div>
       <button
-        onClick={() => alert("Imaginate que tus monedas se cambiaron")}
+        onClick={() => handleConvert()}
         className="bg-gradient-to-b from-primary to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"
       >
-        Exchange
+        {isConverting ? "Exchanging..." : "Exchange"}
       </button>
     </div>
   );

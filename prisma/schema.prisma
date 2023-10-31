@@ -50,6 +50,6 @@ model Moves {
 
 model Currency {
   id_currency Int     @id @unique @default(autoincrement())
-  name        String  @unique @default("ARG") @db.VarChar(35)
+  name        String  @unique @default("ARS") @db.VarChar(35)
   moves       Moves[]
 }
