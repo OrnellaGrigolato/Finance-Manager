@@ -137,7 +137,7 @@ const Login = () => {
           <div className="w-[337px] max-sm:w-auto min-w-[257px] max-xs:min-w-0">
             <h1 className="text-3xl font-bold text-center w-auto">Welcome Back!</h1>
             <p className="text-center mt-2 mb-6 text-sm w-auto">
-              Please login to access your account
+              Please login to access your account.
             </p>
             <form className=" mx-auto" onSubmit={handleSubmit}>
               <label className="pb-[8px] text-gray-700 font-bold" htmlFor="email">
