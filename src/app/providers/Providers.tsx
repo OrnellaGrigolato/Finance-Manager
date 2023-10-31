@@ -41,7 +41,6 @@ const defaultApiResponse = {
 export function Providers({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState<ApiResponse>();
   const [token, setToken] = useCookies(["token"]);
-
   useEffect(() => {
     //console.log(getUserDataFromToken(token.token))
 

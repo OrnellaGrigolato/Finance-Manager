@@ -63,7 +63,11 @@ const EmailContent = (username: string, email: string, token: string) => {
   };
 };
 
-const EmailContent_reset_password = (username: string, email: string, token: string) => {
+const EmailContent_reset_password = (
+  username: string,
+  email: string,
+  token: string
+) => {
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
   const verificationUrl = `${baseUrl}/reset-password/${token}`;
 
@@ -116,7 +120,9 @@ export const sendEmail_reset_password = async (
   token: string
 ) => {
   try {
-    await transporter.sendMail(EmailContent_reset_password(username, email, token));
+    await transporter.sendMail(
+      EmailContent_reset_password(username, email, token)
+    );
     return true;
   } catch (error) {
     throw error;
