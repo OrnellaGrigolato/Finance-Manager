@@ -15,7 +15,7 @@ const Navbar = () => {
             <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
           </Link>
         </div>
-        {userId !== 0 ? (
+        {userId ? (
           <ul className="flex  gap-10 items-center max-sm:hidden">
             <li>
               <Link href="/">Home</Link>
@@ -68,7 +68,7 @@ const Navbar = () => {
         )}
         <div className="hidden max-sm:flex max-sm:gap-6 items-center ">
           {" "}
-          {userId !== 0 ? (
+          {userId ? (
             <Image
               src={"/user-profile.png"}
               alt="user icon"
@@ -79,7 +79,7 @@ const Navbar = () => {
           ) : (
             ""
           )}
-          <ResponsiveMenu logged={userId !== 0 ? true : false} />
+          <ResponsiveMenu logged={userId ? true : false} />
         </div>
       </div>
     </nav>

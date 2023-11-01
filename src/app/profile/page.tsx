@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
 import { useApiData } from "@/app/providers/Providers";
-import { useCookies } from "next-client-cookies";
+import { useCookies } from "react-cookie";
 import Link from "next/link";
 
 import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
@@ -29,10 +29,7 @@ const Profile = () => {
   const [updating, setUpdating] = useState<boolean>(false);
   const [emailsent, setEmailsent] = useState<boolean>(false);
   const [loadingverify, setLoadingverify] = useState<boolean>(false);
-
-  const cookies = useCookies();
-
-  const token = cookies.get("token") || "";
+  const [token, setToken] = useCookies(["token"]);
   const apiData = useApiData();
 
   useEffect(() => {
