@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-
+import { EmailTemplate } from "@/components/Email-Templates-1";
 const email_finance = process.env.EMAIL;
 const pass = process.env.EMAIL_PASS;
 
@@ -23,20 +23,22 @@ const EmailContent_profile = (
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
   const verificationUrl = `${baseUrl}/api/users/verify?token=${token}`;
 
-  const message = `
-        Hello ${username}, we see you are trying to verify your account!
-
-        Please click on the link below to verify your email (it will expire in 1hs):
-        ${verificationUrl}
-
-        We send our regards, Finance Manager.
-        `;
-
   return {
     from: email_finance,
     to: email,
     subject: `Account verification, Finance Manager`,
-    text: message,
+    html: `<div>
+    <h1 style="margin-botton:20px;font-size:30px;">Hello, ${
+      username.split(" ")[0]
+    }!</h1>
+    <p>We see you are trying to verify your account!
+
+    Please click on the link below to verify your email (it will expire in 1hs):
+    <a style="display:block;margin-top:20px;margin-bottom:20px;color:#8A22F0;font-weight: bold;text-align:center" href=${verificationUrl}>Click here to verify your account</a>
+   
+
+    We send our regards, Finance Manager.</p>
+  </div>`,
   };
 };
 
@@ -44,22 +46,22 @@ const EmailContent = (username: string, email: string, token: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
   const verificationUrl = `${baseUrl}/api/users/verify?token=${token}`;
 
-  const message = `
-        Hello ${username},
-        You just signed up to Finance Manager!
-
-        Please click on the link below to verify your email (it will expire in 1hs):
-        ${verificationUrl}
-        Remember you can resend this link by going to: Profile -> Verify account
-
-        We’re excited to have you on board and we’d love to say thank you on behalf of our team for choosing us to help you register your finances.
-    `;
-
   return {
     from: email_finance,
     to: email,
     subject: `Welcome to Finance Manager, ${username}`,
-    text: message,
+    html: `<div>
+    <h1 style="margin-botton:20px;font-size:30px;">Welcome, ${
+      username.split(" ")[0]
+    }!</h1>
+    <p>You just signed up to Finance Manager!
+
+    Please click on the link below to verify your email (it will expire in 1hs):
+    <a style="display:block;margin-top:20px;margin-bottom:20px;color:#8A22F0;font-weight: bold;text-align:center" href=${verificationUrl}>Click here to verify your account</a>
+    Remember you can resend this link by going to: Profile -> Verify account
+
+    We’re excited to have you on board and we’d love to say thank you on behalf of our team for choosing us to help you register your finances. Best regards, Finance Manager.</p>
+  </div>`,
   };
 };
 
@@ -71,20 +73,11 @@ const EmailContent_reset_password = (
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
   const verificationUrl = `${baseUrl}/reset-password/${token}`;
 
-  const message = `
-        Hello ${username}, Finance Manager speaking!
-
-        Please click on the link below to reset your password and unlock your account (it will expire in 1hs):
-        ${verificationUrl}
-        Remember you can resend this link by going to: Login -> Forgot password
-
-    `;
-
   return {
     from: email_finance,
     to: email,
-    subject: `${username}, reset your password.`,
-    text: message,
+    subject: `Reset your Finance Manager password.`,
+    html: '<div><h1  style="margin-botton:20px;font-size:30px;"> Hello, Finance Manager speaking!</h1> <p>  Please click on the link below to reset your password and unlock your account (it will expire in 1hs):  <a style="display:block;margin-top:20px;margin-bottom:20px;color:#8A22F0;font-weight: bold;text-align:center" href=${verificationUrl}>Click here to change your password</a> Remember you can resend this link by going to: Login -> Forgot password</p></div>',
   };
 };
 
