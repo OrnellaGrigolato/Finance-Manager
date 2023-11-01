@@ -42,13 +42,13 @@ const Wallet = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`api/moves/user/${apiData.finder.id}`)
+    fetch(`api/moves/user/${apiData}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
       })
       .catch((e) => console.error(e));
-  }, []);
+  }, [apiData]);
 
   const saldosPorFecha = calcularSaldosPorFecha(moves);
 
@@ -204,10 +204,14 @@ const Wallet = () => {
                     <div className="flex text-black/40">
                       <b className="text-black/100">
                         ${" "}
-                        {dolarPrice.filter((e) => e.nombre === "Blue")[0].venta}
+                        {Math.round(
+                          dolarPrice.filter((e) => e.nombre === "Blue")[0].venta
+                        )}
                       </b>
                       <p className="mx-3">/</p>${" "}
-                      {dolarPrice.filter((e) => e.nombre === "Blue")[0].compra}
+                      {Math.round(
+                        dolarPrice.filter((e) => e.nombre === "Blue")[0].compra
+                      )}
                     </div>
                   </div>
                   <div className="border-primary/40 border-2 p-4 flex flex-col items-center  rounded-lg text-lg  w-44">
@@ -219,16 +223,16 @@ const Wallet = () => {
                     <div className="flex text-black/40">
                       <b className="text-black/100">
                         ${" "}
-                        {
+                        {Math.round(
                           dolarPrice.filter((e) => e.nombre === "Oficial")[0]
                             .venta
-                        }
+                        )}
                       </b>
                       <p className="mx-3">/</p>${" "}
-                      {
+                      {Math.round(
                         dolarPrice.filter((e) => e.nombre === "Oficial")[0]
                           .compra
-                      }
+                      )}
                     </div>
                   </div>
                 </div>

@@ -1,26 +1,8 @@
-"use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import CurrencyConverter from "./Converter";
 
 const Transaction = () => {
-  const [amountToPay, setAmountToPay] = useState("");
-  const [conversionRate, setConversionRate] = useState(null);
-
-  // useEffect(() => {
-  //   fetch("https://dolarapi.com/v1/dolares/blue")
-  //     .then((response) => response.json())
-  //     .then((data) => setConversionRate(data.compra))
-  //     .catch((error) =>
-  //       console.error("Error al obtener la cotización:", error)
-  //     );
-  // }, []);
-
-  // const handlePayValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const inputValue = e.target.value;
-  //   setAmountToPay(inputValue);
-  // };
-
   return (
     <div className="w-[100vw] h-[100vh] bg-bg">
       <div className="w-10/12 mx-auto ">

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 const Navbar = () => {
   return (
-    <nav className="fixed bottom-[-4px] h-16 bg-[#ffffff] w-full rounded-[10px] lg:bottom-0 lg:left-0 lg:h-[100vh] lg:w-[10vw] shadow-blackShadow">
+    <nav className="fixed bottom-[-4px] h-16 bg-[#ffffff] z-10 w-full rounded-[10px] lg:bottom-0 lg:left-0 lg:h-[100vh] lg:w-[10vw] shadow-blackShadow">
       <div className="flex w-10/12 mx-auto justify-between h-full items-center lg:flex-col lg:justify-normal lg:gap-14 lg:mt-10 lg:items-center">
         <div className=" font-[Narrow] font-bold cursor-pointer hidden text-center  lg:flex ">
           <Link href="/">

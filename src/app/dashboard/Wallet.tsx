@@ -1,4 +1,5 @@
-import { Movement } from "../types/type";
+import { useApiData } from "../providers/Providers";
+import { ApiResponse, Movement } from "../types/type";
 import WalletCard from "./WalletCard";
 import "./loaderStyles.css";
 import { useEffect, useState, useCallback } from "react";
@@ -8,10 +9,23 @@ interface balancePerType {
 }
 
 const Wallet = (props: { userId: number }) => {
+  const apiData = useApiData();
   const [curr, setCurr] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
   const [balancePerType, setBalancePerType] = useState<balancePerType>({});
   const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState<ApiResponse>();
+
+  useEffect(() => {
+    fetch(`api/users/${apiData}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserInfo(data.finder);
+        setLoading(false);
+      })
+      .catch((e) => console.error(e));
+  }, [apiData]);
+
   const getMoves = useCallback(() => {
     fetch(`/api/moves/user/${props.userId}`)
       .then((res) => res.json())
@@ -103,6 +117,10 @@ const Wallet = (props: { userId: number }) => {
       ) : (
         <div>You have&apos;t deposited money to the platform yet</div>
       )}
+
+      {userInfo?.available_money === "0" && moves.length != 0 ? (
+        <div>Your wallet is empty.</div>
+      ) : null}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import Country_list from "./data/CountryList";
 import Image from "next/image";
@@ -17,7 +18,7 @@ function CurrencyConverter() {
   const [userCurrencies, setUserCurrencies] = useState<number[]>();
   const [currNames, setCurrNames] = useState<string[]>([]);
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
-  const apiData = useApiData();
+  const userId = useApiData();
 
   const router = useRouter();
 
@@ -46,7 +47,7 @@ function CurrencyConverter() {
   }, [baseCurrency, targetCurrency, apiKey]);
 
   const getMoves = () => {
-    fetch(`/api/moves/user/${apiData.finder.id}`)
+    fetch(`/api/moves/user/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
@@ -119,7 +120,7 @@ function CurrencyConverter() {
           description: "-",
           income_amount: (amount * conversionRate).toFixed(2),
           discount_amount: "0",
-          user_id: apiData.finder.id,
+          user_id: userId,
           currency_id: data1.result.id_currency,
         }),
       });
@@ -140,7 +141,7 @@ function CurrencyConverter() {
           description: "-",
           income_amount: "0",
           discount_amount: amount,
-          user_id: apiData.finder.id,
+          user_id: userId,
           currency_id: data3.result.id_currency,
         }),
       });
