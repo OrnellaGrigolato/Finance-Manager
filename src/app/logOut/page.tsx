@@ -6,8 +6,7 @@ const Logout = () => {
   const router = useRouter();
   const handleLogout = () => {
     // Eliminar el token de autenticación 
-    Cookies.remove('token'); 
-
+    Cookies.set("token", '');
     // Redirigir al usuario a la página de inicio ("/")
 
     router.push('/'); // Redirección a la página de inicio
