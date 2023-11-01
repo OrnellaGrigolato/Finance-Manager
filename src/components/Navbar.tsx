@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useApiData } from "@/app/providers/Providers";
 
 const Navbar = () => {
-  const user = useApiData();
+  const userId = useApiData();
   return (
     <nav className=" h-50 mt-8">
       <div className="w-10/12 flex mx-auto justify-between items-center">
@@ -15,7 +15,7 @@ const Navbar = () => {
             <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
           </Link>
         </div>
-        {user.finder.id!==0 ? (
+        {userId !== 0 ? (
           <ul className="flex  gap-10 items-center max-sm:hidden">
             <li>
               <Link href="/">Home</Link>
@@ -68,7 +68,7 @@ const Navbar = () => {
         )}
         <div className="hidden max-sm:flex max-sm:gap-6 items-center ">
           {" "}
-          {user.finder.id!==0 ? (
+          {userId !== 0 ? (
             <Image
               src={"/user-profile.png"}
               alt="user icon"
@@ -79,7 +79,7 @@ const Navbar = () => {
           ) : (
             ""
           )}
-          <ResponsiveMenu logged={user.finder.id!==0 ? true : false} />
+          <ResponsiveMenu logged={userId !== 0 ? true : false} />
         </div>
       </div>
     </nav>
