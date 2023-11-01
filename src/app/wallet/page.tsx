@@ -42,13 +42,13 @@ const Wallet = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`api/moves/user/${apiData.finder.id}`)
+    fetch(`api/moves/user/${apiData}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
       })
       .catch((e) => console.error(e));
-  }, []);
+  }, [apiData]);
 
   const saldosPorFecha = calcularSaldosPorFecha(moves);
 

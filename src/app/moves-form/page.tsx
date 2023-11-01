@@ -4,7 +4,8 @@ import { useApiData } from "@/app/providers/Providers";
 import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState, useEffect } from "react";
-
+import Image from "next/image";
+import Link from "next/link";
 const MovesForm = () => {
   const router = useRouter();
   const action = useSearchParams().get("action");
@@ -12,7 +13,19 @@ const MovesForm = () => {
   const [allCurrencies, setAllCurrencies] = useState<string[]>();
   const apiData = useApiData();
   const [error, setError] = useState("");
-  const [userInfo, setUserInfo] = useState<ApiResponse>(apiData);
+  const [userInfo, setUserInfo] = useState<ApiResponse>({
+    id: apiData!,
+    username: "",
+    email: "",
+    password: "",
+    login_date: "",
+    maxExpenditure: 100000,
+    emailVerified: false,
+    available_money: "",
+    lastmove_amount: "",
+    lastmove_date: "",
+    isBlocked: false,
+  });
   const [formData, setFormData] = useState<{
     title: string;
     description: string;
@@ -25,17 +38,20 @@ const MovesForm = () => {
     description: "",
     income_amount: 0,
     discount_amount: 0,
-    user_id: userInfo.finder.id, // Aca va el id del usuario logeado
+    user_id: apiData!, // Aca va el id del usuario logeado
     currency_id: "", // Aca va el id del currency seleccionado
   });
   const [userCurrencies, setUserCurrencies] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
   const [currNames, setCurrNames] = useState<string[]>([]);
-
+  const [sending, setSending] = useState(false);
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
   useEffect(() => {
-    setUserInfo(apiData);
-  }, [apiData]);
+    fetch(`api/users/${apiData}`)
+      .then((res) => res.json())
+      .then((data) => setUserInfo(data.finder))
+      .catch((e) => console.error(e));
+  }, []);
 
   useEffect(() => {
     if (action === "deposit") {
@@ -65,7 +81,7 @@ const MovesForm = () => {
   }, []);
 
   const getMoves = () => {
-    fetch(`/api/moves/user/${userInfo.finder.id}`)
+    fetch(`/api/moves/user/${userInfo.id}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
@@ -104,6 +120,7 @@ const MovesForm = () => {
   }, [moves]);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setSending(true);
     if (action === "deposit" && curr) {
       let count = 0;
       for (let i = 0; i <= curr?.length - 1; i++) {
@@ -190,99 +207,118 @@ const MovesForm = () => {
   };
 
   return action ? (
-    <div className="w-7/12 mx-auto mt-20">
-      <h1 className="font-bold my-10 text-2xl text-center w-full ">
-        {userInfo.finder.username.split(" ")[0]}, you are going to {action}!
-      </h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block font-bold">
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block font-bold">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        {action === "deposit" ? (
-          <div className="mb-4">
-            <label htmlFor="income_amount" className="block font-bold">
-              Income Amount
-            </label>
-            <input
-              type="number"
-              id="income_amount"
-              name="income_amount"
-              value={formData.income_amount}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-        ) : (
-          <div className="mb-4">
-            <label htmlFor="discount_amount" className="block font-bold">
-              Discount Amount
-            </label>
-            <input
-              type="number"
-              id="discount_amount"
-              name="discount_amount"
-              value={formData.discount_amount}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-        )}
-        <div className="mb-4">
-          <label htmlFor="currency_id" className="block font-bold">
-            Currency
-          </label>
-          <select
-            id="currency_id"
-            name="currency_id"
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          >
-            <option selected={true} disabled={true}>
-              Select currency
-            </option>
-            {action === "deposit"
-              ? allCurrencies?.map((e) => (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                ))
-              : currNames?.slice(0, currNames.length / 2).map((e, k) => (
-                  <option key={k} value={e}>
-                    {e}
-                  </option>
-                ))}
-          </select>
-        </div>
-        <p className="text-red-500 text-center">{error}</p>
-        <button
-          type="submit"
-          className="bg-gradient-to-b from-primary to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"
+    <div className="w-9/12 mx-auto mt-16">
+      <div className="flex items-center gap-20 mb-5">
+        <Link
+          href="/dashboard"
+          className="rotate-180 p-5 rounded-[25%] bg-black text-white w-10 h-10 flex justify-center items-center shadow-blackShadow"
         >
-          {action[0].toUpperCase() + action.slice(1, action.length)}
-        </button>
-      </form>
+          ➜
+        </Link>
+        <h1 className="font-bold my-10 text-2xl ">
+          {userInfo.username.split(" ")[0]}, you are going to {action}!
+        </h1>
+      </div>
+      <div className="flex gap-20  justify-start ">
+        <Image
+          src="/depositIlustration.png"
+          alt=""
+          width={350}
+          height={150}
+          className="-ml-4"
+        />
+        <form onSubmit={handleSubmit} className="w-1/2">
+          <div className="mb-4">
+            <label htmlFor="title" className="block font-bold">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className="block font-bold">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          {action === "deposit" ? (
+            <div className="mb-4">
+              <label htmlFor="income_amount" className="block font-bold">
+                Income Amount
+              </label>
+              <input
+                type="number"
+                id="income_amount"
+                name="income_amount"
+                value={formData.income_amount}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          ) : (
+            <div className="mb-4">
+              <label htmlFor="discount_amount" className="block font-bold">
+                Discount Amount
+              </label>
+              <input
+                type="number"
+                id="discount_amount"
+                name="discount_amount"
+                value={formData.discount_amount}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          )}
+          <div className="mb-4">
+            <label htmlFor="currency_id" className="block font-bold">
+              Currency
+            </label>
+            <select
+              id="currency_id"
+              name="currency_id"
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            >
+              <option selected={true} disabled={true}>
+                Select currency
+              </option>
+              {action === "deposit"
+                ? allCurrencies?.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))
+                : currNames?.slice(0, currNames.length / 2).map((e, k) => (
+                    <option key={k} value={e}>
+                      {e}
+                    </option>
+                  ))}
+            </select>
+          </div>
+          <p className="text-red-500 text-center">{error}</p>
+          <button
+            type="submit"
+            className="bg-gradient-to-b from-primary to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"
+          >
+            {sending
+              ? "Loading..."
+              : action[0].toUpperCase() + action.slice(1, action.length)}
+          </button>
+        </form>
+      </div>
     </div>
   ) : (
     router.push("/dashboard")
