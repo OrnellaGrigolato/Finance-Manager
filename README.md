@@ -15,20 +15,16 @@ El Gestor de Finanzas Personales es una aplicación web que permite a los usuari
 
 **Configuración de Variables de Entorno:**
 Cree un archivo .env en la raíz del proyecto y configure las siguientes variables de entorno:
-bash
+
     .env
     ACA IRIAN LAS KEYS
 
 **Base de Datos:** 
 Configure y migre la base de datos utilizando Prisma:
 
-bash
-
 npx prisma migrate dev
 
 **Ejecución del Proyecto:** Inicie la aplicación con el siguiente comando:
-
-bash
 
     npm run dev
 
@@ -49,7 +45,9 @@ bash
     Se ha agregado un gráfico de torta que muestra el tipo de dinero por ubicación.
     Se ha establecido una conexión con una API para mostrar el valor actual del dólar y saber el valor dolarizado.
 
-Autores
+![imagen del Proyecto](https://ejemplo.com/imagen.jpg)
+
+**Autores**
 
     Orne
     Lea
