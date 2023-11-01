@@ -1,7 +1,7 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 import { createContext, useContext } from "react";
-import getUserDataFromToken from "@/utils/authUtils";
+import getUserDataFromToken, { DecodedToken } from "@/utils/authUtils";
 
 import { useCookies } from "react-cookie";
 const ApiContext = createContext<number | null>(null);
@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   let userData: { id: number } | null = null;
 
   if (token) {
-    userData = getUserDataFromToken(token.token);
+    userData = getUserDataFromToken(token.token) as DecodedToken;
   }
 
   return (
