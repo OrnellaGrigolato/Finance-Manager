@@ -18,6 +18,7 @@ import convertDate, {
   groupByDateIncomeAndExpenditure,
   calculateDifferenceInDays,
   calcularSaldosPorFecha,
+  getUserCurrencies,
 } from "./useMovementsLogic";
 
 ChartJS.register(
@@ -143,13 +144,15 @@ const Wallet = () => {
               <div className="flex  max-sm:flex-col max-sm:items-center">
                 <div className="mr-12 max-sm:mr-0 max-sm:text-center max-sm:mb-8">
                   <div className="flex flex-col w-32 mb-5 ">
-                    <b className="font-bold text-lg">200</b>
+                    <b className="font-bold text-lg">{moves.length}</b>
                     <p className="text-xs font-light">
                       is the number of movements you have made
                     </p>
                   </div>
                   <div className="flex flex-col w-32">
-                    <b className="font-bold text-lg">3</b>
+                    <b className="font-bold text-lg">
+                      {getUserCurrencies(moves)}
+                    </b>
                     <p className="text-xs font-light">
                       is the number of currencies you have
                     </p>

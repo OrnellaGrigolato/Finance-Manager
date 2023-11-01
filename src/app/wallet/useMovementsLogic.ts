@@ -9,6 +9,18 @@ export interface DollarResponse {
   fechaActualizacion: string;
 }
 
+const getUserCurrencies = (moves: Movement[]) => {
+  let currenciesIds: number[] = [];
+
+  moves.map((e) => {
+    if (!currenciesIds.includes(e.currency_id)) {
+      currenciesIds.push(e.currency_id);
+    }
+  });
+
+  return currenciesIds.length;
+};
+
 function groupByDate(movimientos: Movement[]) {
   const grouped: { [key: string]: any } = {};
 
@@ -89,4 +101,5 @@ export {
   groupByDate,
   groupByDateIncomeAndExpenditure,
   calcularSaldosPorFecha,
+  getUserCurrencies,
 };
