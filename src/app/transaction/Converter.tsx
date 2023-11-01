@@ -30,8 +30,7 @@ function CurrencyConverter() {
       .catch((error) => {
         console.log(error);
       });
-    getMoves();
-  }, []);
+  }, [apiKey]);
 
   useEffect(() => {
     fetch(
@@ -44,7 +43,7 @@ function CurrencyConverter() {
       .catch((error) => {
         console.log(error);
       });
-  }, [baseCurrency, targetCurrency]);
+  }, [baseCurrency, targetCurrency, apiKey]);
 
   const getMoves = () => {
     fetch(`/api/moves/user/${apiData.finder.id}`)
@@ -183,11 +182,13 @@ function CurrencyConverter() {
                 </option>
               ))}
             </select>
-            <img
+            <Image
               src={`https://flagsapi.com/${getFlagByKey(
                 baseCurrency
               )}/flat/64.png`}
               alt="countryFlag"
+              width={70}
+              height={50}
             />
           </div>
           <div>
@@ -213,11 +214,13 @@ function CurrencyConverter() {
                 </option>
               ))}
             </select>
-            <img
+            <Image
               src={`https://flagsapi.com/${getFlagByKey(
                 targetCurrency
               )}/flat/64.png`}
               alt="countryFlag"
+              width={70}
+              height={50}
             />
           </div>
         </div>

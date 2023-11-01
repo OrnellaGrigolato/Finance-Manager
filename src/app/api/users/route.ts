@@ -21,27 +21,30 @@ export async function GET(request: NextRequest) {
 
       if (!user) {
         return NextResponse.json(
-            { message: "not information found" },
-            { status: 404 }
-          );
+          { message: "not information found" },
+          { status: 404 }
+        );
       }
-      
+
       //console.log(user)
       /**
-      ** seteamos un contador o acumulador donde se iran guardando nuestros valores,
-      ** y seteamos move que sera el movimiento actual sobre el que nos paremos.
-      ** luego creamos una variables de tipo string que va a contener el nombre de nuestra moneda
-      ** luego creamos una propiedad dentro del objeto cuyo nombre sera igual a la variable definida antes 
-      ** Por ultimo vamos corroborando que el contador se inicialice en 0 en caso de que no haya ningun valor
-      ** y en caso de que lo haya, aumenta el contador en uno
-      */
-      const movementsByCurrency = user.moves.reduce((result, move) => {
-        const currencyName = move.currency.name;
-        result[currencyName] = (result[currencyName] || 0) + 1;
-        return result;
-      }, {});
+       ** seteamos un contador o acumulador donde se iran guardando nuestros valores,
+       ** y seteamos move que sera el movimiento actual sobre el que nos paremos.
+       ** luego creamos una variables de tipo string que va a contener el nombre de nuestra moneda
+       ** luego creamos una propiedad dentro del objeto cuyo nombre sera igual a la variable definida antes
+       ** Por ultimo vamos corroborando que el contador se inicialice en 0 en caso de que no haya ningun valor
+       ** y en caso de que lo haya, aumenta el contador en uno
+       */
+      const movementsByCurrency = user.moves.reduce(
+        (result: { [key: string]: number }, move) => {
+          const currencyName = move.currency.name;
+          result[currencyName] = (result[currencyName] || 0) + 1;
+          return result;
+        },
+        {}
+      );
       //console.log(movementsByCurrency)
-     return NextResponse.json(movementsByCurrency)
+      return NextResponse.json(movementsByCurrency);
     } else {
       const result = await prisma.users.findMany({
         select: {

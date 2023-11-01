@@ -17,7 +17,7 @@ const MovementCard = (props: { props: Movement }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [moveInfo.currency_id]);
 
   return currency ? (
     <div className="p-4 border border-black  shadow-blackShadow mb-4">

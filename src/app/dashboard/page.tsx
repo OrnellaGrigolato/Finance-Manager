@@ -8,7 +8,7 @@ import { useApiData } from "@/app/providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
 import { Movements } from "./Movements";
-import Loading from "./loading";
+import Image from "next/image";
 import Wallet from "./Wallet";
 
 const Dashboard = () => {
@@ -56,18 +56,24 @@ const Dashboard = () => {
                   setIsBalanceShowed(!isBalanceShowed);
                 }}
               >
-                <img
-                  className="w-6 inline"
-                  src={isBalanceShowed ? "./eye.png" : "./closed-eye.png"}
-                  alt=""
-                />
+                {
+                  <Image
+                    className="inline"
+                    src={isBalanceShowed ? "/eye.png" : "/closed-eye.png"}
+                    alt=""
+                    width={30}
+                    height={23}
+                  />
+                }
               </button>
             </div>
           </div>
-          <img
+          <Image
             src="/plant.svg"
             alt=""
             className="hidden h-60 -mt-10 drop-shadow-lg lg:inline"
+            width={250}
+            height={200}
           />
         </div>
       </div>

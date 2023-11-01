@@ -1,19 +1,18 @@
-import { number } from "yup";
 import { Movement } from "../types/type";
 import WalletCard from "./WalletCard";
 import "./loaderStyles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-interface MyObject {
+interface balancePerType {
   [k: string]: number;
 }
 
 const Wallet = (props: { userId: number }) => {
   const [curr, setCurr] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
-  const [balancePerType, setBalancePerType] = useState<MyObject>({});
+  const [balancePerType, setBalancePerType] = useState<balancePerType>({});
   const [loading, setLoading] = useState(true);
-  const getMoves = () => {
+  const getMoves = useCallback(() => {
     fetch(`/api/moves/user/${props.userId}`)
       .then((res) => res.json())
       .then((data) => {
@@ -23,9 +22,9 @@ const Wallet = (props: { userId: number }) => {
       .catch((error) => {
         console.error("Error en la solicitud Fetch:", error);
       });
-  };
+  }, [props.userId]);
 
-  const getUserCurrencies = () => {
+  const getUserCurrencies = useCallback(() => {
     let currenciesIds: number[] = [];
 
     moves.map((e) => {
@@ -34,9 +33,9 @@ const Wallet = (props: { userId: number }) => {
       }
     });
     setCurr(currenciesIds);
-  };
+  }, [moves]);
 
-  const getBalancePerCurrency = () => {
+  const getBalancePerCurrency = useCallback(() => {
     curr.forEach(async (currId: number) => {
       const OneCurrencyTypeMoves = moves.filter((move) => {
         if (move.currency_id === currId) return move;
@@ -72,19 +71,19 @@ const Wallet = (props: { userId: number }) => {
         }));
       }
     });
-  };
+  }, [curr, moves]);
 
   useEffect(() => {
     getUserCurrencies();
-  }, [moves]);
+  }, [moves, getUserCurrencies]);
 
   useEffect(() => {
     getBalancePerCurrency();
-  }, [curr]);
+  }, [curr, getBalancePerCurrency]);
 
   useEffect(() => {
     getMoves();
-  }, []);
+  }, [getMoves]);
 
   return (
     <div className="flex gap-4 mt-5 flex-wrap">
@@ -94,15 +93,15 @@ const Wallet = (props: { userId: number }) => {
         ) : (
           Object.entries(balancePerType).map((elem, k) => (
             <WalletCard
+              key={k}
               balance={elem[1].toString()}
               currencyName=""
               currencySymbol={elem[0]}
-              country=""
             />
           ))
         )
       ) : (
-        <div>You have not deposited money to the platform yet</div>
+        <div>You have&apos;t deposited money to the platform yet</div>
       )}
     </div>
   );

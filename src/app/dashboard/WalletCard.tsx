@@ -1,7 +1,6 @@
 const WalletCard = (props: {
   currencyName: string;
   currencySymbol: string;
-  country?: string;
   balance: string;
 }) => {
   return (
