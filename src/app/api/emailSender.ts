@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { EmailTemplate } from "@/components/Email-Templates-1";
 const email_finance = process.env.EMAIL;
 const pass = process.env.EMAIL_PASS;
 
@@ -77,7 +76,7 @@ const EmailContent_reset_password = (
     from: email_finance,
     to: email,
     subject: `Reset your Finance Manager password.`,
-    html: '<div><h1  style="margin-botton:20px;font-size:30px;"> Hello, Finance Manager speaking!</h1> <p>  Please click on the link below to reset your password and unlock your account (it will expire in 1hs):  <a style="display:block;margin-top:20px;margin-bottom:20px;color:#8A22F0;font-weight: bold;text-align:center" href=${verificationUrl}>Click here to change your password</a> Remember you can resend this link by going to: Login -> Forgot password</p></div>',
+    html: `<div><h1  style="margin-botton:20px;font-size:30px;"> Hello ${username}, Finance Manager speaking!</h1> <p>  Please click on the link below to reset your password and unlock your account (it will expire in 1hs):  <a style="display:block;margin-top:20px;margin-bottom:20px;color:#8A22F0;font-weight: bold;text-align:center" href=${verificationUrl}>Click here to change your password</a> Remember you can resend this link by going to: Login -> Forgot password</p></div>`
   };
 };
 

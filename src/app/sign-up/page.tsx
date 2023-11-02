@@ -64,7 +64,7 @@ const RegisterForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         //console.log(data.token)
         setSuccess("done");
         setError("");
@@ -73,7 +73,6 @@ const RegisterForm: React.FC = () => {
       } else {
         setLoading(false);
         const errorData = await response.json();
-        console.log(errorData.message, typeof errorData.message);
         if (
           errorData.message ===
           "Invalid username, this username has already been used"

@@ -44,7 +44,7 @@ const ChangePasswordPage: React.FC = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      
 
       if (data.message === "Success sending email to change password") {
         setSuccess("done");
@@ -53,7 +53,7 @@ const ChangePasswordPage: React.FC = () => {
       } else {
         setLoading(false);
 
-        console.log(data.message);
+       
 
         if (data.status === 404) {
           setError("Incorrect email, User not found");

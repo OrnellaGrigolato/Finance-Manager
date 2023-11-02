@@ -79,7 +79,6 @@ const Profile = () => {
         body: JSON.stringify({
           username: userInfo?.username,
           email: userInfo?.email,
-          token: token,
         }),
       });
 
@@ -87,7 +86,7 @@ const Profile = () => {
         setEmailsent(true);
         setLoadingverify(false);
 
-        console.log("Email sent successfully");
+        //console.log("Email sent successfully");
       } else {
         setLoadingverify(false);
         console.error("Email sending failed");

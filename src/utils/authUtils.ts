@@ -8,7 +8,7 @@ export interface DecodedToken {
 }
 
 const getUserDataFromToken = (token: string): DecodedToken | void => {
-  console.log(token);
+ 
   try {
     const decodedToken = decode(token) as DecodedToken;
     const currentDate = Math.floor(Date.now() / 1000);

@@ -99,7 +99,7 @@ export async function POST(request: Request) {
         const convertion = await axios.get(
           `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${baseCurrency?.name}/ARS`
         );
-        console.log(convertion);
+        //console.log(convertion);
 
         if (
           discount_amount &&

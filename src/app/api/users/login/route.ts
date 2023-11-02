@@ -39,7 +39,6 @@ export async function POST(request: Request, response: Response) {
     const token = sign({ id: userFind.id }, `${process.env.AUTH_SECRET}`, {
       expiresIn: "1h",
     });
-    console.log(token);
     cookies().set("token", token);
     //* lo retornamos
     return NextResponse.json(

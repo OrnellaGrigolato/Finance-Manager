@@ -24,12 +24,12 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       });
-      console.log(response);
+    
       if (response.ok) {
-        console.log("Response is okay, redirecting to dashboard");
+        //console.log("Response is okay, redirecting to dashboard");
         router.push("/dashboard");
       } else {
-        console.log("Response is not okay, status code:", response.status);
+        //console.log("Response is not okay, status code:", response.status);
         const errorData = await response.json();
         if (errorData.message === "User is blocked") {
           alert("The account is blocked, please reset your password");
@@ -65,13 +65,13 @@ const Login = () => {
         }),
       });
 
-      if (response.ok) {
-        // Handle success
-        console.log("Email blocked successfully");
-      } else {
-        // Handle errors
-        console.error("Email block failed");
-      }
+      // if (response.ok) {
+      //   // Handle success
+      //   console.log("Email blocked successfully");
+      // } else {
+      //   // Handle errors
+      //   console.error("Email block failed");
+      // }
     } catch (error) {
       console.error("An error occurred while sending the email block", error);
     }
@@ -90,13 +90,13 @@ const Login = () => {
         }),
       });
 
-      if (response.ok) {
-        // Handle success
-        console.log("Email password reset send successfully");
-      } else {
-        // Handle errors
-        console.error("Email password reset send failed");
-      }
+      // if (response.ok) {
+      //   // Handle success
+      //   console.log("Email password reset send successfully");
+      // } else {
+      //   // Handle errors
+      //   console.error("Email password reset send failed");
+      // }
     } catch (error) {
       console.error(
         "An error occurred while sending the Email password reset",
