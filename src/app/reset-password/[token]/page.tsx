@@ -65,8 +65,8 @@ const ChangePasswordForm: React.FC = () => {
         router.push('/dashboard')
       } else {
         setLoading(false);
-        const errorData = await response.json();
-        console.log(errorData.message, typeof errorData.message);
+       
+       
           setError('Error unlocking user and changing password');
         }
 
