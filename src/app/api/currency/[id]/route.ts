@@ -12,8 +12,9 @@ export async function GET (request:Request ,{params}:Params) {
         }else{
             return NextResponse.json({message:"no currency found"},{status:404})
         }
-    } catch (error:any ){
-      return NextResponse.json({ message: error.message }, { status: 500 });
+    } catch (error ){
+        const err = error as {message:string}
+      return NextResponse.json({ message: err.message }, { status: 500 });
     }
 }
 export async function DELETE(request:Request ,{params}:Params) {
