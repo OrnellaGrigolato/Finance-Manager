@@ -33,13 +33,15 @@ const MovesForm = () => {
     discount_amount: number;
     user_id: number; // Aca va el id del usuario logeado
     currency_id: string | number;
+    DorO_id: number
   }>({
     title: "",
     description: "",
     income_amount: 0,
     discount_amount: 0,
     user_id: apiData!, // Aca va el id del usuario logeado
-    currency_id: "", // Aca va el id del currency seleccionado
+    currency_id: "", // Aca va el id del currency seleccionado,
+    DorO_id:1
   });
   const [userCurrencies, setUserCurrencies] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
