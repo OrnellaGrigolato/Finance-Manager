@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import baseUrl from "@/components/BaseUrl";
 
 const schema = yup.object({
   username: yup.string().required("Username is required"),
@@ -54,7 +55,7 @@ const RegisterForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      const response = await fetch("/api/users/register", {
+      const response = await fetch(`${baseUrl}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

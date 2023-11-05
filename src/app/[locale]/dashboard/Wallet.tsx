@@ -1,3 +1,4 @@
+import baseUrl from "@/components/BaseUrl";
 import { useApiData } from "../providers/Providers";
 import { ApiResponse, Movement } from "../types/type";
 import WalletCard from "./WalletCard";
@@ -17,7 +18,7 @@ const Wallet = (props: { userId: number }) => {
   const [userInfo, setUserInfo] = useState<ApiResponse>();
 
   useEffect(() => {
-    fetch(`api/users/${apiData}`)
+    fetch(`${baseUrl}/api/users/${apiData}`)
       .then((res) => res.json())
       .then((data) => {
         setUserInfo(data.finder);
@@ -27,7 +28,7 @@ const Wallet = (props: { userId: number }) => {
   }, [apiData]);
 
   const getMoves = useCallback(() => {
-    fetch(`/api/moves/user/${props.userId}`)
+    fetch(`${baseUrl}/api/moves/user/${props.userId}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
@@ -63,7 +64,7 @@ const Wallet = (props: { userId: number }) => {
 
       let currName: string;
       try {
-        const response = await fetch(`/api/currency/${currId}`);
+        const response = await fetch(`${baseUrl}/api/currency/${currId}`);
 
         if (response.ok) {
           const data = await response.json();

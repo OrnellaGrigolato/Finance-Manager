@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useApiData } from "../providers/Providers";
 import { useRouter } from "next/navigation";
 import { Movement } from "../types/type";
+import baseUrl from "@/components/BaseUrl";
 
 function CurrencyConverter() {
   const [amount, setAmount] = useState<number>(0);
@@ -47,7 +48,7 @@ function CurrencyConverter() {
   }, [baseCurrency, targetCurrency, apiKey]);
 
   const getMoves = () => {
-    fetch(`/api/moves/user/${userId}`)
+    fetch(`${baseUrl}/api/moves/user/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
@@ -70,7 +71,7 @@ function CurrencyConverter() {
 
     currenciesIds.map(async (e) => {
       try {
-        const response = await fetch(`/api/currency/${e}`);
+        const response = await fetch(`${baseUrl}/api/currency/${e}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -106,10 +107,10 @@ function CurrencyConverter() {
   const handleConvert = async () => {
     try {
       setIsConverting(true);
-      const response1 = await fetch(`/api/currency/name/${targetCurrency}`);
+      const response1 = await fetch(`${baseUrl}/api/currency/name/${targetCurrency}`);
       const data1 = await response1.json();
 
-      const response2 = await fetch("/api/moves", {
+      const response2 = await fetch(`${baseUrl}/api/moves`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -127,10 +128,10 @@ function CurrencyConverter() {
 
       const data2 = await response2.json();
 
-      const response3 = await fetch(`/api/currency/name/${baseCurrency}`);
+      const response3 = await fetch(`${baseUrl}/api/currency/name/${baseCurrency}`);
       const data3 = await response3.json();
 
-      const response4 = await fetch("/api/moves", {
+      const response4 = await fetch(`${baseUrl}/api/moves`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

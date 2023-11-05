@@ -1,11 +1,12 @@
 "use client";
 
-import { useApiData } from "@/app/providers/Providers";
-import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useApiData } from "../providers/Providers";
+import { ApiResponse, Movement } from "../types/type";
+import baseUrl from "@/components/BaseUrl";
 const MovesForm = () => {
   const router = useRouter();
   const action = useSearchParams().get("action");
@@ -50,14 +51,14 @@ const MovesForm = () => {
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
 
   useEffect(() => {
-    fetch(`api/users/${apiData}`)
+    fetch(`${baseUrl}/api/users/${apiData}`)
       .then((res) => res.json())
       .then((data) => setUserInfo(data.finder))
       .catch((e) => console.error(e));
   }, [apiData]);
 
   const getMoves = useCallback(() => {
-    fetch(`/api/moves/user/${userInfo.id}`)
+    fetch(`${baseUrl}/api/moves/user/${userInfo.id}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);
@@ -77,14 +78,14 @@ const MovesForm = () => {
         .catch((error) => {
           console.log(error);
         });
-      fetch("/api/currency")
+      fetch(`${baseUrl}/api/currency`)
         .then((response) => response.json())
         .then((data) => {
           setCurr(data.result);
         })
         .catch((error) => console.error(error));
     } else {
-      fetch("/api/currency")
+      fetch(`${baseUrl}/api/currency`)
         .then((response) => response.json())
         .then((data) => {
           setCurr(data.result);
@@ -106,7 +107,7 @@ const MovesForm = () => {
 
     currenciesIds.map(async (e) => {
       try {
-        const response = await fetch(`/api/currency/${e}`);
+        const response = await fetch(`${baseUrl}/api/currency/${e}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -131,7 +132,7 @@ const MovesForm = () => {
       }
 
       if (count === 0) {
-        await fetch("api/currency", {
+        await fetch(`${baseUrl}/api/currency`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: formData.currency_id }),
@@ -145,7 +146,7 @@ const MovesForm = () => {
 
       try {
         const response1 = await fetch(
-          `/api/currency/name/${formData.currency_id}`
+          `${baseUrl}/api/currency/name/${formData.currency_id}`
         );
         const data1 = await response1.json();
 
@@ -154,7 +155,7 @@ const MovesForm = () => {
           currency_id: data1.result.id_currency,
         };
 
-        const response2 = await fetch("/api/moves", {
+        const response2 = await fetch(`${baseUrl}/api/moves`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -171,7 +172,7 @@ const MovesForm = () => {
     } else {
       try {
         const response1 = await fetch(
-          `/api/currency/name/${formData.currency_id}`
+          `${baseUrl}/api/currency/name/${formData.currency_id}`
         );
         const data1 = await response1.json();
 
@@ -180,7 +181,7 @@ const MovesForm = () => {
           currency_id: data1.result.id_currency,
         };
 
-        const response = await fetch("/api/moves", {
+        const response = await fetch(`${baseUrl}/api/moves`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

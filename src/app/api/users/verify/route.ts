@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { verify } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import { prisma } from "@/libs/prisma";
 
 import { NextResponse } from "next/server";
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
   if (!token) {
     return NextResponse.json({ message: "missing fields" }, { status: 400 });
-
+  }
     let userId;
 
     try {
@@ -47,18 +47,18 @@ export async function GET(req: NextRequest) {
         }
       }
     }
-  } else {
-    return NextResponse.json(
-      { error: `Method ${req.method} Not Allowed` },
-      { status: 403 }
-    );
-  }
+ 
 }
 
 export async function POST(req: Request) {
-  if (req.method === "POST") {
+  
     try {
-      const { username, email, token } = await req.json();
+      const { username, email } = await req.json();
+
+      const userFind = await prisma.users.findUnique({ where: { email: email } });
+      const token = sign({ id: userFind.id }, `${process.env.AUTH_SECRET}`, {
+        expiresIn: "1h",
+      });
       await sendEmail_profile(username, email, token);
       return NextResponse.json({ message: "Success" }, { status: 200 });
     } catch (error) {
@@ -68,10 +68,5 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
-  } else {
-    return NextResponse.json(
-      { error: `Method ${req.method} Not Allowed` },
-      { status: 403 }
-    );
-  }
+  
 }

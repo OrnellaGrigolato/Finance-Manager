@@ -4,12 +4,13 @@ import Button from "./Button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useApiData } from "@/app/providers/Providers";
+import { useApiData } from "../providers/Providers";
 import "./loaderStyles.css";
 import { ApiResponse } from "../types/type";
 import { Movements } from "./Movements";
 
 import Wallet from "./Wallet";
+import baseUrl from "@/components/BaseUrl";
 
 const Dashboard = () => {
   const apiData = useApiData();
@@ -17,7 +18,7 @@ const Dashboard = () => {
   const [isBalanceShowed, setIsBalanceShowed] = useState(true);
   const [userInfo, setUserInfo] = useState<ApiResponse>();
   useEffect(() => {
-    fetch(`api/users/${apiData}`)
+    fetch(`${baseUrl}/api/users/${apiData}`)
       .then((res) => res.json())
       .then((data) => {
         setUserInfo(data.finder);

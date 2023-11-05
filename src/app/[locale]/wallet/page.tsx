@@ -20,6 +20,7 @@ import convertDate, {
   calcularSaldosPorFecha,
   getUserCurrencies,
 } from "./useMovementsLogic";
+import baseUrl from "@/components/BaseUrl";
 
 ChartJS.register(
   LineElement,
@@ -43,7 +44,7 @@ const Wallet = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`api/moves/user/${apiData}`)
+    fetch(`${baseUrl}/api/moves/user/${apiData}`)
       .then((res) => res.json())
       .then((data) => {
         setMoves(data.finder);

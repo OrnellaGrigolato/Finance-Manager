@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { ApiResponse } from "../types/type";
-import { useApiData } from "@/app/providers/Providers";
+import { useApiData } from "../providers/Providers";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
 
 import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
+import baseUrl from "@/components/BaseUrl";
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>({
@@ -33,7 +34,7 @@ const Profile = () => {
   const apiData = useApiData();
 
   useEffect(() => {
-    fetch(`api/users/${apiData}`)
+    fetch(`${baseUrl}/api/users/${apiData}`)
       .then((res) => res.json())
       .then((data) => setUserInfo(data.finder))
       .catch((e) => console.error(e));
@@ -42,7 +43,7 @@ const Profile = () => {
   const handleMaxExpChange = () => {
     setUpdating(true);
     setMaxExpsEditing(false);
-    fetch(`api/users/${apiData}`, {
+    fetch(`${baseUrl}/api/users/${apiData}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +72,7 @@ const Profile = () => {
     setLoadingverify(true);
     e.preventDefault();
     try {
-      const response = await fetch("/api/users/verify", {
+      const response = await fetch(`${baseUrl}/api/users/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -196,11 +197,10 @@ const Profile = () => {
                   <label htmlFor="" className="block text-xs">
                     Is your account verified?{" "}
                     <b
-                      className={`text-primary text-xs  ${
-                        emailsent
+                      className={`text-primary text-xs  ${emailsent
                           ? "opacity-50 cursor-not-allowed"
                           : "cursor-pointer"
-                      }`}
+                        }`}
                       onClick={(e) => handleVerify(e)}
                     >
                       {loadingverify ? (
@@ -301,20 +301,14 @@ const Profile = () => {
                       type="text"
                       readOnly={!maxExpsEditing}
                       onChange={(e) => setMaxExpsValue(e.target.value)}
-                      defaultValue={
-                        maxExpsEditing ? userInfo?.maxExpenditure : ""
-                      }
-                      value={
-                        maxExpsEditing
-                          ? undefined
-                          : `${userInfo?.maxExpenditure}`
-                      }
+                      value={`${userInfo?.maxExpenditure}`}
                       className={
                         maxExpsEditing
                           ? "focus:outline-none focus:border-b-2  text-lg w-24 bg-bg -ml-2"
                           : "text-lg focus:outline-none cursor-default w-24 bg-bg -ml-2"
                       }
                     />
+
                     {maxExpsEditing ? (
                       <Image
                         src={"/tick-icon.png"}

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import baseUrl from "@/components/BaseUrl";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -35,7 +36,7 @@ const ChangePasswordPage: React.FC = () => {
   const onSubmit = async (data1: FormData) => {
     try {
       setLoading(true);
-      const response = await fetch("/api/users/reset-password", {
+      const response = await fetch(`${baseUrl}/api/users/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Movement } from "../types/type";
 import "./loaderStyles.css";
+import baseUrl from "@/components/BaseUrl";
 
 const MovementCard = (props: { props: Movement }) => {
   const moveInfo = props.props;
@@ -9,7 +10,7 @@ const MovementCard = (props: { props: Movement }) => {
     name: string;
   }>();
   useEffect(() => {
-    fetch(`api/currency/${moveInfo.currency_id}`)
+    fetch(`${baseUrl}/api/currency/${moveInfo.currency_id}`)
       .then((response) => response.json())
       .then((data) => {
         setCurrency(data.result);

@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import MovementCard from "./MovementCard";
 import { Movement } from "../types/type";
+import baseUrl from "@/components/BaseUrl";
 
 export const Movements = (props: { user_id: number }) => {
   const [moves, setMoves] = useState<Movement[]>([]);
@@ -14,7 +15,7 @@ export const Movements = (props: { user_id: number }) => {
     const id = props.user_id.toString();
 
     try {
-      const response = await fetch(`/api/moves/?page=${page}&user_id=${id}`);
+      const response = await fetch(`${baseUrl}/api/moves/?page=${page}&user_id=${id}`);
       if (response.ok) {
         const data = await response.json();
         setMoves(data.result);

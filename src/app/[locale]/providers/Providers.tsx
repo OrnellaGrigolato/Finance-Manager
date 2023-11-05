@@ -1,5 +1,4 @@
 "use client";
-import { SessionProvider } from "next-auth/react";
 import { createContext, useContext } from "react";
 import getUserDataFromToken from "@/utils/authUtils";
 
@@ -14,9 +13,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const userInfo = token.token ? getUserDataFromToken(token.token) : null;
   userInfo ? (userData = userInfo.id) : null;
   return (
-    <SessionProvider>
+    
       <ApiContext.Provider value={userData}>{children}</ApiContext.Provider>
-    </SessionProvider>
+   
   );
 }
 

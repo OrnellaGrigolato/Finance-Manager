@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import baseUrl from "@/components/BaseUrl";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await fetch("/api/users/login", {
+      const response = await fetch(`${baseUrl}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +27,7 @@ const Login = () => {
       });
     
       if (response.ok) {
-        //console.log("Response is okay, redirecting to dashboard");
+        console.log("Response is: ", response);
         router.push("/dashboard");
       } else {
         //console.log("Response is not okay, status code:", response.status);
@@ -55,7 +56,7 @@ const Login = () => {
   const handleBlock = async (email: string) => {
     //e.preventDefault(); // Prevent the default form submission
     try {
-      const response = await fetch("/api/users/block", {
+      const response = await fetch(`${baseUrl}/api/users/block`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +81,7 @@ const Login = () => {
   const handlePasswordReset = async (email: string) => {
     //e.preventDefault(); // Prevent the default form submission
     try {
-      const response = await fetch("/api/users/reset-password", {
+      const response = await fetch(`${baseUrl}/api/users/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

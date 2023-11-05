@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Cookies from "js-cookie";
+import baseUrl from '@/components/BaseUrl';
 
 
 
@@ -48,7 +49,7 @@ const ChangePasswordForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      const response = await fetch('/api/users/reset-password', {
+      const response = await fetch(`${baseUrl}/api/users/reset-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
