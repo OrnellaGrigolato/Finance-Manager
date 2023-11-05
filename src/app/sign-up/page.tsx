@@ -105,7 +105,7 @@ const RegisterForm: React.FC = () => {
           src="/login-bg.jpg"
           priority={true}
           alt=""
-          className="brightness-[0.8] w-full h-full absolute top-0 left-0 -z-10 max-sm:background-size max-sm:object-left-top"
+          className="brightness-[0.8] w-full h-full absolute top-0 left-0 -z-10 max-sm:object-cover max-sm:object-left-top"
         />
 
         <form
