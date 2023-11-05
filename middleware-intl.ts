@@ -1,4 +1,4 @@
-//middleware.ts
+//middleware-intl.ts
 import createMiddleware from 'next-intl/middleware';
  
 export default createMiddleware({
