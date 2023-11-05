@@ -33,7 +33,7 @@ const MovesForm = () => {
     discount_amount: number;
     user_id: number; // Aca va el id del usuario logeado
     currency_id: string | number;
-    DorO_id: number
+    DorO_id: number;
   }>({
     title: "",
     description: "",
@@ -41,12 +41,13 @@ const MovesForm = () => {
     discount_amount: 0,
     user_id: apiData!, // Aca va el id del usuario logeado
     currency_id: "", // Aca va el id del currency seleccionado,
-    DorO_id:1
+    DorO_id: 1,
   });
   const [userCurrencies, setUserCurrencies] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
   const [currNames, setCurrNames] = useState<string[]>([]);
   const [sending, setSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
 
   useEffect(() => {
@@ -117,91 +118,111 @@ const MovesForm = () => {
       }
     });
   }, []);
+
   useEffect(() => {
     getUserCurrencies();
   }, [moves, getUserCurrencies]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSending(true);
-    if (action === "deposit" && curr) {
-      let count = 0;
-      for (let i = 0; i <= curr?.length - 1; i++) {
-        //If the currency is not in our database, add it
-        curr[i].name === formData.currency_id ? count++ : "";
-      }
-
-      if (count === 0) {
-        await fetch("api/currency", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: formData.currency_id }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data))
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-
-      try {
-        const response1 = await fetch(
-          `/api/currency/name/${formData.currency_id}`
-        );
-        const data1 = await response1.json();
-
-        const updatedFormData = {
-          ...formData,
-          currency_id: data1.result.id_currency,
-        };
-
-        const response2 = await fetch("/api/moves", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedFormData),
-        });
-
-        const data2 = await response2.json();
-
-        router.push("/dashboard");
-      } catch (error) {
-        console.error(error);
-      }
+    if (errorMessage) {
+      window.alert(
+        `Solve this error before ${action}: write numbers to no more than two decimal places.`
+      );
+      setSending(false);
     } else {
-      try {
-        const response1 = await fetch(
-          `/api/currency/name/${formData.currency_id}`
-        );
-        const data1 = await response1.json();
-
-        const updatedFormData = {
-          ...formData,
-          currency_id: data1.result.id_currency,
-        };
-
-        const response = await fetch("/api/moves", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedFormData),
-        });
-
-        if (response.ok) {
-          router.push("/dashboard");
-        } else {
-          const errorData = await response.json();
-          setError(errorData.message);
+      if (action === "deposit" && curr) {
+        let count = 0;
+        for (let i = 0; i <= curr?.length - 1; i++) {
+          //If the currency is not in our database, add it
+          curr[i].name === formData.currency_id ? count++ : "";
         }
-      } catch (error) {
-        console.error("Error al crear el movimiento:", error);
+
+        if (count === 0) {
+          await fetch("api/currency", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: formData.currency_id }),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+
+        try {
+          const response1 = await fetch(
+            `/api/currency/name/${formData.currency_id}`
+          );
+          const data1 = await response1.json();
+
+          const updatedFormData = {
+            ...formData,
+            currency_id: data1.result.id_currency,
+          };
+
+          const response2 = await fetch("/api/moves", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedFormData),
+          });
+
+          const data2 = await response2.json();
+
+          router.push("/dashboard");
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response1 = await fetch(
+            `/api/currency/name/${formData.currency_id}`
+          );
+          const data1 = await response1.json();
+
+          const updatedFormData = {
+            ...formData,
+            currency_id: data1.result.id_currency,
+          };
+
+          const response = await fetch("/api/moves", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedFormData),
+          });
+
+          if (response.ok) {
+            router.push("/dashboard");
+          } else {
+            const errorData = await response.json();
+            setError(errorData.message);
+          }
+        } catch (error) {
+          console.error("Error al crear el movimiento:", error);
+        }
       }
     }
   };
 
   const handleChange = (e: any /* ChangeEvent<HTMLInputElement> */) => {
     const { name, value } = e.target;
+    if (!Number.isNaN(parseInt(value))) {
+      if (
+        value.match(/\.\d{3,}/) !== null ||
+        value.match(/\,\d{3,}/) !== null
+      ) {
+        setErrorMessage("Write numbers to no more than two decimal places.");
+      } else {
+        setErrorMessage("");
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -273,7 +294,10 @@ const MovesForm = () => {
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
                 required
+                step="0.01"
+                pattern="\d+(\,\d{1,2})?"
               />
+              <div className="text-red-400 text-sm mt-1">{errorMessage}</div>
             </div>
           ) : (
             <div className="mb-4">
@@ -288,7 +312,10 @@ const MovesForm = () => {
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
                 required
+                step="0.01"
+                pattern="\d+(\,\d{1,2})?"
               />
+              <div className="text-red-400 text-sm mt-1">{errorMessage}</div>
             </div>
           )}
           <div className="mb-4">
