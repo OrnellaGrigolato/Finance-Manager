@@ -131,6 +131,11 @@ const MovesForm = () => {
         `Solve this error before ${action}: write numbers to no more than two decimal places.`
       );
       setSending(false);
+    } else if (!formData.currency_id) {
+      setSending(false);
+      window.alert(
+        `Solve this error before ${action}: please select a currency`
+      );
     } else {
       if (action === "deposit" && curr) {
         let count = 0;
