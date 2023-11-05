@@ -1,0 +1,12 @@
+{
+    "Navbar": {
+      "home": "Inicio",
+      "app": "Aplicación",
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "logOut": "Cerrar sesión",
+      "login": "Iniciar sesión",
+      "getStarted": "Comenzar ahora"
+    }
+   }
+   

@@ -1,5 +1,11 @@
+//next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  i18n: {
+    locales: ['default', 'en', 'es'],
+    defaultLocale: 'default',
+    localeDetection: false,
+  },
   images: {
     remotePatterns: [
       {
@@ -9,6 +15,7 @@ const nextConfig = {
       },
     ],
   },
-};
-
-module.exports = nextConfig;
+ };
+ 
+ module.exports = nextConfig;
+ 

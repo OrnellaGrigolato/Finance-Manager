@@ -1,0 +1,12 @@
+{
+    "Navbar": {
+      "home": "Home",
+      "app": "App",
+      "about": "About",
+      "contact": "Contact",
+      "logOut": "Log Out",
+      "login": "Login",
+      "getStarted": "Get Started"
+    }
+   }
+   
