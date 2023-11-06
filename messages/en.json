@@ -1,12 +1,65 @@
 {
-    "Navbar": {
-      "home": "Home",
-      "app": "App",
-      "about": "About",
-      "contact": "Contact",
-      "logOut": "Log Out",
-      "login": "Login",
-      "getStarted": "Get Started"
+  "Navbar": {
+    "home": "Home",
+    "app": "App",
+    "about": "About",
+    "contact": "Contact",
+    "logOut": "Log Out",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "Header":{
+    "keepFinances":"Keep your finances in order from today",
+    "startnow":"Start Now"
+  },
+  "ProsToUseSection":{
+    "growthToolsTitle":"Tools to help you measure your growth"
+  },
+  "Stadistics": {
+    "Trusted Worldwide": "Trusted Worldwide",
+    "Trusted by over 2 thousand users and 20 teams": "Trusted by over 2 thousand users and 20 teams",
+    "Read more": "Read more",
+    "Security as a priority": "Security as a priority",
+    "Your money will be completely safe on our platform": "Your money will be completely safe on our platform",
+    "Thousands": "Thousands",
+    "of transactions per day": "of transactions per day",
+    "2000+ Users": "2000+ Users",
+    "trusted by over 2000+ users around the world": "trusted by over 2000+ users around the world",
+    "7+ countries": "7+ countries",
+    "have used our web app to manage his finances": "have used our web app to manage his finances"
+  },
+  "CallToAction":{
+    "start from today":"Start From Today",
+    "startnow":"Start Now",
+    "Unlock your financial":"Unlock your financial potential with us! Take the first step towards a brighter financial future. Get started now!"
+  },
+    "Footer": {
+     "company": "COMPANY",
+     "helpAndSupport": "HELP AND SUPPORT",
+     "learning": "LEARNING",
+     "resources": "RESOURCES",
+     "legal": "LEGAL",
+     "aboutUs": "About Us",
+     "affiliateProgram": "Affiliate Program",
+     "careers": "Carrers",
+     "contactUs": "Contact Us",
+     "helpCenter": "Help Center",
+     "premiumSupport": "Premium Support",
+     "faq": "FAQ",
+     "tutorials": "Tutorials",
+     "manuals": "Manuals",
+     "learnHub": "Learn Hub",
+     "thirdPartyTools": "Third-Party Tools",
+     "blog": "Blog",
+     "community": "Community",
+     "privacyPolicy": "Privacy Policy",
+     "termsAndConditions": "Terms & Conditions",
+     "fees": "Fees",
+     "copyright": "© 2023 Crombie. All rights reserved."
     }
-   }
+   
+   
+}
+     
+  
    

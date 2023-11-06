@@ -1,13 +1,18 @@
+import { useTranslations } from "next-intl";
 import Adventage from "./Adventage";
 import Image from "next/image";
 const ProsToUseSection = () => {
+
+  const t = useTranslations('ProsToUseSection');
+
+
   return (
     <>
       <section className="bg-[#F9FAFB] ">
         <div className="w-10/12 mx-auto flex gap-44 pt-44 max-sm:flex-col max-sm:pt-28 max-sm:gap-5">
           <div className="w-10/12">
             <h2 className="font-extrabold text-4xl leading-[3rem]">
-              Tools to help you measure your growth
+              {t('growthToolsTitle')}
             </h2>
             <p className="text-gray-500 mt-5">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi
@@ -78,7 +83,7 @@ const ProsToUseSection = () => {
 
           <div>
             <h2 className="font-extrabold text-4xl w-[110%] leading-[5rem] max-sm:leading-snug max-sm:mb-10">
-              Tools to help you measure your growth
+            {t('growthToolsTitle')}
             </h2>
             <p className="text-gray-500">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi

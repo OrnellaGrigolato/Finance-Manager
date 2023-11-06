@@ -1,12 +1,64 @@
 {
-    "Navbar": {
-      "home": "Inicio",
-      "app": "Aplicación",
-      "about": "Acerca de",
-      "contact": "Contacto",
-      "logOut": "Cerrar sesión",
-      "login": "Iniciar sesión",
-      "getStarted": "Comenzar ahora"
-    }
+  "Navbar": {
+    "home": "Inicio",
+    "app": "Aplicación",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "logOut": "Cerrar sesión",
+    "login": "Iniciar sesión",
+    "getStarted": "Comenzar ahora"
+  },
+  "Header":{
+    "keepFinances":"Mantén tus finanzas en orden, empieza hoy",
+    "startnow":"Comienza ya!"
+  },
+  "ProsToUseSection":{
+    "growthToolsTitle":"Herramientas para ayudarte a medir tus avances"
+  },
+  "Stadistics":{
+    "Trusted Worldwide": "De confianza en todo el mundo",
+    "Trusted by over 2 thousand users and 20 teams": "Mas de 2 mil usuarios y 20 equipos confían en nosotros",
+    "Read more": "Leer más",
+    "Security as a priority": "Seguridad como prioridad",
+    "Your money will be completely safe on our platform": "Tu dinero estará completamente seguro en nuestra plataforma",
+    "Thousands": "Miles",
+    "of transactions per day": "de transacciones al día",
+    "2000+ Users": "2000+ Usuarios",
+    "trusted by over 2000+ users around the world": "de confianza de más de 2000+ usuarios en todo el mundo",
+    "7+ countries": "7+ países",
+    "have used our web app to manage his finances": "han utilizado nuestra aplicación web para administrar sus finanzas"
+   },
+    "CallToAction":{
+    "start from today":"Comienza hoy a controlar tus finanzas",
+    "startnow":"Comienza ya!",
+    "Unlock your financial":"Desbloquea tu potencial financiero con nosotros! Da el primer paso hacia un futuro financiero más brillante. ¡Comienza ahora!"
+  },
+  "Footer":{
+    "company": "EMPRESA",
+    "helpAndSupport": "AYUDA Y SOPORTE",
+    "learning": "APRENDIZAJE",
+    "resources": "RECURSOS",
+    "legal": "LEGAL",
+    "aboutUs": "Sobre nosotros",
+    "affiliateProgram": "Programa de afiliados",
+    "careers": "Carreras",
+    "contactUs": "Contáctenos",
+    "helpCenter": "Centro de ayuda",
+    "premiumSupport": "Soporte premium",
+    "faq": "Preguntas frecuentes",
+    "tutorials": "Tutoriales",
+    "manuals": "Manuales",
+    "learnHub": "Learn Hub",
+    "thirdPartyTools": "Herramientas de terceros",
+    "blog": "Blog",
+    "community": "Comunidad",
+    "privacyPolicy": "Política de privacidad",
+    "termsAndConditions": "Términos y condiciones",
+    "fees": "Tarifas",
+    "copyright": "© 2023 Crombie. Todos los derechos reservados."
    }
+   
+   
+
+ }
    

@@ -1,9 +1,17 @@
+"use client"
+
 import { Menu, Transition } from "@headlessui/react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { Fragment } from "react";
-import { signIn } from "next-auth/react";
+import { Fragment, useState } from "react";
+import Image from 'next/image';
+
 
 export const ResponsiveMenu = (props: { logged: boolean }) => {
+
+  const t = useTranslations('Navbar');
+  const [Locale, setLocale] = useState(useLocale());
+
   return (
     <div className=" text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -32,28 +40,28 @@ export const ResponsiveMenu = (props: { logged: boolean }) => {
             <div className="p-3">
               <Menu.Item>
                 <Link href="/" className="p-2">
-                  Home
+                  {t('home')}
                 </Link>
               </Menu.Item>
             </div>
             <div className="p-3">
               <Menu.Item>
                 <Link href="/dashboard" className="p-2">
-                  App
+                  {t('app')}
                 </Link>
               </Menu.Item>
             </div>
             <div className="p-3">
               <Menu.Item>
                 <Link href="/about" className="p-2 ">
-                  About
+                  {t('about')}
                 </Link>
               </Menu.Item>
             </div>
             <div className="p-3">
               <Menu.Item>
                 <Link href="/contact" className="p-2 ">
-                  Contact
+                  {t('contact')}
                 </Link>
               </Menu.Item>
             </div>
@@ -61,7 +69,7 @@ export const ResponsiveMenu = (props: { logged: boolean }) => {
               <div className="p-3 ">
                 <Menu.Item>
                   <Link href="/logOut" className="p-2">
-                    LogOut
+                    {t('logOut')}
                   </Link>
                 </Menu.Item>
               </div>
@@ -71,19 +79,38 @@ export const ResponsiveMenu = (props: { logged: boolean }) => {
                 <div className="p-3 ">
                   <Menu.Item>
                     <Link href="/login" className="p-2 ">
-                      Sign In
+                      {t('login')}
                     </Link>
                   </Menu.Item>
                 </div>
                 <div className="p-3">
                   <Menu.Item>
                     <Link href="/sign-up" className="p-2 ">
-                      Get Started
+                      {t('getStarted')}
                     </Link>
                   </Menu.Item>
                 </div>
               </div>
             )}
+            <div className="px-3 py-1">
+              <Menu.Item>
+                <div className="tooltip flex flex-row p-2">
+                  <Link className="flex" href={Locale === "en" ? "/es" : "/en"}>
+
+                  {Locale === "en" ? "English" : "Spanish"}
+                    
+                      <Image className="ml-2"
+                        src={Locale === "en" ? "/usa-flag.png" : "/arg-flag.png"}
+                        width={26}
+                        height={26}
+                        alt={Locale === "en" ? "EEUU Flag" : "Argentina Flag"}
+                        title={Locale === "en" ? "English" : "Spanish"}
+                      />
+                   
+                  </Link>
+                </div>
+              </Menu.Item>
+            </div>
           </Menu.Items>
         </Transition>
       </Menu>
