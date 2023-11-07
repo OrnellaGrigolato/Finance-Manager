@@ -33,18 +33,18 @@ model Users {
 }
 
 model Moves {
-  id_moves        Int      @id @unique @default(autoincrement())
-  description     String   @db.Text()
-  income_amount   Decimal  @default(0) @db.Decimal(10, 2)
-  discount_amount Decimal  @default(0) @db.Decimal(10, 2)
-  movement_date   DateTime @default(now()) @db.Timestamp()
-  user            Users    @relation(fields: [user_id], references: [id])
+  id_moves        Int             @id @unique @default(autoincrement())
+  description     String          @db.Text()
+  income_amount   Decimal         @default(0) @db.Decimal(10, 2)
+  discount_amount Decimal         @default(0) @db.Decimal(10, 2)
+  movement_date   DateTime        @default(now()) @db.Timestamp()
+  user            Users           @relation(fields: [user_id], references: [id])
   user_id         Int
-  title           String   @db.VarChar(35)
-  currency        Currency @relation(fields: [currency_id], references: [id_currency])
+  title           String          @db.VarChar(35)
+  currency        Currency        @relation(fields: [currency_id], references: [id_currency])
   currency_id     Int
-  DorO DestinyOrOrigin @relation(fields: [DorO_id], references: [id_DorO])
-  DorO_id         Int
+  DorO            DestinyOrOrigin @relation(fields: [DorO_id], references: [id_DorO])
+  DorO_id         Int             @default(0)
 
   @@index([user_id])
   @@index([currency_id])
@@ -58,7 +58,7 @@ model Currency {
 }
 
 model DestinyOrOrigin {
-  id_DorO     Int @id @unique @default(autoincrement())
-  name        String @unique
-  moves Moves[]
+  id_DorO Int     @id @unique @default(autoincrement())
+  name    String  @unique
+  moves   Moves[]
 }

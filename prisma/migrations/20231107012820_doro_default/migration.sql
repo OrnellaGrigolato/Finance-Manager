@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Moves" ALTER COLUMN "DorO_id" SET DEFAULT 0;

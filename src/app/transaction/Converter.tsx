@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent } from "react";
+import { checkCurrencyQuantity } from "./useCheckCurrencyQuantity";
 import Country_list from "./data/CountryList";
 import Image from "next/image";
 import { useApiData } from "../providers/Providers";
@@ -17,6 +18,7 @@ function CurrencyConverter() {
   const [moves, setMoves] = useState<Movement[]>([]);
   const [userCurrencies, setUserCurrencies] = useState<number[]>();
   const [currNames, setCurrNames] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
   const userId = useApiData();
 
@@ -45,6 +47,10 @@ function CurrencyConverter() {
         console.log(error);
       });
   }, [baseCurrency, targetCurrency, apiKey]);
+
+  useEffect(() => {
+    getMoves();
+  }, []);
 
   const getMoves = () => {
     fetch(`/api/moves/user/${userId}`)
@@ -90,6 +96,7 @@ function CurrencyConverter() {
   };
 
   const handleCurrencySwap = () => {
+    setErrorMessage("");
     if (currNames.includes(targetCurrency)) {
       const temp = baseCurrency;
       setBaseCurrency(targetCurrency);
@@ -99,56 +106,65 @@ function CurrencyConverter() {
       setConversionResult(conversionResult / conversionRate);
       setConversionRate(1 / conversionRate);
     } else {
-      alert(`You don't have ${targetCurrency} to exchange`);
+      setErrorMessage(`You don't have any ${targetCurrency} to exchange`);
     }
   };
 
   const handleConvert = async () => {
-    try {
-      setIsConverting(true);
-      const response1 = await fetch(`/api/currency/name/${targetCurrency}`);
-      const data1 = await response1.json();
+    setErrorMessage("");
+    let result = await checkCurrencyQuantity(moves, amount, baseCurrency);
 
-      const response2 = await fetch("/api/moves", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: "Convert",
-          isVisible: false,
-          description: "-",
-          income_amount: (amount * conversionRate).toFixed(2),
-          discount_amount: "0",
-          user_id: userId,
-          currency_id: data1.result.id_currency,
-        }),
-      });
+    if (result) {
+      try {
+        setIsConverting(true);
+        const response1 = await fetch(`/api/currency/name/${targetCurrency}`);
+        const data1 = await response1.json();
 
-      const data2 = await response2.json();
+        const response2 = await fetch("/api/moves", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Convert",
+            description: "-",
+            income_amount: (amount * conversionRate).toFixed(2),
+            discount_amount: "0",
+            user_id: userId,
+            currency_id: data1.result.id_currency,
+            DorO_id: 0,
+          }),
+        });
 
-      const response3 = await fetch(`/api/currency/name/${baseCurrency}`);
-      const data3 = await response3.json();
+        const data2 = await response2.json();
 
-      const response4 = await fetch("/api/moves", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: "Convert",
-          isVisible: false,
-          description: "-",
-          income_amount: "0",
-          discount_amount: amount,
-          user_id: userId,
-          currency_id: data3.result.id_currency,
-        }),
-      });
-      setIsConverting(false);
-      router.push("/dashboard");
-    } catch (e) {
-      console.error("Convertion had failed: " + e);
+        const response3 = await fetch(`/api/currency/name/${baseCurrency}`);
+        const data3 = await response3.json();
+
+        const response4 = await fetch("/api/moves", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Convert",
+            description: "-",
+            income_amount: "0",
+            discount_amount: amount,
+            user_id: userId,
+            currency_id: data3.result.id_currency,
+            DorO_id: 0,
+          }),
+        });
+        setIsConverting(false);
+        router.push("/dashboard");
+      } catch (e) {
+        console.error("Convertion had failed: " + e);
+      }
+    } else {
+      setErrorMessage(
+        `You do not have enough ${baseCurrency} to make the transaction. Reduce the amount and try again`
+      );
     }
   };
 
@@ -206,7 +222,10 @@ function CurrencyConverter() {
             <label>To:</label>
             <select
               value={targetCurrency}
-              onChange={(e) => setTargetCurrency(e.target.value)}
+              onChange={(e) => {
+                setTargetCurrency(e.target.value);
+                setErrorMessage("");
+              }}
               className="ml-2 bg-bg rounded-md p-1 mb-1"
             >
               {currencies.map((currency) => (
@@ -236,6 +255,9 @@ function CurrencyConverter() {
             {(amount * conversionRate).toFixed(2)} {targetCurrency}
           </p>
         </div>
+      </div>
+      <div className="font-extrabold text-red-500 mt-6 -mb-6 text-center w-full">
+        {errorMessage}
       </div>
       <button
         onClick={() => handleConvert()}
