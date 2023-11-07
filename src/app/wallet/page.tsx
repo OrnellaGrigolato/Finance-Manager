@@ -19,6 +19,7 @@ import convertDate, {
   calculateDifferenceInDays,
   calcularSaldosPorFecha,
   getUserCurrencies,
+  convertirMovimientos,
 } from "./useMovementsLogic";
 
 ChartJS.register(
@@ -32,6 +33,17 @@ const Wallet = () => {
   const apiData = useApiData();
   const [dolarPrice, setDolarPrice] = useState<DollarResponse[]>();
   const [moves, setMoves] = useState<Movement[]>([]);
+  const [convertedMoves, setConvertedMoves] = useState<Movement[]>([]);
+
+  useEffect(() => {
+    const convertion = async () => {
+      const result = await convertirMovimientos(moves);
+      setConvertedMoves(result);
+    };
+
+    // call the function
+    convertion();
+  }, [moves]);
 
   useEffect(() => {
     fetch("https://dolarapi.com/v1/dolares")
@@ -51,7 +63,7 @@ const Wallet = () => {
       .catch((e) => console.error(e));
   }, [apiData]);
 
-  const saldosPorFecha = calcularSaldosPorFecha(moves);
+  const saldosPorFecha = calcularSaldosPorFecha(convertedMoves);
 
   const fechasOrdenadasParaGrafico1 = Object.keys(saldosPorFecha).sort(
     (a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()
@@ -74,7 +86,7 @@ const Wallet = () => {
       },
     ],
   };
-  const movimientosAgrupados = groupByDate(moves);
+  const movimientosAgrupados = groupByDate(convertedMoves);
   const labels = Object.keys(movimientosAgrupados)
     .sort(
       (a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()
@@ -85,7 +97,7 @@ const Wallet = () => {
     });
 
   const movimientosAgrupadosparaIngresoYEgreso =
-    groupByDateIncomeAndExpenditure(moves);
+    groupByDateIncomeAndExpenditure(convertedMoves);
 
   // Convertimos el objeto en un array y ordenamos las fechas
   const fechasOrdenadas = Object.keys(
@@ -144,14 +156,16 @@ const Wallet = () => {
               <div className="flex  max-sm:flex-col max-sm:items-center">
                 <div className="mr-12 max-sm:mr-0 max-sm:text-center max-sm:mb-8">
                   <div className="flex flex-col w-32 mb-5 ">
-                    <b className="font-bold text-lg">{moves.length}</b>
+                    <b className="font-bold text-lg">
+                      {moves.filter((e) => e.title != "Convert").length}
+                    </b>
                     <p className="text-xs font-light">
                       is the number of movements you have made
                     </p>
                   </div>
                   <div className="flex flex-col w-32">
                     <b className="font-bold text-lg">
-                      {getUserCurrencies(moves)}
+                      {getUserCurrencies(moves).length}
                     </b>
                     <p className="text-xs font-light">
                       is the number of currencies you have

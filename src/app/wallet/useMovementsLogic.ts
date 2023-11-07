@@ -1,5 +1,5 @@
 import { Movement } from "../types/type";
-
+const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
 export interface DollarResponse {
   compra: number;
   venta: number;
@@ -18,19 +18,76 @@ const getUserCurrencies = (moves: Movement[]) => {
     }
   });
 
-  return currenciesIds.length;
+  return currenciesIds;
+};
+
+const obtenerNombreMoneda = async (currencyId: number) => {
+  try {
+    const response = await fetch(`api/currency/${currencyId}`);
+    const data = await response.json();
+    return data.result.name;
+  } catch (error) {
+    console.error("Error al obtener el nombre de la moneda:", error);
+    return null; // En caso de error, devuelve null o un valor por defecto
+  }
+};
+
+const getConvertedValues = async (move: Movement) => {
+  try {
+    const currencyName = await obtenerNombreMoneda(move.currency_id);
+    if (currencyName) {
+      const conversionResponse = await fetch(
+        `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${currencyName}/ARS/${
+          move.income_amount != "0" ? move.income_amount : move.discount_amount
+        }`
+      );
+      const conversionData = await conversionResponse.json();
+      const convertedIncome = conversionData.conversion_result;
+
+      return move.income_amount != "0"
+        ? {
+            ...move,
+            income_amount: convertedIncome,
+          }
+        : {
+            ...move,
+            discount_amount: convertedIncome,
+          };
+    }
+
+    return move; // En caso de no poder obtener el nombre de la moneda, devolvemos el movimiento sin cambios
+  } catch (error) {
+    console.error("Error al convertir movimiento:", error);
+    return move; // En caso de error, devolvemos el movimiento sin cambios
+  }
+};
+
+const convertirMovimientos = async (moves: Movement[]) => {
+  const convertedMoves = await Promise.all(
+    moves.map(async (move) => {
+      return await getConvertedValues(move);
+    })
+  );
+
+  // Aquí puedes utilizar los movimientos convertidos
+  // en lugar de los movimientos originales
+  // ...
+
+  return convertedMoves;
 };
 
 function groupByDate(movimientos: Movement[]) {
   const grouped: { [key: string]: any } = {};
 
-  movimientos.forEach((movement) => {
-    const date = movement.movement_date.split("T")[0];
-    if (!grouped[date]) {
-      grouped[date] = [];
-    }
-    grouped[date].push(movement);
-  });
+  movimientos
+    .filter((e) => e.title != "Convert")
+    .forEach((movement) => {
+      const date = movement.movement_date.split("T")[0];
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(movement);
+    });
 
   return grouped;
 }
@@ -66,14 +123,17 @@ function convertDate(ISODate: string) {
 function groupByDateIncomeAndExpenditure(moves: Movement[]) {
   const grouped: { [key: string]: any } = {};
 
-  moves.forEach((move) => {
-    const fecha = move.movement_date.split("T")[0];
-    if (!grouped[fecha]) {
-      grouped[fecha] = { ingresos: 0, gastos: 0 };
-    }
-    grouped[fecha].ingresos += parseFloat(move.income_amount);
-    grouped[fecha].gastos += parseFloat(move.discount_amount);
-  });
+  moves
+    .filter((e) => e.title != "Convert")
+    .forEach((move) => {
+      const fecha = move.movement_date.split("T")[0];
+      if (!grouped[fecha]) {
+        grouped[fecha] = { ingresos: 0, gastos: 0 };
+      }
+
+      grouped[fecha].ingresos += parseFloat(move.income_amount);
+      grouped[fecha].gastos += parseFloat(move.discount_amount);
+    });
 
   return grouped;
 }
@@ -82,14 +142,16 @@ function calcularSaldosPorFecha(moves: Movement[]) {
   let saldoAcumulado = 0;
   const saldosPorFecha: { [key: string]: any } = {};
 
-  moves.forEach((move) => {
-    const fecha = move.movement_date.split("T")[0];
-    const ingreso = parseFloat(move.income_amount);
-    const gasto = parseFloat(move.discount_amount);
+  moves
+    .filter((e) => e.title != "Convert")
+    .forEach((move) => {
+      const fecha = move.movement_date.split("T")[0];
+      const ingreso = parseFloat(move.income_amount);
+      const gasto = parseFloat(move.discount_amount);
 
-    saldoAcumulado += ingreso - gasto;
-    saldosPorFecha[fecha] = saldoAcumulado;
-  });
+      saldoAcumulado += ingreso - gasto;
+      saldosPorFecha[fecha] = saldoAcumulado;
+    });
 
   return saldosPorFecha;
 }
@@ -102,4 +164,5 @@ export {
   groupByDateIncomeAndExpenditure,
   calcularSaldosPorFecha,
   getUserCurrencies,
+  convertirMovimientos,
 };
