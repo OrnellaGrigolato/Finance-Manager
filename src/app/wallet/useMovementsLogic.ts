@@ -32,27 +32,31 @@ const obtenerNombreMoneda = async (currencyId: number) => {
   }
 };
 
-const getConvertedValues = async (move: Movement) => {
+export const getConvertedValues = async (move: Movement) => {
   try {
-    const currencyName = await obtenerNombreMoneda(move.currency_id);
-    if (currencyName) {
-      const conversionResponse = await fetch(
-        `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${currencyName}/ARS/${
-          move.income_amount != "0" ? move.income_amount : move.discount_amount
-        }`
-      );
-      const conversionData = await conversionResponse.json();
-      const convertedIncome = conversionData.conversion_result;
+    if (move.currency_id != 1) {
+      const currencyName = await obtenerNombreMoneda(move.currency_id);
+      if (currencyName) {
+        const conversionResponse = await fetch(
+          `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${currencyName}/ARS/${
+            move.income_amount != "0"
+              ? move.income_amount
+              : move.discount_amount
+          }`
+        );
+        const conversionData = await conversionResponse.json();
+        const convertedIncome = conversionData.conversion_result;
 
-      return move.income_amount != "0"
-        ? {
-            ...move,
-            income_amount: convertedIncome,
-          }
-        : {
-            ...move,
-            discount_amount: convertedIncome,
-          };
+        return move.income_amount != "0"
+          ? {
+              ...move,
+              income_amount: convertedIncome,
+            }
+          : {
+              ...move,
+              discount_amount: convertedIncome,
+            };
+      }
     }
 
     return move; // En caso de no poder obtener el nombre de la moneda, devolvemos el movimiento sin cambios

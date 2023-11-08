@@ -1,5 +1,5 @@
 "use client";
-
+import "@/app/profile/style.css";
 import { useApiData } from "@/app/providers/Providers";
 import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -375,10 +375,35 @@ const MovesForm = () => {
             </select>
           </div>
           <div className="flex justify-between mt-6">
-            <label htmlFor="currency_id" className="block font-bold">
+            <label
+              htmlFor="currency_id"
+              className=" font-bold items-center flex gap-2"
+            >
               {action === "deposit"
                 ? "Where did you receive the money?"
                 : "From where do you withdraw the money?"}
+
+              <div className="tooltip">
+                <Image
+                  src={"/info-icon.png"}
+                  width={18}
+                  height={18}
+                  alt="Info Icon"
+                />
+                <div className="top">
+                  <p className="text-sm">
+                    Specify here where{" "}
+                    {action === "deposit"
+                      ? "you deposit your money"
+                      : "your money comes from"}{" "}
+                    so we can show you an accurate analysis of where your money
+                    is located in your "wallet" section. This option is
+                    optional, if you don't complete it we will understand that
+                    the movement is done in cash.
+                  </p>
+                  <i></i>
+                </div>
+              </div>
             </label>{" "}
             {!isFormActive ? (
               <button
