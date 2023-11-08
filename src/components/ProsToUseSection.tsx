@@ -1,3 +1,5 @@
+"use client"
+
 import { useTranslations } from "next-intl";
 import Adventage from "./Adventage";
 import Image from "next/image";

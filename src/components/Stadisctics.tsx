@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import Stadistic from "./Stadistic";
 import { useTranslations } from 'next-intl';

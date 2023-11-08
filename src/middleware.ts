@@ -11,13 +11,14 @@ export default async function middleware(request: NextRequest) {
   // Step 2: Create and call the next-intl middleware
   const handleI18nRouting = createIntlMiddleware({
     locales: ['en', 'es'],
-    defaultLocale
+    defaultLocale,
+    localePrefix: 'always'
   });
   const response = handleI18nRouting(request);
   // Step 3: Alter the response
   response.headers.set('x-default-locale', defaultLocale);
 
-  const paths = ["/dashboard", "/es/dashboard", "/wallet", "/es/wallet", "/moves-form", "/es/moves-form", "/transaction", "/es/transaction", "/profile", "/es/profile"];
+  const paths = ["en/dashboard", "/es/dashboard", "en/wallet", "/es/wallet", "en/moves-form", "/es/moves-form", "en/transaction", "/es/transaction", "en/profile", "/es/profile"];
   // Check if the request is for /dashboard
   if (paths.includes(request.nextUrl.pathname)) {
     try {
