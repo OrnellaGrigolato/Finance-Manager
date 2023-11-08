@@ -1,10 +1,12 @@
+import baseUrl from "@/components/BaseUrl";
+
 export const handleNewDorO = async (newDorO: string) => {
   let DoroS: [];
-  fetch(`/api/DorO`)
+  fetch(`${baseUrl}/api/DorO`)
     .then((response) => response.json())
     .then((data) => {
       if (newDorO && !data.result?.includes(newDorO)) {
-        fetch("api/DorO", {
+        fetch(`${baseUrl}/api/DorO`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: newDorO }),
@@ -20,7 +22,7 @@ export const handleNewDorO = async (newDorO: string) => {
 export const getNewDorOId = async (DorOName: string) => {
   if (DorOName != "") {
     try {
-      const response = await fetch(`/api/DorO/name/${DorOName}`);
+      const response = await fetch(`${baseUrl}/api/DorO/name/${DorOName}`);
       const data = await response.json();
       return data.result.id_DorO;
     } catch (error) {

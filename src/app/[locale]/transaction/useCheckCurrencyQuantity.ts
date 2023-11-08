@@ -1,3 +1,4 @@
+import baseUrl from "@/components/BaseUrl";
 import { Movement } from "../types/type";
 
 export const checkCurrencyQuantity = async (
@@ -26,7 +27,7 @@ export const checkCurrencyQuantity = async (
       });
 
       try {
-        const response = await fetch(`/api/currency/${currId}`);
+        const response = await fetch(`${baseUrl}/api/currency/${currId}`);
 
         if (response.ok) {
           const data = await response.json();

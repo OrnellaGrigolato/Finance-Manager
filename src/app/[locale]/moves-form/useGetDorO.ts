@@ -1,3 +1,4 @@
+import baseUrl from "@/components/BaseUrl";
 import { Movement } from "../types/type";
 
 export const getUserDorOs = (moves: Movement[]) => {
@@ -11,7 +12,7 @@ export const getUserDorOs = (moves: Movement[]) => {
 
   DoroSIds.map(async (e) => {
     try {
-      const response = await fetch(`/api/DorO/${e}`);
+      const response = await fetch(`${baseUrl}/api/DorO/${e}`);
 
       if (response.ok) {
         const data = await response.json();
