@@ -55,23 +55,27 @@ export async function GET(req: Request) {
  }
  
 
-export async function POST(req: Request) {
-  
-    try {
-      const { username, email } = await req.json();
-
-      const userFind = await prisma.users.findUnique({ where: { email: email } });
-      const token = sign({ id: userFind.id }, `${process.env.AUTH_SECRET}`, {
-        expiresIn: "1h",
-      });
-      await sendEmail_profile(username, email, token);
-      return NextResponse.json({ message: "Success" }, { status: 200 });
-    } catch (error) {
-      console.error(error);
-      return NextResponse.json(
-        { error: "Error sending email" },
-        { status: 500 }
-      );
+ export async function POST(req: Request) {
+  try {
+    const { username, email } = await req.json();
+ 
+    const userFind = await prisma.users.findUnique({ where: { email: email } });
+ 
+    if (!userFind) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-  
-}
+ 
+    const token = sign({ id: userFind.id }, `${process.env.AUTH_SECRET}`, {
+      expiresIn: "1h",
+    });
+    await sendEmail_profile(username, email, token);
+    return NextResponse.json({ message: "Success" }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Error sending email" },
+      { status: 500 }
+    );
+  }
+ }
+ 
