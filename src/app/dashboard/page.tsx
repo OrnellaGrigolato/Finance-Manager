@@ -30,7 +30,7 @@ const Dashboard = () => {
     <div className="bg-bg lg:w-[90vw] lg:ml-[10vw] lg:pt-10">
       <Navbar />
       <p className="mb-5 text-xl font-bold hidden w-11/12 mx-auto lg:block ">
-        Welcome Back, {userInfo?.username?.split(" ")[0]}!
+        Welcome, {userInfo?.username?.split(" ")[0]}!
       </p>
       <div className="bg-gradient-to-b from-primary to-[#391EDC] h-[38vh] w-full rounded-[25px] text-white flex justify-center shadow-blackShadow items-center flex-col lg:w-11/12 lg:mx-auto lg:h-[25vh]">
         <div className="lg:flex lg:justify-between lg:items-center lg:w-4/5">

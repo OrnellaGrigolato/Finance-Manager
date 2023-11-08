@@ -128,11 +128,11 @@ const RegisterForm: React.FC = () => {
                     <input
                       type="text"
                       {...field}
-                      className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                      className="mt-2 block mb-2 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
                     />
                   )}
                 />
-                <p className="text-red-600 text-sm mt-2">
+                <p className="text-red-600 text-sm font-bold">
                   {errors.username?.message}
                 </p>
               </label>
@@ -147,11 +147,11 @@ const RegisterForm: React.FC = () => {
                     <input
                       type="email"
                       {...field}
-                      className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                      className="mt-2 block mb-2 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
                     />
                   )}
                 />
-                <p className="text-red-600 text-sm mt-2">
+                <p className="text-red-600 text-sm font-bold">
                   {errors.email?.message}
                 </p>
               </label>
@@ -166,11 +166,11 @@ const RegisterForm: React.FC = () => {
                     <input
                       type="password"
                       {...field}
-                      className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                      className="mt-2 block mb-2 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
                     />
                   )}
                 />
-                <p className="text-red-600 text-sm mt-2">
+                <p className="text-red-600 text-sm font-bold">
                   {errors.password?.message}
                 </p>
               </label>
@@ -185,11 +185,11 @@ const RegisterForm: React.FC = () => {
                     <input
                       type="password"
                       {...field}
-                      className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
+                      className="mt-2 block mb-2 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
                     />
                   )}
                 />
-                <p className="text-red-600 text-sm mt-2">
+                <p className="text-red-600 text-sm  font-bold">
                   {errors.cpassword?.message}
                 </p>
               </label>
@@ -205,7 +205,7 @@ const RegisterForm: React.FC = () => {
             {error.length > 0 ? (
               <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             ) : success === "done" ? (
-              <p className="text-green-600 text-sm mt-3 text-center">
+              <p className="text-green-600 text-sm mt-3 text-center font-bold">
                 Please wait, you are being redirected
               </p>
             ) : (
