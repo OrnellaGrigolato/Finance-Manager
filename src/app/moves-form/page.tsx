@@ -427,7 +427,11 @@ const MovesForm = () => {
             ) : null}
             {DorO.length === 0
               ? "Loading..."
-              : DorO.map((e) => <option value={e}>{e}</option>)}{" "}
+              : DorO.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}{" "}
           </select>
           <p className="text-red-500 text-center">{error}</p>
           <button
