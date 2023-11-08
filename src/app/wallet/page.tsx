@@ -270,8 +270,8 @@ const Wallet = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-8">
-            <div className="border-card-bg border-2 p-10 shadow-blackShadow rounded-2xl w-fit  mt-8">
+          <div className="flex gap-8 max-sm:flex-col max-sm:gap-2">
+            <div className="border-card-bg border-2 p-10 shadow-blackShadow rounded-2xl w-fit  mt-8  max-sm:w-full">
               <h2 className="font-bold text-xl mb-6">Where your money is</h2>
               <div className="w-64">
                 <Pie data={data3} />
