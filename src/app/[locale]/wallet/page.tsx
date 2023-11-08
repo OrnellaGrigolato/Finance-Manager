@@ -22,6 +22,7 @@ import convertDate, {
   convertirMovimientos,
 } from "./useMovementsLogic";
 import baseUrl from "@/components/BaseUrl";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
   LineElement,
@@ -35,6 +36,8 @@ const Wallet = () => {
   const [dolarPrice, setDolarPrice] = useState<DollarResponse[]>();
   const [moves, setMoves] = useState<Movement[]>([]);
   const [convertedMoves, setConvertedMoves] = useState<Movement[]>([]);
+
+  const t = useTranslations('Wallet');
 
   useEffect(() => {
     const convertion = async () => {
@@ -136,40 +139,39 @@ const Wallet = () => {
   };
 
   return (
-    <div className=" bg-bg">
+    <div className="bg-bg">
       <Navbar />
       <div className="w-11/12 mx-auto max-sm:w-10/12">
         <div className="ml-[10vw] max-sm:ml-0">
-          <div className="h-32 flex items-center gap-14 ">
+          <div className="h-32 flex items-center gap-14">
             <div>
               <h1 className="font-bold text-xl leading-tight mx-auto w-full">
-                Your Wallet
+                {t('yourWallet')}
               </h1>
               <p>
-                Manage your information, configure your experience and keep your
-                account safe.
+                {t('manageInfoAndExperience')}
               </p>
             </div>
           </div>
           <div className="flex gap-8 max-sm:flex-col">
             <div className="border-card-bg border-2 p-10 shadow-blackShadow rounded-2xl">
-              <h2 className="font-bold text-xl mb-6">Your balance over time</h2>
-              <div className="flex  max-sm:flex-col max-sm:items-center">
+              <h2 className="font-bold text-xl mb-6">{t('yourBalanceOverTime')}</h2>
+              <div className="flex max-sm:flex-col max-sm:items-center">
                 <div className="mr-12 max-sm:mr-0 max-sm:text-center max-sm:mb-8">
                   <div className="flex flex-col w-32 mb-5 ">
                     <b className="font-bold text-lg">
-                      {moves.filter((e) => e.title != "Convert").length}
+                      {moves.filter((e) => e.title !== "Convert").length}
                     </b>
                     <p className="text-xs font-light">
-                      is the number of movements you have made
+                    {t('movementsCount')}
                     </p>
                   </div>
                   <div className="flex flex-col w-32">
                     <b className="font-bold text-lg">
-                      {getUserCurrencies(moves).length}
+                      {getUserCurrencies(moves).length} 
                     </b>
                     <p className="text-xs font-light">
-                      is the number of currencies you have
+                    {t('currenciesCount')}
                     </p>
                   </div>
                 </div>
@@ -181,17 +183,16 @@ const Wallet = () => {
             <div className="border-card-bg border-2 p-10 shadow-blackShadow rounded-2xl w-full ">
               <div className="flex justify-between max-sm:flex-col">
                 <h2 className="font-bold text-xl mb-6">
-                  Total cast in and out{" "}
+                  {t('totalCashInOut')}
                 </h2>
                 <div className="flex gap-5  mb-6">
                   <div className="flex items-center gap-2 justify-center">
                     <div className="w-4 h-2 bg-primary/[0.4] border-2 border-primary "></div>
-                    Cash In
+                    {t('cashIn')}
                   </div>
                   <div className="flex items-center gap-2 justify-center">
-                    {" "}
                     <div className="w-4 h-2 bg-[#FF6384]/[0.4] border-2 border-[#FF6384]"></div>
-                    Cash Out
+                    {t('cashOut')}
                   </div>
                 </div>
               </div>
@@ -207,17 +208,17 @@ const Wallet = () => {
           <div className="border-card-bg border-2 p-10 shadow-blackShadow rounded-2xl w-fit mt-8 max-sm:w-full max-sm:mb-20">
             {dolarPrice ? (
               <div>
-                <h2 className="font-bold text-xl mb-6">Dolar prices</h2>
+                <h2 className="font-bold text-xl mb-6">{t('dolarPrices')}</h2>
                 <p className="text-xs font-light -mt-6 mb-4">
-                  Updated on: {convertDate(dolarPrice[0].fechaActualizacion)}
+                  {t('updatedOn')}: {convertDate(dolarPrice[0].fechaActualizacion)}
                 </p>
 
                 <div className="flex gap-5 max-sm:flex-col max-sm:items-center">
                   <div className="border-primary/40 border-2 p-4 flex flex-col items-center rounded-lg text-lg w-44">
-                    Dolar Blue
+                    {t('blueDolar')}
                     <div className="flex gap-3 text-sm mt-3 mb-1">
-                      <div className="font-bold">Venta</div>
-                      <div>Compra</div>
+                      <div className="font-bold">{t('selling')}</div>
+                      <div>{t('buying')}</div>
                     </div>
                     <div className="flex text-black/40">
                       <b className="text-black/100">
@@ -233,10 +234,10 @@ const Wallet = () => {
                     </div>
                   </div>
                   <div className="border-primary/40 border-2 p-4 flex flex-col items-center  rounded-lg text-lg  w-44">
-                    Dolar Oficial
+                    {t('officialDolar')}
                     <div className="flex gap-3 text-sm mt-3 mb-1">
-                      <div className="font-bold">Venta</div>
-                      <div>Compra</div>
+                      <div className="font-bold">{t('selling')}</div>
+                      <div>{t('buying')}</div>
                     </div>
                     <div className="flex text-black/40">
                       <b className="text-black/100">

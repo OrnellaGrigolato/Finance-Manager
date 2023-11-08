@@ -7,11 +7,8 @@ import { cookies } from "next/headers";
 export async function POST(request: Request, response: Response) {
   try {
     const { email, password } = await request.json();
-    console.log(email, password)
 
     const userFind = await prisma.users.findUnique({ where: { email: email } });
-
-    console.log(userFind)
 
     if (!userFind) {
       return NextResponse.json(

@@ -4,12 +4,16 @@ import { ApiResponse, Movement } from "../types/type";
 import WalletCard from "./WalletCard";
 import "./loaderStyles.css";
 import { useEffect, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 interface balancePerType {
   [k: string]: number;
 }
 
 const Wallet = (props: { userId: number }) => {
+
+  const t = useTranslations('Dashboard');
+
   const apiData = useApiData();
   const [curr, setCurr] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
@@ -99,13 +103,14 @@ const Wallet = (props: { userId: number }) => {
   useEffect(() => {
     getMoves();
   }, [getMoves]);
+  
   return (
     <div className="flex gap-4 mt-5 flex-wrap">
-      {moves?.length != 0 && userInfo?.available_money === "0" ? (
-        <div>Your wallet is empty.</div>
-      ) : moves?.length != 0 && userInfo?.available_money != "0" ? (
+      {moves?.length !== 0 && userInfo?.available_money === "0" ? (
+        <div>{t('walletEmpty')}</div>
+      ) : moves?.length !== 0 && userInfo?.available_money !== "0" ? (
         loading ? (
-          <div className="loading my-5 mx-auto"></div>
+          <div className="loading my-5 mx-auto">{t('loadingMessage')}</div>
         ) : (
           Object.entries(balancePerType).map((elem, k) => (
             <WalletCard
@@ -117,14 +122,9 @@ const Wallet = (props: { userId: number }) => {
           ))
         )
       ) : (
-        <div>You have&apos;t deposited money to the platform yet</div>
+        <div>{t('noDeposits')}</div>
       )}
-
-      {/* {userInfo?.available_money === "0" && moves?.length != 0 ? (
-       
-      ) : null} */}
     </div>
   );
 };
-
 export default Wallet;

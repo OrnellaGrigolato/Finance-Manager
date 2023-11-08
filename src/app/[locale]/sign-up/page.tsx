@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import baseUrl from "@/components/BaseUrl";
+import { useTranslations } from "next-intl";
 
 const schema = yup.object({
   username: yup.string().required("Username is required"),
@@ -51,6 +52,9 @@ const RegisterForm: React.FC = () => {
   const [success, setSuccess] = React.useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const t = useTranslations('Register');
+
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -100,7 +104,7 @@ const RegisterForm: React.FC = () => {
 
   return (
     <main className="h-[100vh]">
-      <div className="h-full w-full relative flex justify-center items-center ">
+      <div className="h-full w-full relative flex justify-center items-center">
         <Image
           fill={true}
           src="/login-bg.jpg"
@@ -114,13 +118,14 @@ const RegisterForm: React.FC = () => {
           className="max-xs:min-w-0 bg-white p-[32px] bg-opacity-70 rounded-[20px]"
         >
           <div className="min-w-[257px]">
-            <h1 className="text-3xl font-bold text-center w-auto">Sign Up!</h1>
+            <h1 className="text-3xl font-bold text-center w-auto">
+              {t("SignUp")}
+            </h1>
             <p className="text-center mt-2 mb-6 text-sm w-auto">
-              Please fill in the following form to sign up.
+              {t("SignUpInstructions")}
             </p>
-            <h2 className="text-3xl mb-6 font-bold text-center"></h2>
             <div className="mb-4">
-              <p className="text-gray-700 font-bold">Full name:</p>
+              <p className="text-gray-700 font-bold">{t("FullName")}</p>
               <label className="block text-gray-700 text-sm mb-2">
                 <Controller
                   name="username"
@@ -139,7 +144,7 @@ const RegisterForm: React.FC = () => {
               </label>
             </div>
             <div className="mb-4">
-              <p className="text-gray-700 font-bold">Email:</p>
+              <p className="text-gray-700 font-bold">{t("Email")}</p>
               <label className="block text-gray-700 text-sm mb-2">
                 <Controller
                   name="email"
@@ -158,7 +163,7 @@ const RegisterForm: React.FC = () => {
               </label>
             </div>
             <div className="mb-4">
-              <p className="text-gray-700 font-bold">Password:</p>
+              <p className="text-gray-700 font-bold">{t("Password")}</p>
               <label className="block text-gray-700 text-sm mb-2">
                 <Controller
                   name="password"
@@ -177,7 +182,7 @@ const RegisterForm: React.FC = () => {
               </label>
             </div>
             <div className="mb-6">
-              <p className="text-gray-700 font-bold ">Confirm password:</p>
+              <p className="text-gray-700 font-bold ">{t("ConfirmPassword")}</p>
               <label className="block text-gray-700 text-sm mb-2">
                 <Controller
                   name="cpassword"
@@ -200,14 +205,14 @@ const RegisterForm: React.FC = () => {
                 type="submit"
                 className="mt-[17px] px-7 py-3 text-base bg-black text-white rounded-[40px] block w-full"
               >
-                {loading ? "Loading..." : "Register"}
+                {loading ? t("Loading") : t("Register")}
               </button>
             </div>
             {error.length > 0 ? (
               <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             ) : success === "done" ? (
               <p className="text-green-600 text-sm mt-3 text-center">
-                Please wait, you are being redirected
+                {t("PleaseWait")}
               </p>
             ) : (
               <p></p>

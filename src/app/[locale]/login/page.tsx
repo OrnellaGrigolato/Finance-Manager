@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import baseUrl from "@/components/BaseUrl";
+import { useTranslations } from "next-intl";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [attemps, setAttemps] = useState(0);
   const router = useRouter();
+
+  const t = useTranslations('Login');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -117,8 +121,6 @@ const Login = () => {
 
     handlePasswordReset(formData.email);
 
-    //sendEmail_reset_password(formData.email)
-
     router.push("/");
   }
   return (
@@ -134,17 +136,14 @@ const Login = () => {
         <div className="bg-white p-[32px] bg-opacity-70 rounded-[20px]">
           <div className="w-[337px] max-sm:w-auto min-w-[257px] max-xs:min-w-0">
             <h1 className="text-3xl font-bold text-center w-auto">
-              Welcome Back!
+            {t('WelcomeBack')}
             </h1>
             <p className="text-center mt-2 mb-6 text-sm w-auto">
-              Please login to access your account.
+              {t('LoginInstructions')}
             </p>
             <form className=" mx-auto" onSubmit={handleSubmit}>
-              <label
-                className="pb-[8px] text-gray-700 font-bold"
-                htmlFor="email"
-              >
-                Email
+              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="email">
+                {t('EmailLabel')}
               </label>
               <input
                 className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
@@ -154,13 +153,10 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="example@gmail.com"
+                placeholder={t('EmailPlaceholder')}
               />
-              <label
-                className="pb-[8px] text-gray-700 font-bold"
-                htmlFor="password"
-              >
-                Password
+              <label className="pb-[8px] text-gray-700 font-bold" htmlFor="password">
+                {t('PasswordLabel')}
               </label>
               <input
                 className="mt-2 block mb-4 p-2 rounded-[30px] bg-[#f5f5f5] w-full"
@@ -170,12 +166,11 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                placeholder="Password"
+                placeholder={t('PasswordPlaceholder')}
               />
               {attemps === 3 ? (
                 <p className="text-center text-red-500 font-bold -mb-5 w-auto">
-                  You have failed 3 times already, for security reasons if you
-                  fail again, we will block your account.
+                  {t('SecurityMessage')}
                 </p>
               ) : (
                 ""
@@ -184,18 +179,18 @@ const Login = () => {
                 type="submit"
                 className="px-7 py-3 text-base mt-[58px] bg-black text-white rounded-[40px] block w-full "
               >
-                {loading ? "Loading..." : "Log In"}
+                {loading ? "Loading..." : t('LoginButtonText')}
               </button>
             </form>
             <p className="text-center mt-3 text-sm w-auto">
               <Link href="/reset-password" className="text-primary">
-                Forgot your password?
+                {t('ForgotPasswordLink')}
               </Link>
             </p>
             <p className="text-center mt-3 text-sm w-auto">
-              Don&apos;t have an account?{" "}
+             
               <Link href="/sign-up" className="text-primary">
-                Sign up
+              {t('SignUpLink')}
               </Link>
             </p>
           </div>

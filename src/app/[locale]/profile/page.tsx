@@ -10,6 +10,7 @@ import Link from "next/link";
 
 import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
 import baseUrl from "@/components/BaseUrl";
+import { useLocale, useTranslations } from "next-intl";
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<ApiResponse>({
@@ -32,6 +33,9 @@ const Profile = () => {
   const [loadingverify, setLoadingverify] = useState<boolean>(false);
   const [token, setToken] = useCookies(["token"]);
   const apiData = useApiData();
+
+  const [Locale, setLocale] = useState(useLocale());
+  const t = useTranslations('Profile');
 
   useEffect(() => {
     fetch(`${baseUrl}/api/users/${apiData}`)
@@ -106,11 +110,10 @@ const Profile = () => {
           <div className="h-32 flex items-center gap-14 max-sm:mt-6">
             <div>
               <h1 className="font-bold text-xl leading-tight mx-auto w-full">
-                User Profile
+                {t('userProfile')}
               </h1>
               <p>
-                Manage your information, configure your experience and keep your
-                account safe.
+                {t('manageInfo')}
               </p>
             </div>
           </div>
@@ -135,7 +138,7 @@ const Profile = () => {
                   href="/logOut"
                   className="text-red-600 font-bold opacity-80 inline"
                 >
-                  Log Out{" "}
+                  {t('logout')}{" "}
                   <Image
                     src={"/log-out-icon.png"}
                     width={20}
@@ -147,7 +150,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl  flex-shrink">
-              <h2 className="font-bold text-lg">General Information</h2>
+              <h2 className="font-bold text-lg">{t('generalInfo')}</h2>
 
               <form
                 action="submit"
@@ -155,7 +158,7 @@ const Profile = () => {
               >
                 <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="block text-xs">
-                    First Name
+                    {t('firstName')}
                   </label>
                   <input
                     readOnly={true}
@@ -169,7 +172,7 @@ const Profile = () => {
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="block text-xs">
-                    Last Name
+                    {t('lastName')}
                   </label>
                   <input
                     readOnly={true}
@@ -183,7 +186,7 @@ const Profile = () => {
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg w-[25vw] max-sm:w-full">
                   <label htmlFor="" className="block text-xs">
-                    Email
+                    {t('email')}
                   </label>
                   <input
                     type="text"
@@ -195,11 +198,11 @@ const Profile = () => {
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg ">
                   <label htmlFor="" className="block text-xs">
-                    Is your account verified?{" "}
+                    {t('accountVerified')}{" "}
                     <b
                       className={`text-primary text-xs  ${emailsent
-                          ? "opacity-50 cursor-not-allowed"
-                          : "cursor-pointer"
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
                         }`}
                       onClick={(e) => handleVerify(e)}
                     >
@@ -210,17 +213,17 @@ const Profile = () => {
                           speed={0.63}
                         />
                       ) : emailsent ? (
-                        "Verification email sent! Check your email."
+                        t('emailsent')
                       ) : userInfo?.emailVerified ? (
                         ""
                       ) : (
-                        "Click here to verify"
+                        t('verifyclick')
                       )}
                     </b>
                   </label>
 
                   <div className="flex gap-2 items-center">
-                    {userInfo?.emailVerified ? <p>Yes ✔️</p> : <p>No ❌</p>}
+                    {userInfo?.emailVerified ? t('yes') : t('no')}
                   </div>
                 </div>
               </form>
@@ -228,55 +231,34 @@ const Profile = () => {
           </div>
           <div className="max-sm:pb-24">
             <div className="border-card-bg border-2 p-6  shadow-blackShadow rounded-2xl my-8 w-[90%]  max-sm:w-auto">
-              <h2 className="font-bold text-lg">Configuration</h2>
+              <h2 className="font-bold text-lg">{t('configuration')}</h2>
               <form
                 action="submit"
                 className="grid grid-rows-1 grid-cols-2 gap-x-12 gap-y-10 mt-6 max-sm:grid-cols-1 max-sm:grid-rows-2"
               >
                 <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="block text-xs">
-                    Language
+                    {t('language')}
                   </label>
-                  <div className="flex items-center mt-2">
-                    <div className="tooltip">
-                      <Image
-                        src={"/usa-flag.png"}
-                        width={20}
-                        height={20}
-                        alt="EEUU Flag"
-                        title="English"
+                  <div className="tooltip flex flex-row p-2">
+                    <Link className="flex" href={Locale === "en" ? "/es/profile" : "/en/profile"}>
+
+                      {Locale === "en" ? "English" : "Spanish"}
+
+                      <Image className="ml-2"
+                        src={Locale === "en" ? "/usa-flag.png" : "/arg-flag.png"}
+                        width={26}
+                        height={26}
+                        alt={Locale === "en" ? "EEUU Flag" : "Argentina Flag"}
+                        title={Locale === "en" ? "English" : "Spanish"}
                       />
-                      <div className="bottom">
-                        <p>English</p>
-                        <i></i>
-                      </div>
-                    </div>
-                    <input
-                      className="mx-2  h-3.5 w-10 appearance-none rounded-[0.4375rem] bg-primary before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:shadow-blackShadow  before:content-[''] after:absolute after:z-[2]  after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-200 after:shadow-blackShadow after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.25rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none   checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-['']  checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100  checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                    <div className="flex items-center ">
-                      <div className="tooltip">
-                        <Image
-                          src={"/arg-flag.png"}
-                          width={20}
-                          height={20}
-                          alt="Argentina Flag"
-                          title="Spanish"
-                        />
-                        <div className="bottom">
-                          <p>Spanish</p>
-                          <i></i>
-                        </div>
-                      </div>
-                    </div>
+
+                    </Link>
                   </div>
                 </div>
                 <div className="border-card-bg border-2 p-2 rounded-lg">
                   <label htmlFor="" className="text-xs flex gap-2">
-                    Maximum expenditure{" "}
+                    {t('maximumExpenditure')}{" "}
                     <div className="tooltip">
                       <Image
                         src={"/info-icon.png"}
@@ -286,10 +268,7 @@ const Profile = () => {
                       />
                       <div className="top">
                         <p>
-                          Set here a monetary limit. Our finance management
-                          application will notify you when you approach or
-                          exceed this limit, helping you stay on track with your
-                          spending.
+                          {t('infoTooltip')}
                         </p>
                         <i></i>
                       </div>

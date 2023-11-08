@@ -8,12 +8,12 @@
     "login": "Login",
     "getStarted": "Get Started"
   },
-  "Header":{
-    "keepFinances":"Keep your finances in order from today",
-    "startnow":"Start Now"
+  "Header": {
+    "keepFinances": "Keep your finances in order from today",
+    "startnow": "Start Now"
   },
-  "ProsToUseSection":{
-    "growthToolsTitle":"Tools to help you measure your growth"
+  "ProsToUseSection": {
+    "growthToolsTitle": "Tools to help you measure your growth"
   },
   "Stadistics": {
     "Trusted Worldwide": "Trusted Worldwide",
@@ -28,38 +28,112 @@
     "7+ countries": "7+ countries",
     "have used our web app to manage his finances": "have used our web app to manage his finances"
   },
-  "CallToAction":{
-    "start from today":"Start From Today",
-    "startnow":"Start Now",
-    "Unlock your financial":"Unlock your financial potential with us! Take the first step towards a brighter financial future. Get started now!"
+  "CallToAction": {
+    "start from today": "Start From Today",
+    "startnow": "Start Now",
+    "Unlock your financial": "Unlock your financial potential with us! Take the first step towards a brighter financial future. Get started now!"
   },
-    "Footer": {
-     "company": "COMPANY",
-     "helpAndSupport": "HELP AND SUPPORT",
-     "learning": "LEARNING",
-     "resources": "RESOURCES",
-     "legal": "LEGAL",
-     "aboutUs": "About Us",
-     "affiliateProgram": "Affiliate Program",
-     "careers": "Carrers",
-     "contactUs": "Contact Us",
-     "helpCenter": "Help Center",
-     "premiumSupport": "Premium Support",
-     "faq": "FAQ",
-     "tutorials": "Tutorials",
-     "manuals": "Manuals",
-     "learnHub": "Learn Hub",
-     "thirdPartyTools": "Third-Party Tools",
-     "blog": "Blog",
-     "community": "Community",
-     "privacyPolicy": "Privacy Policy",
-     "termsAndConditions": "Terms & Conditions",
-     "fees": "Fees",
-     "copyright": "© 2023 Crombie. All rights reserved."
-    }
-   
-   
+  "Footer": {
+    "company": "COMPANY",
+    "helpAndSupport": "HELP AND SUPPORT",
+    "learning": "LEARNING",
+    "resources": "RESOURCES",
+    "legal": "LEGAL",
+    "aboutUs": "About Us",
+    "affiliateProgram": "Affiliate Program",
+    "careers": "Carrers",
+    "contactUs": "Contact Us",
+    "helpCenter": "Help Center",
+    "premiumSupport": "Premium Support",
+    "faq": "FAQ",
+    "tutorials": "Tutorials",
+    "manuals": "Manuals",
+    "learnHub": "Learn Hub",
+    "thirdPartyTools": "Third-Party Tools",
+    "blog": "Blog",
+    "community": "Community",
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms & Conditions",
+    "fees": "Fees",
+    "copyright": "© 2023 Crombie. All rights reserved."
+  },
+  "Dashboard": {
+    "welcomeMessage": "Welcome Back, {username}!",
+    "currentWalletBalance": "Current Wallet Balance",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "yourWallet": "Your Wallet",
+    "lastMovements": "Last Movements",
+    "seeDetails": "See Details",
+    "walletEmpty": "Your wallet is empty.",
+    "loadingMessage": "Loading...",
+    "noDeposits": "You haven't deposited money to the platform yet",
+    "noMovements": "You haven't registered any movement yet",
+    "dashboard": "Dashboard",
+    "wallet": "Wallet",
+    "exchange": "Exchange",
+    "profile": "Profile"
+  },
+  "Wallet": {
+    "yourWallet": "Your Wallet",
+    "manageInfoAndExperience": "Manage your information, track your money in a graphic way.",
+    "yourBalanceOverTime": "Your balance over time",
+    "movementsCount": "is the number of movements you have made",
+    "currenciesCount": "is the number of currencies you have",
+    "totalCashInOut": "Total cash in and out",
+    "cashIn": "Cash In",
+    "cashOut": "Cash Out",
+    "dolarPrices": "Dollar Prices",
+    "updatedOn": "Updated on",
+    "blueDolar": "Dollar Blue",
+    "officialDolar": "Dollar Official",
+    "selling": "Selling",
+    "buying": "Buying"
+  },
+  "Profile": {
+    "userProfile": "User Profile",
+    "manageInfo": "Manage your information, configure your experience, and keep your account safe",
+    "logout":"Log Out",
+    "generalInfo": "General Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "accountVerified": "Is your account verified?",
+    "emailsent":"Verification email sent! Check your email.",
+    "verifyclick":"Click here to verify",
+    "yes": "Yes ✔️",
+    "no": "No ❌",
+    "configuration": "Configuration",
+    "language": "Language",
+    "maximumExpenditure": "Maximum expenditure",
+    "infoTooltip": "Set here a monetary limit. Our finance management application will notify you when you approach or exceed this limit, helping you stay on track with your spending"
+  },
+  "errorPage": {
+    "notFound": "We are Sorry, this page was not found",
+    "notYourFault": "Don't worry, it's not your fault, we are working on this page.",
+    "backToHomePage": "Back to home page"
+  },
+  "Register": {
+    "SignUp": "Sign Up!",
+    "SignUpInstructions": "Please fill in the following form to sign up.",
+    "FullName": "Full name:",
+    "Email": "Email:",
+    "Password": "Password:",
+    "ConfirmPassword": "Confirm password:",
+    "Loading": "Loading...",
+    "Register": "Register",
+    "PleaseWait": "Please wait, you are being redirected"
+  },
+  "Login": {
+    "WelcomeBack": "Welcome Back!",
+    "LoginInstructions": "Please login to access your account.",
+    "EmailLabel": "Email",
+    "EmailPlaceholder": "example@gmail.com",
+    "PasswordLabel": "Password",
+    "PasswordPlaceholder": "Password",
+    "SecurityMessage": "You have failed 3 times already. For security reasons, if you fail again, we will block your account.",
+    "LoginButtonText": "Log In",
+    "ForgotPasswordLink": "Forgot your password?",
+    "SignUpLink": "Don't have an account? Sign up"
+  }
 }
-     
-  
-   

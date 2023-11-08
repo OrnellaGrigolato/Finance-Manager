@@ -8,14 +8,14 @@
     "login": "Iniciar sesión",
     "getStarted": "Comenzar ahora"
   },
-  "Header":{
-    "keepFinances":"Mantén tus finanzas en orden, empieza hoy",
-    "startnow":"Comienza ya!"
+  "Header": {
+    "keepFinances": "Mantén tus finanzas en orden, empieza hoy",
+    "startnow": "Comienza ya!"
   },
-  "ProsToUseSection":{
-    "growthToolsTitle":"Herramientas para ayudarte a medir tus avances"
+  "ProsToUseSection": {
+    "growthToolsTitle": "Herramientas para ayudarte a medir tus avances"
   },
-  "Stadistics":{
+  "Stadistics": {
     "Trusted Worldwide": "De confianza en todo el mundo",
     "Trusted by over 2 thousand users and 20 teams": "Mas de 2 mil usuarios y 20 equipos confían en nosotros",
     "Read more": "Leer más",
@@ -27,13 +27,13 @@
     "trusted by over 2000+ users around the world": "de confianza de más de 2000+ usuarios en todo el mundo",
     "7+ countries": "7+ países",
     "have used our web app to manage his finances": "han utilizado nuestra aplicación web para administrar sus finanzas"
-   },
-    "CallToAction":{
-    "start from today":"Comienza hoy a controlar tus finanzas",
-    "startnow":"Comienza ya!",
-    "Unlock your financial":"Desbloquea tu potencial financiero con nosotros! Da el primer paso hacia un futuro financiero más brillante. ¡Comienza ahora!"
   },
-  "Footer":{
+  "CallToAction": {
+    "start from today": "Comienza hoy a controlar tus finanzas",
+    "startnow": "Comienza ya!",
+    "Unlock your financial": "Desbloquea tu potencial financiero con nosotros! Da el primer paso hacia un futuro financiero más brillante. ¡Comienza ahora!"
+  },
+  "Footer": {
     "company": "EMPRESA",
     "helpAndSupport": "AYUDA Y SOPORTE",
     "learning": "APRENDIZAJE",
@@ -56,9 +56,85 @@
     "termsAndConditions": "Términos y condiciones",
     "fees": "Tarifas",
     "copyright": "© 2023 Crombie. Todos los derechos reservados."
-   }
-   
-   
+  },
+  "Dashboard": {
+    "welcomeMessage": "¡Bienvenido de nuevo, {username}!",
+    "currentWalletBalance": "Saldo actual de la billetera",
+    "deposit": "Depositar",
+    "withdraw": "Retirar",
+    "yourWallet": "Tu billetera",
+    "lastMovements": "Últimos movimientos",
+    "seeDetails": "Ver detalles",
+    "walletEmpty": "Tu billetera está vacía.",
+    "loadingMessage": "Cargando...",
+    "noDeposits": "Todavía no has depositado dinero en la plataforma",
+    "noMovements": "Todavía no has registrado ningún movimiento",
+    "dashboard": "Tablero",
+    "wallet": "Billetera",
+    "exchange": "Intercambio",
+    "profile": "Perfil"
+  },
+  "Wallet": {
+    "yourWallet": "Tu Billetera",
+    "manageInfoAndExperience": "Administra tu información, controla tu dinero de forma gráfica.",
+    "yourBalanceOverTime": "Tu saldo a lo largo del tiempo",
+    "movementsCount": "es la cantidad de movimientos que has realizado",
+    "currenciesCount": "es la cantidad de monedas que tienes",
+    "totalCashInOut": "Total ingresos y egresos en efectivo",
+    "cashIn": "Ingreso de efectivo",
+    "cashOut": "Egreso de efectivo",
+    "dolarPrices": "Precios del dólar",
+    "updatedOn": "Actualizado el",
+    "blueDolar": "Dólar Blue",
+    "officialDolar": "Dólar Oficial",
+    "selling": "Venta",
+    "buying": "Compra"
+  },
+  "Profile": {
+    "userProfile": "Perfil de usuario",
+    "manageInfo": "Administra tu información, configura tu experiencia y mantén segura tu cuenta",
+    "logout":"Cerrar sesión",
+    "generalInfo": "Información general",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "accountVerified": "¿Tu cuenta está verificada?",
+    "emailsent":"Email de verificación enviado! Revisa tu email.",
+    "verifyclick":"Haz click aquí para verificar",
+    "yes": "Sí ✔️",
+    "no": "No ❌",
+    "configuration": "Configuración",
+    "language": "Idioma",
+    "maximumExpenditure": "Gasto máximo",
+    "infoTooltip": "Establece aquí un límite monetario. Nuestra aplicación de gestión financiera te notificará cuando te acerques o excedas este límite, lo que te ayudará a mantener un registro de tus gastos"
+  },
+  "errorPage": {
+    "notFound": "Lo sentimos, esta página no se encontró",
+    "notYourFault": "No te preocupes, no es tu culpa, estamos trabajando en esta página.",
+    "backToHomePage": "Volver a la página de inicio"
+  },
+  "Register": {
+    "SignUp": "¡Regístrate!",
+    "SignUpInstructions": "Por favor, completa el siguiente formulario para registrarte.",
+    "FullName": "Nombre completo:",
+    "Email": "Correo electrónico:",
+    "Password": "Contraseña:",
+    "ConfirmPassword": "Confirmar contraseña:",
+    "Loading": "Cargando...",
+    "Register": "Registrarse",
+    "PleaseWait": "Por favor espera, estás siendo redirigido"
+  },
+  "Login": {
+    "WelcomeBack": "¡Bienvenido de nuevo!",
+    "LoginInstructions": "Por favor, inicia sesión para acceder a tu cuenta.",
+    "EmailLabel": "Correo electrónico",
+    "EmailPlaceholder": "ejemplo@gmail.com",
+    "PasswordLabel": "Contraseña",
+    "PasswordPlaceholder": "Contraseña",
+    "SecurityMessage": "Has fallado 3 veces. Por razones de seguridad, si fallas de nuevo, bloquearemos tu cuenta.",
+    "LoginButtonText": "Iniciar sesión",
+    "ForgotPasswordLink": "¿Olvidaste tu contraseña?",
+    "SignUpLink": "¿No tienes una cuenta? Regístrate"
+  }
 
- }
-   
+}

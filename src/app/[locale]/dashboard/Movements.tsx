@@ -4,12 +4,15 @@ import Image from "next/image";
 import MovementCard from "./MovementCard";
 import { Movement } from "../types/type";
 import baseUrl from "@/components/BaseUrl";
+import { useTranslations } from "next-intl";
 
 export const Movements = (props: { user_id: number }) => {
   const [moves, setMoves] = useState<Movement[]>([]);
   const [totalMovesByUser, setTotalMovesByUser] = useState(0);
   const [page, setPage] = useState(1);
   const [wasApiCalled, setWasApiCalled] = useState(false);
+
+  const t = useTranslations('Dashboard');
 
   const apiFecth = useCallback(async () => {
     const id = props.user_id.toString();
@@ -79,7 +82,7 @@ export const Movements = (props: { user_id: number }) => {
       </ul>
     </div>
   ) : wasApiCalled && moves?.length === 0 ? (
-    <div>You haven&apos;t registered any movement yet</div>
+    <div>{t('noMovements')}</div>
   ) : (
     <div className="loading my-10 mx-auto"></div>
   );

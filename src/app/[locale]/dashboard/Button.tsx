@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 function Button(props: {
-  text: "Deposit" | "Withdraw";
+  text:string;
   img: string;
   availableMoney: number;
 }) {
