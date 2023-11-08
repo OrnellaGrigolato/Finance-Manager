@@ -21,7 +21,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#8A22F0",
-        bg: "#fcfcfc",
+        bg: "#fff",
         "card-bg": "#ececec",
       },
       backgroundImage: {

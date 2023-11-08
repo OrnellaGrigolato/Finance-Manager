@@ -27,7 +27,10 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={
-          inter.className + overpass.className + pt_Sans_Narrow.className
+          "bg-bg " +
+          inter.className +
+          overpass.className +
+          pt_Sans_Narrow.className
         }
       >
         <Providers>{children}</Providers>

@@ -13,7 +13,7 @@ const CallToAction = () => {
           brighter financial future. Get started now!
         </p>
         <button className="px-7 py-3 text-lg mt-5 bg-primary text-white rounded-[40px]">
-          <Link href="/sing-up">Start Now</Link>
+          <Link href="/sign-up">Start Now</Link>
         </button>
       </div>
     </section>

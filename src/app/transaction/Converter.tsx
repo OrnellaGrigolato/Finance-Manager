@@ -261,7 +261,7 @@ function CurrencyConverter() {
       </div>
       <button
         onClick={() => handleConvert()}
-        className="bg-gradient-to-b from-primary to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"
+        className="bg-gradient-to-b from-primary max-sm:mb-10 to-[#391EDC] w-full rounded-[20px] text-white font-bold p-5 mt-10 shadow-blackShadow max-sm:m0b-6"
       >
         {isConverting ? "Exchanging..." : "Exchange"}
       </button>
