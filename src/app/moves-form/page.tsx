@@ -4,13 +4,18 @@ import { useApiData } from "@/app/providers/Providers";
 import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState, useEffect, useCallback } from "react";
+import { getUserDorOs } from "./useGetDorO";
 import Image from "next/image";
 import Link from "next/link";
+import { getNewDorOId, handleNewDorO } from "./useHandleNewDoro";
 const MovesForm = () => {
   const router = useRouter();
   const action = useSearchParams().get("action");
-  const [curr, setCurr] = useState<{ id_currency: number; name: string }[]>();
+  const [curr, setCurr] = useState<{ id_currency: number; name: string }[]>([]);
   const [allCurrencies, setAllCurrencies] = useState<string[]>();
+  const [DorO, setDorO] = useState<string[]>([]);
+  const [isFormActive, setIsFormActive] = useState(false);
+  const [newDorOInput, setNewDorOInput] = useState<string>();
   const apiData = useApiData();
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState<ApiResponse>({
@@ -33,7 +38,7 @@ const MovesForm = () => {
     discount_amount: number;
     user_id: number; // Aca va el id del usuario logeado
     currency_id: string | number;
-    DorO_id: number;
+    DorO: string;
   }>({
     title: "",
     description: "",
@@ -41,7 +46,7 @@ const MovesForm = () => {
     discount_amount: 0,
     user_id: apiData!, // Aca va el id del usuario logeado
     currency_id: "", // Aca va el id del currency seleccionado,
-    DorO_id: 1,
+    DorO: "",
   });
   const [userCurrencies, setUserCurrencies] = useState<number[]>([]);
   const [moves, setMoves] = useState<Movement[]>([]);
@@ -50,6 +55,20 @@ const MovesForm = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const apiKey = process.env.NEXT_PUBLIC_EXCHANGERATE_APIKEY;
 
+  const getMoves = () => {
+    fetch(`/api/moves/user/${apiData}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        setMoves(data.finder);
+      })
+
+      .catch((error) => {
+        console.error("Error en la solicitud Fetch:", error);
+      });
+  };
+
   useEffect(() => {
     fetch(`api/users/${apiData}`)
       .then((res) => res.json())
@@ -57,16 +76,9 @@ const MovesForm = () => {
       .catch((e) => console.error(e));
   }, [apiData]);
 
-  const getMoves = useCallback(() => {
-    fetch(`/api/moves/user/${userInfo.id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMoves(data.finder);
-      })
-      .catch((error) => {
-        console.error("Error en la solicitud Fetch:", error);
-      });
-  }, []);
+  useEffect(() => {
+    getMoves();
+  }, [apiData]);
 
   useEffect(() => {
     if (action === "deposit") {
@@ -91,20 +103,17 @@ const MovesForm = () => {
           setCurr(data.result);
         })
         .catch((error) => console.error(error));
-      getMoves();
     }
-  }, [action, apiKey, getMoves]);
+  }, [action, apiKey]);
 
   const getUserCurrencies = useCallback(() => {
     let currenciesIds: number[] = [];
-
     moves.map((e) => {
       if (!currenciesIds.includes(e.currency_id)) {
         currenciesIds.push(e.currency_id);
       }
     });
     setUserCurrencies(currenciesIds);
-
     currenciesIds.map(async (e) => {
       try {
         const response = await fetch(`/api/currency/${e}`);
@@ -117,11 +126,18 @@ const MovesForm = () => {
         console.error("Error al crear el movimiento:", error);
       }
     });
-  }, []);
+  }, [moves]);
+
+  const getDoroOs = useCallback(() => {
+    const result = getUserDorOs(moves);
+
+    setDorO(result);
+  }, [moves]);
 
   useEffect(() => {
     getUserCurrencies();
-  }, [moves, getUserCurrencies]);
+    getDoroOs();
+  }, [moves]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -162,10 +178,14 @@ const MovesForm = () => {
             `/api/currency/name/${formData.currency_id}`
           );
           const data1 = await response1.json();
-
+          const DorOId = await getNewDorOId(
+            newDorOInput ? newDorOInput : formData.DorO
+          );
+          console.log(DorOId);
           const updatedFormData = {
             ...formData,
             currency_id: data1.result.id_currency,
+            DorO_id: DorOId,
           };
 
           const response2 = await fetch("/api/moves", {
@@ -188,10 +208,15 @@ const MovesForm = () => {
             `/api/currency/name/${formData.currency_id}`
           );
           const data1 = await response1.json();
-
+          console.log(newDorOInput, formData.DorO);
+          const DorOId = await getNewDorOId(
+            newDorOInput ? newDorOInput : formData.DorO
+          );
+          console.log(DorOId);
           const updatedFormData = {
             ...formData,
             currency_id: data1.result.id_currency,
+            DorO_id: DorOId,
           };
 
           const response = await fetch("/api/moves", {
@@ -349,6 +374,61 @@ const MovesForm = () => {
                   ))}
             </select>
           </div>
+          <div className="flex justify-between mt-6">
+            <label htmlFor="currency_id" className="block font-bold">
+              {action === "deposit"
+                ? "Where did you receive the money?"
+                : "From where do you withdraw the money?"}
+            </label>{" "}
+            {!isFormActive ? (
+              <button
+                className="text-primary font-bold text-xs items-center"
+                onClick={() => {
+                  setIsFormActive(!isFormActive);
+                }}
+              >
+                Add new
+              </button>
+            ) : (
+              <div className="flex gap-3 items-center">
+                <input
+                  type="text"
+                  className="w-24 border border-black"
+                  onChange={(e) => {
+                    setNewDorOInput(e.target.value);
+                  }}
+                />
+                <Image
+                  src={"/tick-icon.png"}
+                  width={18}
+                  height={18}
+                  alt=""
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setIsFormActive(!isFormActive);
+                    handleNewDorO(newDorOInput ? newDorOInput : "");
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <select
+            name="DorO"
+            id="DorO"
+            className="w-full mt-2"
+            onChange={handleChange}
+          >
+            <option selected={true} disabled={true}>
+              Select {action === "deposit" ? "origin" : "destination"}
+            </option>
+            <option>It is in cash</option>
+            {newDorOInput ? (
+              <option value={newDorOInput}>{newDorOInput}</option>
+            ) : null}
+            {DorO.length === 0
+              ? "Loading..."
+              : DorO.map((e) => <option value={e}>{e}</option>)}{" "}
+          </select>
           <p className="text-red-500 text-center">{error}</p>
           <button
             type="submit"
