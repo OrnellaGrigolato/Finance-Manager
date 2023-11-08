@@ -1,5 +1,5 @@
 "use client";
-import "@/app/profile/style.css";
+import "./style.css";
 import { useApiData } from "@/app/providers/Providers";
 import { ApiResponse, Movement } from "@/app/types/type";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -374,7 +374,7 @@ const MovesForm = () => {
                   ))}
             </select>
           </div>
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-between mt-6 max-sm:flex-col">
             <label
               htmlFor="currency_id"
               className=" font-bold items-center flex gap-2"
@@ -390,7 +390,7 @@ const MovesForm = () => {
                   height={18}
                   alt="Info Icon"
                 />
-                <div className="top">
+                <div className="left">
                   <p className="text-sm">
                     Specify here where{" "}
                     {action === "deposit"
@@ -407,7 +407,7 @@ const MovesForm = () => {
             </label>{" "}
             {!isFormActive ? (
               <button
-                className="text-primary font-bold text-xs items-center"
+                className="text-primary font-bold text-xs items-center max-sm:text-right max-sm:mt-2"
                 onClick={() => {
                   setIsFormActive(!isFormActive);
                 }}
@@ -415,10 +415,10 @@ const MovesForm = () => {
                 Add new
               </button>
             ) : (
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-3 items-center max-sm:justify-end">
                 <input
                   type="text"
-                  className="w-24 border border-black"
+                  className="w-24 ml-4 border border-black max-sm:ml-0 max-sm:mt-2"
                   onChange={(e) => {
                     setNewDorOInput(e.target.value);
                   }}

@@ -1,0 +1,76 @@
+.tooltip {
+  @apply inline-block relative text-center;
+}
+
+.tooltip .top {
+  @apply min-w-[200px] w-80  font-sans text-xs text-white bg-primary top-[50%] left-[5o%] absolute z-[99999999] box-border shadow-blackShadow leading-snug hidden px-5 py-2.5 rounded-lg;
+}
+.tooltip:hover .top {
+  @apply block;
+}
+.tooltip .top i {
+  @apply absolute ml-[-15px] w-[30px] h-[15px] overflow-hidden left-[49%] top-full after:content-[''] after:absolute after:w-[15px] after:h-[15px] after:-translate-x-2/4 after:-translate-y-2/4 after:rotate-45 after:bg-primary after:shadow-[0_1px_8px_rgba(0,0,0,0.5)] after:left-2/4;
+}
+
+.tooltip .bottom {
+  @apply -translate-x-2/4 translate-y-0  text-white bg-primary font-sans text-xs absolute z-[99999999] box-border shadow-blackShadow hidden p-2 rounded-lg left-2/4 top-10;
+}
+
+.tooltip:hover .bottom {
+  @apply block;
+}
+.tooltip .bottom i {
+  @apply absolute w-6 h-3 overflow-hidden -ml-3 left-2/4 bottom-full after:content-[''] after:absolute after:w-3 after:h-3 after:-translate-x-2/4 after:translate-y-2/4 after:rotate-45 after:bg-primary after:shadow-[0_1px_8px_rgba(0,0,0,0.5)] after:left-2/4;
+}
+
+.tooltip {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+}
+
+.tooltip .left {
+  min-width: 200px;
+  top: 50%;
+  right: 100%;
+  margin-right: 20px;
+  transform: translate(0, -50%);
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: #8a22f0;
+  font-weight: normal;
+  font-size: 13px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 99999999;
+  box-sizing: border-box;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  display: none;
+  font-weight: 700;
+}
+
+.tooltip:hover .left {
+  display: block;
+}
+
+.tooltip .left i {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -12px;
+  width: 12px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.tooltip .left i::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  background-color: #8a22f0;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
