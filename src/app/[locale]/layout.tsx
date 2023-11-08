@@ -22,7 +22,12 @@ export const metadata: Metadata = {
 };
 
 
-export default async function RootLayout({ children, params: { locale } }) {
+type RootLayoutProps = {
+  children: React.ReactNode;
+  params: { locale: string };
+ };
+ 
+ export default async function RootLayout({ children, params: { locale } }: RootLayoutProps) {
   let messages;
   try {
     messages = (await import(`../../../messages/${locale}.json`)).default;

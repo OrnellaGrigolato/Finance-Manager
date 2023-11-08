@@ -1,6 +1,7 @@
-import { Params } from "@/app/types/type";
+
+import { Params } from "@/app/[locale]/types/type";
 import { prisma } from "@/libs/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: Request, { params }: Params) {
   try {
@@ -28,16 +29,17 @@ export async function GET(request: Request, { params }: Params) {
   }
 }
 
-export async function DELETE({ params }: Params) {
+export async function DELETE(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const id = Number(searchParams.get('id'));
+ 
   try {
-    const id = Number(params.id);
-
     const deleted = await prisma.destinyOrOrigin.delete({
       where: {
         id_DorO: id,
       },
     });
-
+ 
     if (deleted) {
       return NextResponse.json({
         deleted,
@@ -53,7 +55,9 @@ export async function DELETE({ params }: Params) {
     const error = err as { message: string };
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-}
+ }
+ 
+
 export async function PUT(request: Request, { params }: Params) {
   try {
     const id = Number(params.id);

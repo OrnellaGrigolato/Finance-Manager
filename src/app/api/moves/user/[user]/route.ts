@@ -20,7 +20,7 @@ export async function GET(request: Request, { params }: {
     if (finder) {
         return NextResponse.json({ finder, message: "success" });
       } else {
-        return Response.json({ message: "no move found" }, { status: 404 });
+        return NextResponse.json({ message: "no move found" }, { status: 404 });
       }
     } catch (err) {
         const error = err as {message:string}

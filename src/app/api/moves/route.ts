@@ -176,8 +176,8 @@ export async function POST(request: Request) {
             income_amount,
             movement_date,
             user_id,
-            DorO_id,
-            currency_id,
+            DorO_id
+            
           },
         });
 

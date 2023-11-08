@@ -1,7 +1,7 @@
 import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { Params } from "@/app/types/type";
+import { Params } from "@/app/[locale]/types/type";
 
 export async function GET(request: Request, { params }: Params) {
   //console.log(params.dni);
@@ -15,7 +15,7 @@ export async function GET(request: Request, { params }: Params) {
     if (finder) {
       return NextResponse.json({ finder, message: "success" });
     } else {
-      return Response.json({ message: "no user found" }, { status: 404 });
+      return NextResponse.json({ message: "no user found" }, { status: 404 });
     }
   } catch (err) {
     const error = err as { message: string };
@@ -37,7 +37,7 @@ export async function DELETE(request: Request, { params }: Params) {
         finder,
       });
     } else {
-      return Response.json({ message: "no user found" }, { status: 404 });
+      return NextResponse.json({ message: "no user found" }, { status: 404 });
     }
   } catch (err) {
     const error = err as { message: string };
@@ -62,7 +62,7 @@ export async function PUT(request: Request, { params }: Params) {
       if (updated) {
         return NextResponse.json({ updated, message: "updating" });
       } else {
-        return Response.json(
+        return NextResponse.json(
           { message: "failed attempting to update" },
           { status: 400 }
         );
@@ -90,7 +90,7 @@ export async function PUT(request: Request, { params }: Params) {
       }
     }   */  
     if (!username && !password && !email) {
-      return Response.json({ message: "missing fields" }, { status: 400 });
+      return NextResponse.json({ message: "missing fields" }, { status: 400 });
     }
     else {
       const hash = await bcrypt.hash(password, 10);      
@@ -107,7 +107,7 @@ export async function PUT(request: Request, { params }: Params) {
       if (updated) {
         return NextResponse.json({ updated, message: "updating" });
       } else {
-        return Response.json(
+        return NextResponse.json(
           { message: "failed attempting to update" },
           { status: 400 }
         );

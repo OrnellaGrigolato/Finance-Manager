@@ -1,4 +1,4 @@
-import { Params } from "@/app/types/type";
+import { Params } from "@/app/[locale]/types/type";
 import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 
