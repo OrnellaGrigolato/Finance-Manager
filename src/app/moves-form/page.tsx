@@ -397,9 +397,9 @@ const MovesForm = () => {
                       ? "you deposit your money"
                       : "your money comes from"}{" "}
                     so we can show you an accurate analysis of where your money
-                    is located in your "wallet" section. This option is
-                    optional, if you don't complete it we will understand that
-                    the movement is done in cash.
+                    is located in your &quot;wallet&quot; section. This option
+                    is optional, if you don&apos;t complete it we will
+                    understand that the movement is done in cash.
                   </p>
                   <i></i>
                 </div>
