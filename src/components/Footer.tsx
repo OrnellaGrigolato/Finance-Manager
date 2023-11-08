@@ -49,8 +49,12 @@ const Footer = () => {
         <p className="font-[Narrow] font-bold cursor-pointer text-xl">
           <b className="text-[#C525FF] mr-2">$</b>Finance Manager Logo
         </p>
-        <p className="mt-4">
-          © {date.getFullYear()} Flowbite, Inc. All rights reserved.
+        <p className="mt-3">
+          © {date.getFullYear()} Crombie. All rights reserved.
+        </p>
+        <p className="mt-6">
+          Made with ❤️ by Grigolato Ornella, Trossero Agustin and Viscolungo
+          Leandro{" "}
         </p>
       </div>
     </footer>
