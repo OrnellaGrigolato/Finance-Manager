@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail_reset_password } from "@/app/api/emailSender";
 
-export async function PUT(req: NextRequest, res: Response) {
+export async function PUT(req: Request, res: Response) {
   const { cpassword } = await req.json();
   const authHeader = req.headers.get("authorization");
 

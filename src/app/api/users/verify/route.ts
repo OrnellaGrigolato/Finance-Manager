@@ -5,7 +5,7 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 import { sendEmail_profile } from "@/app/api/emailSender";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   const url = req.url || "";
   const token = url.split("=")[1];
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
