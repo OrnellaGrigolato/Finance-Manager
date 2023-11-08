@@ -25,4 +25,5 @@ export interface Movement {
   user_id: number;
   title: string;
   currency_id: number;
+  DorO_id: number;
 }

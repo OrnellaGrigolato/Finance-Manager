@@ -31,7 +31,7 @@ const Wallet = (props: { userId: number }) => {
     fetch(`${baseUrl}/api/moves/user/${props.userId}`)
       .then((res) => res.json())
       .then((data) => {
-        setMoves(data.finder);
+        setMoves(data.finder ? data.finder : []);
       })
 
       .catch((error) => {
@@ -42,7 +42,7 @@ const Wallet = (props: { userId: number }) => {
   const getUserCurrencies = useCallback(() => {
     let currenciesIds: number[] = [];
 
-    moves.map((e) => {
+    moves?.map((e) => {
       if (!currenciesIds.includes(e.currency_id)) {
         currenciesIds.push(e.currency_id);
       }
@@ -99,10 +99,11 @@ const Wallet = (props: { userId: number }) => {
   useEffect(() => {
     getMoves();
   }, [getMoves]);
-
   return (
     <div className="flex gap-4 mt-5 flex-wrap">
-      {moves.length != 0 ? (
+      {moves?.length != 0 && userInfo?.available_money === "0" ? (
+        <div>Your wallet is empty.</div>
+      ) : moves?.length != 0 && userInfo?.available_money != "0" ? (
         loading ? (
           <div className="loading my-5 mx-auto"></div>
         ) : (
@@ -119,9 +120,9 @@ const Wallet = (props: { userId: number }) => {
         <div>You have&apos;t deposited money to the platform yet</div>
       )}
 
-      {userInfo?.available_money === "0" && moves.length != 0 ? (
-        <div>Your wallet is empty.</div>
-      ) : null}
+      {/* {userInfo?.available_money === "0" && moves?.length != 0 ? (
+       
+      ) : null} */}
     </div>
   );
 };
